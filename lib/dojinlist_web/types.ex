@@ -42,6 +42,15 @@ defmodule DojinlistWeb.Types do
 
   connection(node_type: :artist)
 
+  node object(:event) do
+    field :uuid, :string
+    field :name, :string
+    field :start_date, :datetime
+    field :end_date, :datetime
+  end
+
+  connection(node_type: :event)
+
   node object(:artist) do
     field :uuid, :string
     field :name, :string

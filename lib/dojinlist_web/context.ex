@@ -23,13 +23,13 @@ defmodule DojinlistWeb.Context do
          {:ok, current_user} <- authorize(token) do
       %{current_user: current_user}
     else
-      _ -> %{current_user: nil}
+      _ -> %{}
     end
   end
 
   defp authorize(token) do
-    with {:ok, token_struct} <- Authentication.verify_token(token),
-         user_id = Map.get(token_struct.claims, "user_id"),
+    with {:ok, claims} <- Authentication.verify_token(token),
+         user_id = Map.get(claims, "user_id"),
          true <- !is_nil(user_id),
          user = Accounts.get_user(user_id),
          true <- !is_nil(user) do

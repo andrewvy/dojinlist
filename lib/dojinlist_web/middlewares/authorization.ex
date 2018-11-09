@@ -1,7 +1,7 @@
 defmodule Dojinlist.Middlewares.Authorization do
   @behaviour Absinthe.Middleware
 
-  def call(resolution = %{context: %{user_id: _}}, _config) do
+  def call(resolution = %{context: %{current_user: _}}, _config) do
     resolution
   end
 

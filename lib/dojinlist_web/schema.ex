@@ -40,7 +40,7 @@ defmodule DojinlistWeb.Schema do
     field :register, type: :register_response do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
-      arg(:name, non_null(:string))
+      arg(:username, non_null(:string))
 
       resolve(&Mutations.Authentication.register/2)
     end

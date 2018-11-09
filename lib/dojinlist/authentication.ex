@@ -1,5 +1,5 @@
 defmodule Dojinlist.Authentication do
-  alias Dojinlist.Accounts
+  alias Dojinlist.{Accounts, Token}
 
   @type error_code :: :not_found | :invalid_password
 
@@ -25,39 +25,14 @@ defmodule Dojinlist.Authentication do
   end
 
   def generate_token(user_id) do
-    %{"user_id" => user_id}
-    |> Joken.token()
-    |> Joken.with_signer(Joken.hs256(token_secret()))
-    |> Joken.with_iat()
-    # Sets token expiry at 7 days.
-    |> Joken.with_exp(current_time() + 24 * 60 * 60 * 7)
-    |> Joken.sign()
-    |> Joken.get_compact()
+    claims = %{
+      "user_id" => user_id
+    }
+
+    Token.generate(claims)
   end
 
   def verify_token(token) do
-    token_struct =
-      token
-      |> Joken.token()
-      |> Joken.with_signer(Joken.hs256(token_secret()))
-      |> Joken.with_validation("exp", &(&1 > current_time()))
-      |> Joken.verify()
-
-    if valid_token?(token_struct) do
-      {:ok, token_struct}
-    else
-      {:error, token_struct}
-    end
-  end
-
-  def current_time() do
-    DateTime.utc_now() |> DateTime.to_unix()
-  end
-
-  def valid_token?(%Joken.Token{error: nil}), do: true
-  def valid_token?(%Joken.Token{error: _}), do: false
-
-  def token_secret do
-    System.get_env("JWT_SECRET") || "my_secret"
+    Token.verify(token)
   end
 end

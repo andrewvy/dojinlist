@@ -45,7 +45,7 @@ defmodule Dojinlist.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:joken, "~> 1.5"},
+      {:joken, "~> 2.0-rc2"},
       {:plug_cowboy, "~> 2.0"}
     ]
   end
