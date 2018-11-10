@@ -37,6 +37,7 @@ defmodule Dojinlist.MixProject do
       {:absinthe_plug, "~> 1.4.6"},
       {:absinthe_relay, github: "absinthe-graphql/absinthe_relay"},
       {:argon2_elixir, "~> 1.2"},
+      {:corsica, "~> 1.0"},
       {:dataloader, "~> 1.0.0"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.1"},

@@ -1,6 +1,19 @@
 defmodule DojinlistWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :dojinlist
 
+  if Mix.env() == :dev do
+    plug Corsica,
+      origins: "http://localhost:3000",
+      log: [rejected: :error, invalid: :warn, accepted: :debug],
+      allow_headers: ["content-type"],
+      allow_credentials: true
+  else
+    plug Corsica,
+      origins: ["https://dojinlist.co"],
+      allow_headers: ["content-type"],
+      allow_credentials: true
+  end
+
   socket "/socket", DojinlistWeb.UserSocket,
     websocket: true,
     longpoll: false
