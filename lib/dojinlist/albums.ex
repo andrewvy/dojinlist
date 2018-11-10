@@ -3,12 +3,16 @@ defmodule Dojinlist.Albums do
 
   alias Dojinlist.{
     Repo,
-    Schemas
+    Schemas,
+    Utility
   }
 
   def create_album(attrs) do
-    artist_ids = List.wrap(attrs[:artist_ids])
-    genre_ids = List.wrap(attrs[:genre_ids])
+    artist_ids =
+      List.wrap(attrs[:artist_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
+    genre_ids = List.wrap(attrs[:genre_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
     album_changeset = Schemas.Album.changeset(%Schemas.Album{}, attrs)
 
     Multi.new()
@@ -31,7 +35,7 @@ defmodule Dojinlist.Albums do
     |> Repo.transaction()
     |> case do
       {:ok, multi} -> {:ok, multi[:album]}
-      {:error, _} = error -> error
+      {:error, _field, changeset, _} -> {:error, changeset}
     end
   end
 end

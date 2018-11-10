@@ -14,23 +14,8 @@ defmodule DojinlistWeb.Types do
     field :sample_url, :string
     field :purchase_url, :string
 
-    connection field :genres, node_type: :genre do
-      resolve(fn pagination_args, %{source: album} ->
-        Absinthe.Relay.Connection.from_list(
-          album.genres,
-          pagination_args
-        )
-      end)
-    end
-
-    connection field :artists, node_type: :artist do
-      resolve(fn pagination_args, %{source: album} ->
-        Absinthe.Relay.Connection.from_list(
-          album.genres,
-          pagination_args
-        )
-      end)
-    end
+    field :genres, list_of(:genre)
+    field :artists, list_of(:artist)
   end
 
   connection(node_type: :genre)

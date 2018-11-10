@@ -6,25 +6,24 @@ defmodule DojinlistWeb.Schema do
   alias DojinlistWeb.Mutations
 
   import_types(DojinlistWeb.Types)
+  import_types(DojinlistWeb.Mutations.Album)
+  import_types(DojinlistWeb.Mutations.Genre)
+  import_types(DojinlistWeb.Mutations.Artist)
 
   query do
     connection field :albums, node_type: :album do
-      middleware(Dojinlist.Middlewares.Authorization)
       resolve(&Resolvers.Album.all/2)
     end
 
     connection field :artists, node_type: :artist do
-      middleware(Dojinlist.Middlewares.Authorization)
       resolve(&Resolvers.Artist.all/2)
     end
 
     connection field :genres, node_type: :genre do
-      middleware(Dojinlist.Middlewares.Authorization)
       resolve(&Resolvers.Genre.all/2)
     end
 
     connection field :events, node_type: :event do
-      middleware(Dojinlist.Middlewares.Authorization)
       resolve(&Resolvers.Event.all/2)
     end
   end
@@ -44,6 +43,10 @@ defmodule DojinlistWeb.Schema do
 
       resolve(&Mutations.Authentication.register/2)
     end
+
+    import_fields(:album_mutations)
+    import_fields(:artist_mutations)
+    import_fields(:genre_mutations)
   end
 
   node interface do

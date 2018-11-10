@@ -1,6 +1,7 @@
 defmodule Dojinlist.Schemas.Album do
   use Ecto.Schema
 
+  import Ecto.Query
   import Ecto.Changeset
 
   schema "albums" do
@@ -16,6 +17,16 @@ defmodule Dojinlist.Schemas.Album do
     belongs_to :event, Dojinlist.Schemas.Event
 
     timestamps()
+  end
+
+  def where_verified?(query) do
+    query
+    |> where([o], o.is_verified == true)
+  end
+
+  def preload(query) do
+    query
+    |> preload([o], [:artists, :genres])
   end
 
   def changeset(album, attrs) do

@@ -30,4 +30,8 @@ defmodule DojinlistWeb.ErrorHelpers do
       Gettext.dgettext(DojinlistWeb.Gettext, "errors", msg, opts)
     end
   end
+
+  def translate_changeset(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, &translate_error/1)
+  end
 end
