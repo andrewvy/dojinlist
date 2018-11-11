@@ -2,9 +2,17 @@ defmodule DojinlistWeb.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
 
+  alias DojinlistWeb.Resolvers
+
   import_types(Absinthe.Type.Custom)
 
-  connection(node_type: :album)
+  connection node_type: :album do
+    edge do
+      field :personal_rating, :rating do
+        resolve(&Resolvers.Rating.get_rating/3)
+      end
+    end
+  end
 
   node object(:album) do
     field :uuid, :string
@@ -35,6 +43,15 @@ defmodule DojinlistWeb.Types do
   end
 
   connection(node_type: :event)
+
+  node object(:rating) do
+    field :rating, :integer
+    field :description, :string
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
+  end
+
+  connection(node_type: :rating)
 
   node object(:artist) do
     field :uuid, :string

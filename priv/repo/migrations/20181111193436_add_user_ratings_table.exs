@@ -9,6 +9,8 @@ defmodule Dojinlist.Repo.Migrations.AddUserRatingsTable do
       add :album_id, references(:albums, on_delete: :delete_all)
       add :rating, :integer
       add :description, :text
+
+      timestamps()
     end
 
     create unique_index(:users_ratings, [:user_id, :album_id])

@@ -14,6 +14,8 @@ defmodule Dojinlist.Schemas.Album do
     many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
 
+    has_many :ratings, Dojinlist.Schemas.UserRating
+
     belongs_to :event, Dojinlist.Schemas.Event
 
     timestamps()
