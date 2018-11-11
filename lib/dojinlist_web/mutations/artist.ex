@@ -5,6 +5,8 @@ defmodule DojinlistWeb.Mutations.Artist do
     field :create_artist, type: :artist do
       arg(:name, non_null(:string))
 
+      middleware(Dojinlist.Middlewares.Authorization)
+
       resolve(&create_artist/2)
     end
   end

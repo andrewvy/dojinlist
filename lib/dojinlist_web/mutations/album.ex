@@ -11,6 +11,7 @@ defmodule DojinlistWeb.Mutations.Album do
 
       middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
       middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
+      middleware(Dojinlist.Middlewares.Authorization)
 
       resolve(&create_album/2)
     end

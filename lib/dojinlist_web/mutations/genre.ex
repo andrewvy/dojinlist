@@ -5,6 +5,8 @@ defmodule DojinlistWeb.Mutations.Genre do
     field :create_genre, type: :genre do
       arg(:name, non_null(:string))
 
+      middleware(Dojinlist.Middlewares.Authorization)
+
       resolve(&create_genre/2)
     end
   end
