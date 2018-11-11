@@ -12,7 +12,26 @@ defmodule DojinlistWeb.Schema do
 
   query do
     connection field :albums, node_type: :album do
+      arg(:artist_ids, list_of(:id))
+      arg(:genre_ids, list_of(:id))
+      arg(:artist_names, list_of(:string))
+      arg(:genre_names, list_of(:string))
+
+      middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
+      middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
+
       resolve(&Resolvers.Album.all/2)
+    end
+
+    connection field :unverified_albums, node_type: :album do
+      resolve(&Resolvers.Album.unverified/2)
+    end
+
+    field :album, :album do
+      arg(:id, non_null(:id))
+
+      middleware(Absinthe.Relay.Node.ParseIDs, id: :album)
+      resolve(&Resolvers.Album.by_id/2)
     end
 
     connection field :artists, node_type: :artist do
@@ -64,6 +83,9 @@ defmodule DojinlistWeb.Schema do
 
       %Dojinlist.Schemas.Genre{}, _ ->
         :genre
+
+      %Dojinlist.Schemas.Event{}, _ ->
+        :event
 
       _, _ ->
         nil

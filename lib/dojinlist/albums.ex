@@ -4,8 +4,53 @@ defmodule Dojinlist.Albums do
   alias Dojinlist.{
     Repo,
     Schemas,
-    Utility
+    Utility,
+    Genres,
+    Artists
   }
+
+  import Ecto.Query
+
+  def build_query(query, attrs) do
+    Enum.reduce(attrs, query, fn attr, query ->
+      build_query_from_attr(query, attr)
+    end)
+    |> distinct([o], o.id)
+  end
+
+  def build_query_from_attr(query, {:artist_ids, ids}) do
+    ids = ids |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
+    query
+    |> join(:left, [o], a in Schemas.AlbumArtist, on: a.album_id == o.id)
+    |> where([o, a], a.artist_id in ^ids)
+  end
+
+  def build_query_from_attr(query, {:genre_ids, ids}) do
+    ids = ids |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
+    query
+    |> join(:left, [o], g in Schemas.AlbumGenre, on: g.album_id == o.id)
+    |> where([o, g], g.genre_id in ^ids)
+  end
+
+  def build_query_from_attr(query, {:artist_names, names}) do
+    ids = Artists.get_by_names(names) |> Enum.map(& &1.id)
+
+    query
+    |> join(:left, [o], a in Schemas.AlbumArtist, on: a.album_id == o.id)
+    |> where([o, a], a.artist_id in ^ids)
+  end
+
+  def build_query_from_attr(query, {:genre_names, names}) do
+    ids = Genres.get_by_names(names) |> Enum.map(& &1.id)
+
+    query
+    |> join(:left, [o], g in Schemas.AlbumGenre, on: g.album_id == o.id)
+    |> where([o, g], g.genre_id in ^ids)
+  end
+
+  def build_query_from_attr(query, _), do: query
 
   def create_album(attrs) do
     artist_ids =

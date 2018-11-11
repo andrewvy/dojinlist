@@ -79,6 +79,14 @@ defmodule Dojinlist.Permissions do
     end
   end
 
+  def in_user_permissions?(nil, _type), do: false
+
+  def in_user_permissions?(%Schemas.User{permissions: permissions}, type)
+      when is_list(permissions),
+      do: in_permissions?(permissions, type)
+
+  def in_user_permissions?(_, _), do: false
+
   def in_permissions?(permissions, type) do
     permissions
     |> Enum.any?(fn permission ->
