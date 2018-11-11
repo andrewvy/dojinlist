@@ -1,5 +1,5 @@
 defmodule Dojinlist.Authentication do
-  alias Dojinlist.{Accounts, Token}
+  alias Dojinlist.{Accounts, Token, Permissions}
 
   @type error_code :: :not_found | :invalid_password
 
@@ -13,14 +13,25 @@ defmodule Dojinlist.Authentication do
     Accounts.get_user_by_email(email)
     |> case do
       nil ->
-        {:error, :not_found}
+        # @todo(vy): i18n
+        {:error, "Wrong email or password"}
 
       user ->
         if !is_nil(user.password) && Argon2.verify_pass(password, user.password) do
-          {:ok, user, generate_token(user.id)}
+          after_successful_login(user)
         else
-          {:error, :invalid_password}
+          # @todo(vy): i18n
+          {:error, "Wrong email or password"}
         end
+    end
+  end
+
+  def after_successful_login(user) do
+    if Permissions.in_permissions?(user.permissions, "alpha_tester") do
+      {:ok, user, generate_token(user.id)}
+    else
+      # @todo(vy): i18n
+      {:error, "Not marked as an alpha tester."}
     end
   end
 

@@ -22,3 +22,4 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - `verify_albums` - Ability to verify unverified albums.
 - `modify_permissions` - Ability to modify permissions for users.
+- `alpha_tester` - Ability to login with user account.

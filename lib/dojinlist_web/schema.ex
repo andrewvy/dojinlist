@@ -33,6 +33,7 @@ defmodule DojinlistWeb.Schema do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
 
+      middleware(Dojinlist.Middlewares.Unauthorization)
       resolve(&Mutations.Authentication.login/2)
     end
 
@@ -41,6 +42,7 @@ defmodule DojinlistWeb.Schema do
       arg(:password, non_null(:string))
       arg(:username, non_null(:string))
 
+      middleware(Dojinlist.Middlewares.Unauthorization)
       resolve(&Mutations.Authentication.register/2)
     end
 

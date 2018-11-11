@@ -23,7 +23,7 @@ defmodule DojinlistWeb.Context do
          {:ok, current_user} <- authorize(token) do
       %{current_user: current_user}
     else
-      _ -> %{}
+      _ -> %{current_user: nil}
     end
   end
 
@@ -33,7 +33,9 @@ defmodule DojinlistWeb.Context do
          true <- !is_nil(user_id),
          user = Accounts.get_user(user_id),
          true <- !is_nil(user) do
-      {:ok, user}
+      loaded_user = user |> Dojinlist.Repo.preload([:permissions])
+
+      {:ok, loaded_user}
     else
       _ -> {:error, "Could not authorize token"}
     end

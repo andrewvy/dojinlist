@@ -1,8 +1,6 @@
 defmodule Dojinlist.Albums do
   alias Ecto.Multi
 
-  import Ecto.Query
-
   alias Dojinlist.{
     Repo,
     Schemas,
