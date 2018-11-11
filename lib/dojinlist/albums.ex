@@ -1,6 +1,8 @@
 defmodule Dojinlist.Albums do
   alias Ecto.Multi
 
+  import Ecto.Query
+
   alias Dojinlist.{
     Repo,
     Schemas,
@@ -36,6 +38,37 @@ defmodule Dojinlist.Albums do
     |> case do
       {:ok, multi} -> {:ok, multi[:album]}
       {:error, _field, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  def get_album(id) do
+    Schemas.Album
+    |> Repo.get(id)
+  end
+
+  def mark_as_verified(id) do
+    get_album(id)
+    |> case do
+      nil ->
+        {:error, "Could not find an album with that ID."}
+
+      album ->
+        album
+        |> Schemas.Album.changeset(%{is_verified: true})
+        |> Repo.update()
+    end
+  end
+
+  def mark_as_unverified(id) do
+    get_album(id)
+    |> case do
+      nil ->
+        {:error, "Could not find an album with that ID."}
+
+      album ->
+        album
+        |> Schemas.Album.changeset(%{is_verified: false})
+        |> Repo.update()
     end
   end
 end

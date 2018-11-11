@@ -47,4 +47,20 @@ defmodule Dojinlist.AlbumsTest do
 
     assert 1 == Enum.count(album.genres)
   end
+
+  test "Can mark an album as verified" do
+    {:ok, album} = Dojinlist.Fixtures.album()
+
+    assert album.is_verified == false
+    assert {:ok, album} = Albums.mark_as_verified(album.id)
+    assert album.is_verified == true
+  end
+
+  test "Can mark an album as unverified" do
+    {:ok, album} = Dojinlist.Fixtures.album(%{is_verified: true})
+
+    assert album.is_verified == true
+    assert {:ok, album} = Albums.mark_as_unverified(album.id)
+    assert album.is_verified == false
+  end
 end

@@ -10,6 +10,12 @@ defmodule Dojinlist.Permissions do
     |> Repo.insert()
   end
 
+  def remove_permission_type(type) do
+    Schemas.Permission
+    |> where([p], p.type == ^type)
+    |> Repo.delete_all()
+  end
+
   def get_permission_by_type(type) do
     Schemas.Permission
     |> where([p], p.type == ^type)
