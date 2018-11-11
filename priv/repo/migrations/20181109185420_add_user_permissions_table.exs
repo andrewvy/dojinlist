@@ -12,5 +12,6 @@ defmodule Dojinlist.Repo.Migrations.AddUserPermissionsTable do
     end
 
     create unique_index(:permissions, [:type])
+    create unique_index(:users_permissions, [:user_id, :permission_id])
   end
 end

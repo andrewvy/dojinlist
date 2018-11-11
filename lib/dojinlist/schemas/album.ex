@@ -24,6 +24,11 @@ defmodule Dojinlist.Schemas.Album do
     |> where([o], o.is_verified == true)
   end
 
+  def where_unverified?(query) do
+    query
+    |> where([o], o.is_verified == false)
+  end
+
   def preload(query) do
     query
     |> preload([o], [:artists, :genres])
