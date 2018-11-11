@@ -34,4 +34,16 @@ defmodule DojinlistWeb.ErrorHelpers do
   def translate_changeset(changeset) do
     Ecto.Changeset.traverse_errors(changeset, &translate_error/1)
   end
+
+  def flatten_changeset(changeset) do
+    translate_changeset(changeset)
+    |> Enum.map(fn {key, values} ->
+      formatted_message =
+        values
+        |> Enum.map(fn value -> "#{key} #{value}" end)
+        |> Enum.join("\n")
+
+      formatted_message
+    end)
+  end
 end

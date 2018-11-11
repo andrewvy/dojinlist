@@ -3,8 +3,11 @@ defmodule DojinlistWeb.Mutations.Authentication do
 
   def register(%{email: _, password: _, username: _} = attrs, %{context: %{current_user: nil}}) do
     case Accounts.register(attrs) do
-      {:error, _changeset} -> {:error, "Error creating new account"}
-      {:ok, user} -> {:ok, %{user: transform_user(user)}}
+      {:error, changeset} ->
+        {:error, DojinlistWeb.flatten_changeset(changeset)}
+
+      {:ok, user} ->
+        {:ok, %{user: transform_user(user)}}
     end
   end
 
