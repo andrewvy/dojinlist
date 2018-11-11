@@ -10,7 +10,9 @@ defmodule Dojinlist.Schemas.User do
     field :email, :string
 
     many_to_many :permissions, Dojinlist.Schemas.Permission, join_through: "users_permissions"
-    many_to_many :liked_albums, Dojinlist.Schemas.Album, join_through: "users_likes"
+
+    has_many :ratings, Dojinlist.Schemas.UserRating
+    has_many :albums, through: [:ratings, :album]
 
     timestamps()
   end
