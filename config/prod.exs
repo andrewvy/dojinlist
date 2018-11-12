@@ -11,8 +11,10 @@ use Mix.Config
 # before starting your production server.
 config :dojinlist, DojinlistWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "example.com", port: 80],
+  url: [host: "api.dojinlist.co", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :dojinlist, DojinlistWeb.Endpoint, server: true
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -61,7 +63,6 @@ config :logger, level: :info
 # Alternatively, you can configure exactly which server to
 # start per endpoint:
 #
-#     config :dojinlist, DojinlistWeb.Endpoint, server: true
 #
 # Note you can't rely on `System.get_env/1` when using releases.
 # See the releases documentation accordingly.

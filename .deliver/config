@@ -1,0 +1,22 @@
+# .deliver/config
+
+APP="dojinlist"
+GIT_CLEAN_PATHS="_build rel priv/generated"
+
+BUILD_HOST="104.248.14.72"
+BUILD_USER="builder"
+BUILD_AT="/tmp/edeliver/dojinlist/builds"
+
+PRODUCTION_HOSTS="104.248.14.72"
+PRODUCTION_USER="api"
+DELIVER_TO="/home/api"
+
+# For *Phoenix* projects, symlink prod.secret.exs to our tmp source
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/home/api/priv/prod.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
+    "
+  fi
+}
