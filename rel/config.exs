@@ -8,14 +8,13 @@
 |> Enum.map(&Code.eval_file(&1))
 
 use Mix.Releases.Config,
-    # This sets the default release built by `mix release`
-    default_release: :default,
-    # This sets the default environment used by `mix release`
-    default_environment: Mix.env()
+  # This sets the default release built by `mix release`
+  default_release: :default,
+  # This sets the default environment used by `mix release`
+  default_environment: Mix.env()
 
 # For a full list of config options for both releases
 # and environments, visit https://hexdocs.pm/distillery/config/distillery.html
-
 
 # You may define one or more environments in this file,
 # an environment's settings will override those of a release
@@ -29,16 +28,16 @@ environment :dev do
   # It is recommended that you build with MIX_ENV=prod and pass
   # the --env flag to Distillery explicitly if you want to use
   # dev mode.
-  set dev_mode: true
-  set include_erts: false
-  set cookie: :"vkJ^jZP_IS9H/T%Wk8/k=O!1%CTy1*k(I:35OKUE0?c$TbsnO}4oLP4QQAZV%dyg"
+  set(dev_mode: true)
+  set(include_erts: false)
+  set(cookie: :"vkJ^jZP_IS9H/T%Wk8/k=O!1%CTy1*k(I:35OKUE0?c$TbsnO}4oLP4QQAZV%dyg")
 end
 
 environment :prod do
-  set include_erts: true
-  set include_src: false
-  set cookie: :"|n`OFLcOk2!NwZ|Pn(LWts9%=0n6o1t@C{sAfn3E5S?iSyDafe`7ia/4nV45(lIF"
-  set vm_args: "rel/vm.args"
+  set(include_erts: true)
+  set(include_src: false)
+  set(cookie: :"|n`OFLcOk2!NwZ|Pn(LWts9%=0n6o1t@C{sAfn3E5S?iSyDafe`7ia/4nV45(lIF")
+  set(vm_args: "rel/vm.args")
 end
 
 # You may define one or more releases in this file.
@@ -47,9 +46,17 @@ end
 # will be used by default
 
 release :dojinlist do
-  set version: current_version(:dojinlist)
-  set applications: [
-    :runtime_tools
-  ]
-end
+  set(version: current_version(:dojinlist))
 
+  set(
+    applications: [
+      :runtime_tools
+    ]
+  )
+
+  set(
+    commands: [
+      build_elasticsearch_indexes: "rel/commands/build_elasticsearch_indexes.sh"
+    ]
+  )
+end
