@@ -79,8 +79,12 @@ defmodule Dojinlist.Albums do
     end)
     |> Repo.transaction()
     |> case do
-      {:ok, multi} -> {:ok, multi[:album]}
-      {:error, _field, changeset, _} -> {:error, changeset}
+      {:ok, multi} ->
+        Elasticsearch.put_document(Dojinlist.ElasticsearchCluster, multi[:album], "albums")
+        {:ok, multi[:album]}
+
+      {:error, _field, changeset, _} ->
+        {:error, changeset}
     end
   end
 

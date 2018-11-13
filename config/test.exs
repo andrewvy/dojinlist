@@ -16,3 +16,5 @@ config :dojinlist, Dojinlist.Repo,
   database: "dojinlist_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :dojinlist, Dojinlist.ElasticsearchCluster, api: Dojinlist.ElasticsearchMock

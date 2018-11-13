@@ -9,6 +9,7 @@ defmodule Dojinlist.Schemas.UserRating do
 
     field :rating, :integer
     field :description, :string
+
     timestamps()
   end
 

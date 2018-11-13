@@ -11,7 +11,8 @@ defmodule Dojinlist.Application do
       # Start the Ecto repository
       Dojinlist.Repo,
       # Start the endpoint when the application starts
-      DojinlistWeb.Endpoint
+      DojinlistWeb.Endpoint,
+      Dojinlist.ElasticsearchCluster
       # Starts a worker by calling: Dojinlist.Worker.start_link(arg)
       # {Dojinlist.Worker, arg},
     ]

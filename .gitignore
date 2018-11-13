@@ -35,4 +35,6 @@ dojinlist-*.tar
 # variables.
 /config/*.secret.exs
 
+/.deliver/releases
+
 env
