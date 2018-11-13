@@ -40,7 +40,7 @@ defmodule Dojinlist.MixProject do
       {:corsica, "~> 1.0"},
       {:dataloader, "~> 1.0.0"},
       {:distillery, "~> 2.0"},
-      {:elasticsearch, github: "andrewvy/elasticsearch-elixir"},
+      {:elasticsearch, "~> 0.6.0"},
       {:httpoison, ">= 0.0.0"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.1"},
