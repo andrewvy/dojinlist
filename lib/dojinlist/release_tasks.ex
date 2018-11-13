@@ -4,7 +4,8 @@ defmodule Dojinlist.ReleaseTasks do
     :ssl,
     :postgrex,
     :ecto,
-    :elasticsearch
+    :elasticsearch,
+    :telemetry
   ]
 
   # Ecto repos to start, if any
