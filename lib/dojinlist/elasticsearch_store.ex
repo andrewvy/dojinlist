@@ -8,7 +8,7 @@ defmodule Dojinlist.ElasticsearchStore do
   @impl true
   def stream(Dojinlist.Schemas.Album) do
     Dojinlist.Schemas.Album
-    |> preload([u], [:artists, :genres])
+    |> Dojinlist.Schemas.Album.preload()
     |> cursor_stream()
   end
 

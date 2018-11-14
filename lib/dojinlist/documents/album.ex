@@ -11,7 +11,8 @@ defimpl Elasticsearch.Document, for: Dojinlist.Schemas.Album do
         ]
       },
       artists: Enum.map(album.artists, & &1.id),
-      genres: Enum.map(album.genres, & &1.id)
+      genres: Enum.map(album.genres, & &1.id),
+      event_id: album.event_id
     }
     |> add_kana_name(album)
   end

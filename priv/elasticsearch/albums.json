@@ -20,6 +20,9 @@
         },
         "genres": {
           "type": "long"
+        },
+        "event_id": {
+          "type": "long"
         }
       }
     }
