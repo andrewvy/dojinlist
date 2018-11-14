@@ -10,6 +10,7 @@ defmodule DojinlistWeb.Schema do
   import_types(DojinlistWeb.Mutations.Genre)
   import_types(DojinlistWeb.Mutations.Artist)
   import_types(DojinlistWeb.Mutations.Rating)
+  import_types(DojinlistWeb.Mutations.Event)
 
   query do
     connection field :albums, node_type: :album do
@@ -70,6 +71,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:artist_mutations)
     import_fields(:genre_mutations)
     import_fields(:rating_mutations)
+    import_fields(:event_mutations)
   end
 
   node interface do

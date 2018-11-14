@@ -21,6 +21,7 @@ defmodule DojinlistWeb.Types do
     field :release_date, :datetime
     field :sample_url, :string
     field :purchase_url, :string
+    field :event, :event
 
     field :genres, list_of(:genre)
     field :artists, list_of(:artist)
