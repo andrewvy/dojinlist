@@ -33,7 +33,11 @@ defmodule DojinlistWeb.Context do
          true <- !is_nil(user_id),
          user = Accounts.get_user(user_id),
          true <- !is_nil(user) do
-      loaded_user = user |> Dojinlist.Repo.preload([:permissions])
+      loaded_user =
+        user
+        |> Dojinlist.Repo.preload([
+          :permissions
+        ])
 
       {:ok, loaded_user}
     else

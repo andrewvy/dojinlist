@@ -2,6 +2,7 @@ defmodule DojinlistWeb.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
 
+  alias Dojinlist.Repo
   alias DojinlistWeb.Resolvers
 
   import_types(Absinthe.Type.Custom)
@@ -50,6 +51,7 @@ defmodule DojinlistWeb.Types do
     field :description, :string
     field :inserted_at, :datetime
     field :updated_at, :datetime
+    field :album, :album
   end
 
   connection(node_type: :rating)
@@ -57,6 +59,26 @@ defmodule DojinlistWeb.Types do
   node object(:artist) do
     field :uuid, :string
     field :name, :string
+  end
+
+  object :me do
+    field :username, :string
+    field :email, :string
+
+    field :rating_count, :integer do
+      resolve(fn _, %{context: %{current_user: user}} ->
+        count =
+          Dojinlist.Schemas.UserRating
+          |> Dojinlist.Schemas.UserRating.where_user_id(user.id)
+          |> Repo.aggregate(:count, :id)
+
+        {:ok, count}
+      end)
+    end
+
+    connection field :ratings, node_type: :rating do
+      resolve(&Resolvers.Rating.get_ratings_by_user/2)
+    end
   end
 
   object :user do

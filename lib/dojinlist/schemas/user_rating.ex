@@ -2,6 +2,7 @@ defmodule Dojinlist.Schemas.UserRating do
   use Ecto.Schema
 
   import Ecto.Changeset
+  import Ecto.Query
 
   schema "users_ratings" do
     belongs_to :user, Dojinlist.Schemas.User
@@ -18,5 +19,15 @@ defmodule Dojinlist.Schemas.UserRating do
     |> cast(attrs, [:user_id, :album_id, :rating, :description])
     |> validate_required([:user_id, :album_id])
     |> unique_constraint(:user_id)
+  end
+
+  def where_user_id(query, user_id) do
+    query
+    |> where([o], o.user_id == ^user_id)
+  end
+
+  def preload(query) do
+    query
+    |> preload([o], [:album])
   end
 end

@@ -36,6 +36,12 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Album.by_id/2)
     end
 
+    field :me, :me do
+      middleware(Dojinlist.Middlewares.Authorization)
+
+      resolve(&Resolvers.Me.fetch/2)
+    end
+
     connection field :artists, node_type: :artist do
       resolve(&Resolvers.Artist.all/2)
     end
