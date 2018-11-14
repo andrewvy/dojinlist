@@ -7,6 +7,7 @@ defmodule Dojinlist.Schemas.Album do
   schema "albums" do
     field :uuid, Ecto.UUID, autogenerate: true
     field :name, :string
+    field :kana_name, :string
     field :sample_url, :string
     field :purchase_url, :string
     field :is_verified, :boolean, default: false
@@ -38,7 +39,7 @@ defmodule Dojinlist.Schemas.Album do
 
   def changeset(album, attrs) do
     album
-    |> cast(attrs, [:name, :sample_url, :purchase_url, :is_verified])
+    |> cast(attrs, [:name, :kana_name, :sample_url, :purchase_url, :is_verified])
     |> validate_required([:name])
   end
 end

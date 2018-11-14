@@ -1,2 +1,27 @@
 {
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "kana_name": {
+          "type": "text"
+        },
+        "kana_name_suggest": {
+          "type": "completion",
+          "analyzer": "kuromoji"
+        },
+        "name": {
+          "type": "text"
+        },
+        "name_suggest": {
+          "type": "completion"
+        },
+        "artists": {
+          "type": "long"
+        },
+        "genres": {
+          "type": "long"
+        }
+      }
+    }
+  }
 }
