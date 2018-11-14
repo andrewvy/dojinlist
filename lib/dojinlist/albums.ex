@@ -102,6 +102,7 @@ defmodule Dojinlist.Albums do
     get_album(id)
     |> case do
       nil ->
+        # @todo(vy): i18n
         {:error, "Could not find an album with that ID."}
 
       album ->

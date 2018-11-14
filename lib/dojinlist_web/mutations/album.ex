@@ -17,6 +17,22 @@ defmodule DojinlistWeb.Mutations.Album do
 
       resolve(&create_album/2)
     end
+
+    field :mark_album_as_verified, type: :album do
+      arg(:album_id, non_null(:id))
+
+      middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+      middleware(Dojinlist.Middlewares.Authorization)
+      middleware(Dojinlist.Middlewares.Permission, permission: "verify_albums")
+    end
+
+    field :mark_album_as_unverified, type: :album do
+      arg(:album_id, non_null(:id))
+
+      middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+      middleware(Dojinlist.Middlewares.Authorization)
+      middleware(Dojinlist.Middlewares.Permission, permission: "verify_albums")
+    end
   end
 
   def create_album(attrs, _) do
@@ -28,5 +44,13 @@ defmodule DojinlistWeb.Mutations.Album do
         # @TODO(vy): i18n
         {:error, "Could not create album"}
     end
+  end
+
+  def mark_as_verified(%{album_id: album_id}, _) do
+    Dojinlist.Albums.mark_as_verified(album_id)
+  end
+
+  def mark_as_unverified(%{album_id: album_id}, _) do
+    Dojinlist.Albums.mark_as_unverified(album_id)
   end
 end
