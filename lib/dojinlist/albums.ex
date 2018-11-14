@@ -80,7 +80,12 @@ defmodule Dojinlist.Albums do
     |> Repo.transaction()
     |> case do
       {:ok, multi} ->
-        Elasticsearch.put_document(Dojinlist.ElasticsearchCluster, multi[:album], "albums")
+        Elasticsearch.put_document(
+          Dojinlist.ElasticsearchCluster,
+          Repo.preload(multi[:album], [:artists, :genres]),
+          "albums"
+        )
+
         {:ok, multi[:album]}
 
       {:error, _field, changeset, _} ->

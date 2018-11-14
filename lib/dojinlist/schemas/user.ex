@@ -14,7 +14,7 @@ defmodule Dojinlist.Schemas.User do
     has_many :ratings, Dojinlist.Schemas.UserRating
     has_many :albums, through: [:ratings, :album]
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @doc false

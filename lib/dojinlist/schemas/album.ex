@@ -19,7 +19,7 @@ defmodule Dojinlist.Schemas.Album do
 
     belongs_to :event, Dojinlist.Schemas.Event
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def where_verified?(query) do
@@ -39,7 +39,7 @@ defmodule Dojinlist.Schemas.Album do
 
   def changeset(album, attrs) do
     album
-    |> cast(attrs, [:name, :kana_name, :sample_url, :purchase_url, :is_verified])
+    |> cast(attrs, [:name, :kana_name, :sample_url, :purchase_url, :event_id, :is_verified])
     |> validate_required([:name])
   end
 end

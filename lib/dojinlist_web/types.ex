@@ -38,8 +38,8 @@ defmodule DojinlistWeb.Types do
   node object(:event) do
     field :uuid, :string
     field :name, :string
-    field :start_date, :datetime
-    field :end_date, :datetime
+    field :start_date, :date
+    field :end_date, :date
   end
 
   connection(node_type: :event)
@@ -47,8 +47,8 @@ defmodule DojinlistWeb.Types do
   node object(:rating) do
     field :rating, :integer
     field :description, :string
-    field :inserted_at, :naive_datetime
-    field :updated_at, :naive_datetime
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
   end
 
   connection(node_type: :rating)

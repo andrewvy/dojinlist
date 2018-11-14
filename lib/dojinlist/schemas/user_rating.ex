@@ -10,7 +10,7 @@ defmodule Dojinlist.Schemas.UserRating do
     field :rating, :integer
     field :description, :string
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(rating, attrs) do
