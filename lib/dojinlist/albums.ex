@@ -62,6 +62,31 @@ defmodule Dojinlist.Albums do
 
     Multi.new()
     |> Multi.insert(:album, album_changeset)
+    |> insert_artists_and_genres(artist_ids, genre_ids)
+    |> Repo.transaction()
+    |> case do
+      {:ok, multi} ->
+        loaded_album =
+          Schemas.Album
+          |> where([o], o.id == ^multi[:album].id)
+          |> Schemas.Album.preload()
+          |> Repo.one()
+
+        Elasticsearch.put_document(
+          Dojinlist.ElasticsearchCluster,
+          loaded_album,
+          "albums"
+        )
+
+        {:ok, loaded_album}
+
+      {:error, _field, changeset, _} ->
+        {:error, changeset}
+    end
+  end
+
+  def insert_artists_and_genres(multi, artist_ids, genre_ids) do
+    multi
     |> Multi.merge(fn %{album: album} ->
       album_artists =
         Enum.map(artist_ids, fn artist_id ->
@@ -77,16 +102,43 @@ defmodule Dojinlist.Albums do
       |> Multi.insert_all(:album_artists, Schemas.AlbumArtist, album_artists)
       |> Multi.insert_all(:album_genres, Schemas.AlbumGenre, album_genres)
     end)
+  end
+
+  def update_album(album, attrs) do
+    artist_ids =
+      List.wrap(attrs[:artist_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
+    genre_ids = List.wrap(attrs[:genre_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
+
+    album_changeset = Schemas.Album.changeset(album, attrs)
+
+    Multi.new()
+    |> Multi.update(:album, album_changeset)
+    |> Multi.delete_all(
+      :deleted_album_artists,
+      from(o in Schemas.AlbumArtist, where: o.album_id == ^album.id)
+    )
+    |> Multi.delete_all(
+      :deleted_album_genres,
+      from(o in Schemas.AlbumGenre, where: o.album_id == ^album.id)
+    )
+    |> insert_artists_and_genres(artist_ids, genre_ids)
     |> Repo.transaction()
     |> case do
-      {:ok, multi} ->
+      {:ok, _} ->
+        loaded_album =
+          Schemas.Album
+          |> where([o], o.id == ^album.id)
+          |> Schemas.Album.preload()
+          |> Repo.one()
+
         Elasticsearch.put_document(
           Dojinlist.ElasticsearchCluster,
-          Repo.preload(multi[:album], [:artists, :genres]),
+          loaded_album,
           "albums"
         )
 
-        {:ok, multi[:album]}
+        {:ok, loaded_album}
 
       {:error, _field, changeset, _} ->
         {:error, changeset}

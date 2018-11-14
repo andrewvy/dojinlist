@@ -27,8 +27,6 @@ defmodule Dojinlist.AlbumsTest do
                artist_ids: [artist.id]
              })
 
-    album = album |> Repo.preload(:artists)
-
     assert 1 == Enum.count(album.artists)
   end
 
@@ -42,8 +40,6 @@ defmodule Dojinlist.AlbumsTest do
                purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
              })
-
-    album = album |> Repo.preload(:genres)
 
     assert 1 == Enum.count(album.genres)
   end
@@ -62,5 +58,22 @@ defmodule Dojinlist.AlbumsTest do
     assert album.is_verified == true
     assert {:ok, album} = Albums.mark_as_unverified(album.id)
     assert album.is_verified == false
+  end
+
+  test "Can update an album" do
+    {:ok, album} = Dojinlist.Fixtures.album()
+    {:ok, artist} = Artists.create_artist(%{name: "DJ Test"})
+    {:ok, genre} = Genres.create_genre(%{name: "Electronic"})
+
+    assert {:ok, updated_album} =
+             Albums.update_album(album, %{
+               name: "Test",
+               artist_ids: [artist.id],
+               genre_ids: [genre.id]
+             })
+
+    assert album.name != updated_album.name
+    assert 1 = Enum.count(updated_album.artists)
+    assert 1 = Enum.count(updated_album.genres)
   end
 end
