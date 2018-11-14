@@ -2,8 +2,11 @@ defmodule DojinlistWeb.Schema do
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
 
-  alias DojinlistWeb.Resolvers
-  alias DojinlistWeb.Mutations
+  alias DojinlistWeb.{
+    Middlewares,
+    Mutations,
+    Resolvers
+  }
 
   import_types(DojinlistWeb.Types)
   import_types(DojinlistWeb.Mutations.Album)
@@ -11,6 +14,7 @@ defmodule DojinlistWeb.Schema do
   import_types(DojinlistWeb.Mutations.Artist)
   import_types(DojinlistWeb.Mutations.Rating)
   import_types(DojinlistWeb.Mutations.Event)
+  import_types(DojinlistWeb.Mutations.Permission)
 
   query do
     connection field :albums, node_type: :album do
@@ -37,7 +41,7 @@ defmodule DojinlistWeb.Schema do
     end
 
     field :me, :me do
-      middleware(Dojinlist.Middlewares.Authorization)
+      middleware(Middlewares.Authorization)
 
       resolve(&Resolvers.Me.fetch/2)
     end
@@ -60,7 +64,8 @@ defmodule DojinlistWeb.Schema do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
 
-      middleware(Dojinlist.Middlewares.Unauthorization)
+      middleware(Middlewares.Unauthorization)
+
       resolve(&Mutations.Authentication.login/2)
     end
 
@@ -69,7 +74,7 @@ defmodule DojinlistWeb.Schema do
       arg(:password, non_null(:string))
       arg(:username, non_null(:string))
 
-      middleware(Dojinlist.Middlewares.Unauthorization)
+      middleware(Middlewares.Unauthorization)
       resolve(&Mutations.Authentication.register/2)
     end
 
@@ -78,6 +83,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:genre_mutations)
     import_fields(:rating_mutations)
     import_fields(:event_mutations)
+    import_fields(:permission_mutations)
   end
 
   node interface do

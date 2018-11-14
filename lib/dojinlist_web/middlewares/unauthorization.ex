@@ -1,4 +1,4 @@
-defmodule Dojinlist.Middlewares.Unauthorization do
+defmodule DojinlistWeb.Middlewares.Unauthorization do
   @behaviour Absinthe.Middleware
 
   def call(resolution = %{context: %{current_user: nil}}, _config) do
