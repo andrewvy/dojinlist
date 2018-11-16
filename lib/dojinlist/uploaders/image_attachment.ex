@@ -27,6 +27,10 @@ defmodule Dojinlist.ImageAttachment do
     "#{version}_#{file_name}"
   end
 
+  def s3_object_headers(version, {file, scope}) do
+    [content_type: MIME.from_path(file.file_name)]
+  end
+
   def wrap_url_for_local("http" <> _url = url), do: url
   def wrap_url_for_local(nil), do: nil
   def wrap_url_for_local(url), do: DojinlistWeb.Endpoint.url() <> url
