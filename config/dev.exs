@@ -59,3 +59,7 @@ config :dojinlist, Dojinlist.Repo,
   database: "dojinlist_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :arc,
+  storage: Arc.Storage.Local,
+  bucket: "uploads"

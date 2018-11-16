@@ -7,6 +7,9 @@ defmodule DojinlistWeb.Endpoint do
       log: [rejected: :error, invalid: :warn, accepted: :debug],
       allow_headers: ["content-type", "authorization"],
       allow_credentials: true
+
+    # Normally, this is handled through S3 on production.
+    plug Plug.Static, at: "/uploads", from: "uploads/", gzip: false
   else
     plug Corsica,
       origins: ["https://dojinlist.co"],

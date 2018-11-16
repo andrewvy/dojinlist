@@ -5,6 +5,7 @@ defmodule DojinlistWeb.Types do
   alias Dojinlist.Repo
   alias DojinlistWeb.Resolvers
 
+  import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
 
   connection node_type: :album do
@@ -23,6 +24,20 @@ defmodule DojinlistWeb.Types do
     field :sample_url, :string
     field :purchase_url, :string
     field :event, :event
+
+    field :cover_art_url, :string do
+      resolve(fn album, _, _ ->
+        url = Dojinlist.ImageAttachment.url(album.cover_art, :original)
+        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+      end)
+    end
+
+    field :cover_art_thumb_url, :string do
+      resolve(fn album, _, _ ->
+        url = Dojinlist.ImageAttachment.url(album.cover_art, :thumb)
+        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+      end)
+    end
 
     field :genres, list_of(:genre)
     field :artists, list_of(:artist)

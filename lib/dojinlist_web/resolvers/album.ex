@@ -19,7 +19,7 @@ defmodule DojinlistWeb.Resolvers.Album do
       |> Dojinlist.Schemas.Album.preload()
       |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
     else
-      {:ok, []}
+      {:ok, %{}}
     end
   end
 

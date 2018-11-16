@@ -7,7 +7,7 @@ defmodule DojinlistWeb.Mutations.Event do
       arg(:start_date, :date)
       arg(:end_date, :date)
 
-      middleware(Dojinlist.Middlewares.Authorization)
+      middleware(DojinlistWeb.Middlewares.Authorization)
 
       resolve(&create_event/2)
     end

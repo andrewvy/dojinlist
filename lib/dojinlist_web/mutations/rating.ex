@@ -12,7 +12,7 @@ defmodule DojinlistWeb.Mutations.Rating do
       arg(:rating, :integer)
       arg(:description, :string)
 
-      middleware(Dojinlist.Middlewares.Authorization)
+      middleware(DojinlistWeb.Middlewares.Authorization)
       middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
 
       resolve(&create_rating/2)

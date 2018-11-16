@@ -37,4 +37,6 @@ dojinlist-*.tar
 
 /.deliver/releases
 
+uploads/
+
 env

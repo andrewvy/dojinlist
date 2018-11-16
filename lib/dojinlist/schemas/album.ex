@@ -11,6 +11,7 @@ defmodule Dojinlist.Schemas.Album do
     field :sample_url, :string
     field :purchase_url, :string
     field :is_verified, :boolean, default: false
+    field :cover_art, :string
 
     many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
@@ -39,7 +40,15 @@ defmodule Dojinlist.Schemas.Album do
 
   def changeset(album, attrs) do
     album
-    |> cast(attrs, [:name, :kana_name, :sample_url, :purchase_url, :event_id, :is_verified])
+    |> cast(attrs, [
+      :name,
+      :kana_name,
+      :sample_url,
+      :purchase_url,
+      :event_id,
+      :is_verified,
+      :cover_art
+    ])
     |> validate_required([:name])
   end
 end

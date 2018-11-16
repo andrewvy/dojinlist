@@ -6,8 +6,8 @@ defmodule DojinlistWeb.Mutations.Permission do
       arg(:permission_type, non_null(:string))
       arg(:user_id, non_null(:id))
 
-      middleware(Dojinlist.Middlewares.Authorization)
-      middleware(Dojinlist.Middlewares.Permission, permission: "modify_permissions")
+      middleware(DojinlistWeb.Middlewares.Authorization)
+      middleware(DojinlistWeb.Middlewares.Permission, permission: "modify_permissions")
       middleware(Absinthe.Relay.Node.ParseIDs, user_id: :user)
 
       resolve(&add_permission_to_user/2)
@@ -17,8 +17,8 @@ defmodule DojinlistWeb.Mutations.Permission do
       arg(:permission_type, non_null(:string))
       arg(:user_id, non_null(:id))
 
-      middleware(Dojinlist.Middlewares.Authorization)
-      middleware(Dojinlist.Middlewares.Permission, permission: "modify_permissions")
+      middleware(DojinlistWeb.Middlewares.Authorization)
+      middleware(DojinlistWeb.Middlewares.Permission, permission: "modify_permissions")
       middleware(Absinthe.Relay.Node.ParseIDs, user_id: :user)
 
       resolve(&remove_permission_from_user/2)
