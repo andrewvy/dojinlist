@@ -2,7 +2,7 @@ defmodule DojinlistWeb.Mutations.Me do
   use Absinthe.Schema.Notation
 
   object :me_mutations do
-    field :upload_avatar, type: :user do
+    field :upload_avatar, type: :me do
       arg(:avatar, non_null(:upload))
 
       middleware(DojinlistWeb.Middlewares.Authorization)
@@ -22,7 +22,7 @@ defmodule DojinlistWeb.Mutations.Me do
   end
 
   def handle_avatar(avatar) do
-    Dojinlist.ImageAttachment.rewrite_upload(avatar)
-    |> Dojinlist.ImageAttachment.store()
+    Dojinlist.Uploaders.rewrite_upload(avatar)
+    |> Dojinlist.AvatarAttachment.store()
   end
 end

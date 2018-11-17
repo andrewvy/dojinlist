@@ -69,7 +69,7 @@ defmodule DojinlistWeb.Mutations.Album do
   defp handle_cover_art(nil), do: {:ok, nil}
 
   defp handle_cover_art(cover_art) do
-    Dojinlist.ImageAttachment.rewrite_upload(cover_art)
+    Dojinlist.Uploaders.rewrite_upload(cover_art)
     |> Dojinlist.ImageAttachment.store()
   end
 end

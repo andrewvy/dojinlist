@@ -28,14 +28,14 @@ defmodule DojinlistWeb.Types do
     field :cover_art_url, :string do
       resolve(fn album, _, _ ->
         url = Dojinlist.ImageAttachment.url(album.cover_art, :standard)
-        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
       end)
     end
 
     field :cover_art_thumb_url, :string do
       resolve(fn album, _, _ ->
         url = Dojinlist.ImageAttachment.url(album.cover_art, :thumb)
-        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
       end)
     end
 
@@ -93,8 +93,8 @@ defmodule DojinlistWeb.Types do
 
     field :avatar, :string do
       resolve(fn user, _, _ ->
-        url = Dojinlist.ImageAttachment.url(user.avatar, :thumb)
-        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+        url = Dojinlist.AvatarAttachment.url(user.avatar, :thumb)
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
       end)
     end
 
@@ -110,8 +110,8 @@ defmodule DojinlistWeb.Types do
 
     field :avatar, :string do
       resolve(fn user, _, _ ->
-        url = Dojinlist.ImageAttachment.url(user.avatar, :thumb)
-        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+        url = Dojinlist.AvatarAttachment.url(user.avatar, :thumb)
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
       end)
     end
   end
