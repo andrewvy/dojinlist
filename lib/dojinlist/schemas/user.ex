@@ -8,6 +8,7 @@ defmodule Dojinlist.Schemas.User do
     field :username, :string
     field :password, :string
     field :email, :string
+    field :avatar, :string
 
     many_to_many :permissions, Dojinlist.Schemas.Permission, join_through: "users_permissions"
 
@@ -20,7 +21,7 @@ defmodule Dojinlist.Schemas.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email])
+    |> cast(attrs, [:username, :email, :avatar])
     |> put_password(attrs)
     |> validate_required([:username, :email])
     |> validate_username()

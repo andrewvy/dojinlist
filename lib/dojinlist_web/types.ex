@@ -27,7 +27,7 @@ defmodule DojinlistWeb.Types do
 
     field :cover_art_url, :string do
       resolve(fn album, _, _ ->
-        url = Dojinlist.ImageAttachment.url(album.cover_art, :original)
+        url = Dojinlist.ImageAttachment.url(album.cover_art, :standard)
         {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
       end)
     end
@@ -91,6 +91,13 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
+    field :avatar, :string do
+      resolve(fn user, _, _ ->
+        url = Dojinlist.ImageAttachment.url(user.avatar, :thumb)
+        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+      end)
+    end
+
     connection field :ratings, node_type: :rating do
       resolve(&Resolvers.Rating.get_ratings_by_user/2)
     end
@@ -100,6 +107,13 @@ defmodule DojinlistWeb.Types do
     field :id, :id
     field :username, :string
     field :email, :string
+
+    field :avatar, :string do
+      resolve(fn user, _, _ ->
+        url = Dojinlist.ImageAttachment.url(user.avatar, :thumb)
+        {:ok, Dojinlist.ImageAttachment.wrap_url_for_local(url)}
+      end)
+    end
   end
 
   object :login_response do

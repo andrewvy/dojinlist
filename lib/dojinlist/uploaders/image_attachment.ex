@@ -6,7 +6,7 @@ defmodule Dojinlist.ImageAttachment do
 
   @acl :public_read
   @extension_whitelist ~w(.jpg .jpeg .gif .png)
-  @versions [:original, :thumb]
+  @versions [:original, :standard, :thumb]
 
   def validate({file, _}) do
     file_extension = file.file_name |> Path.extname() |> String.downcase()
@@ -17,8 +17,12 @@ defmodule Dojinlist.ImageAttachment do
     {:convert, "-strip -format png", :png}
   end
 
+  def transform(:standard, _) do
+    {:convert, "-strip -thumbnail 512x512^ -gravity center -extent 512x512 -format png", :png}
+  end
+
   def transform(:thumb, _) do
-    {:convert, "-strip -thumbnail 100x100^ -gravity center -extent 100x100 -format png", :png}
+    {:convert, "-strip -thumbnail 128x128^ -gravity center -extent 128x128 -format png", :png}
   end
 
   def filename(version, {file, _}) do
@@ -27,7 +31,7 @@ defmodule Dojinlist.ImageAttachment do
     "#{version}_#{file_name}"
   end
 
-  def s3_object_headers(version, {file, scope}) do
+  def s3_object_headers(_version, {file, _scope}) do
     [content_type: MIME.from_path(file.file_name)]
   end
 
