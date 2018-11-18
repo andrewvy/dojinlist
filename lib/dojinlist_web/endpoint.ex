@@ -7,7 +7,8 @@ defmodule DojinlistWeb.Endpoint do
       log: [rejected: :error, invalid: :warn, accepted: :debug],
       allow_headers: ["content-type", "authorization"],
       allow_methods: :all,
-      allow_credentials: true
+      allow_credentials: true,
+      max_age: 600
 
     # Normally, this is handled through S3 on production.
     plug Plug.Static, at: "/uploads", from: "uploads/", gzip: false
@@ -17,7 +18,8 @@ defmodule DojinlistWeb.Endpoint do
       allow_headers: ["content-type", "authorization"],
       log: [rejected: :error, invalid: :warn, accepted: :debug],
       allow_methods: :all,
-      allow_credentials: true
+      allow_credentials: true,
+      max_age: 600
   end
 
   socket "/socket", DojinlistWeb.UserSocket,

@@ -18,6 +18,7 @@ defmodule Dojinlist.Schemas.Album do
 
     has_many :ratings, Dojinlist.Schemas.UserRating
 
+    belongs_to :creator_user, Dojinlist.Schemas.User
     belongs_to :event, Dojinlist.Schemas.Event
 
     timestamps(type: :utc_datetime)
@@ -47,7 +48,8 @@ defmodule Dojinlist.Schemas.Album do
       :purchase_url,
       :event_id,
       :is_verified,
-      :cover_art
+      :cover_art,
+      :creator_user_id
     ])
     |> validate_required([:name])
   end

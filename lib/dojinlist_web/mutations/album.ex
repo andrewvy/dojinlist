@@ -36,9 +36,9 @@ defmodule DojinlistWeb.Mutations.Album do
     end
   end
 
-  def create_album(attrs, _) do
+  def create_album(attrs, %{context: %{current_user: user}}) do
     with {:ok, cover_art} <- handle_cover_art(attrs[:cover_art]),
-         merged_attrs = Map.merge(attrs, %{cover_art: cover_art}),
+         merged_attrs = Map.merge(attrs, %{cover_art: cover_art, creator_user_id: user.id}),
          {:ok, album} <- handle_create_album(merged_attrs) do
       {:ok, Dojinlist.Repo.preload(album, [:event, :artists, :genres])}
     else
