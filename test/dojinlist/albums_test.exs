@@ -76,4 +76,15 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 = Enum.count(updated_album.artists)
     assert 1 = Enum.count(updated_album.genres)
   end
+
+  test "Edit history is created for album submission/edits" do
+    {:ok, user} = Dojinlist.Fixtures.user()
+    {:ok, album} = Albums.create_album(%{name: "Test", creator_user_id: user.id})
+
+    Albums.update_album(album, %{name: "New Name"}, user.id)
+
+    loaded_album = album |> Dojinlist.Repo.preload([:edit_history])
+
+    assert 2 == Enum.count(loaded_album.edit_history)
+  end
 end

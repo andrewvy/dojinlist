@@ -78,6 +78,12 @@ defmodule Dojinlist.Albums do
           "albums"
         )
 
+        Dojinlist.EditHistory.new_album_edit(
+          loaded_album.id,
+          loaded_album.creator_user_id,
+          "submitted_album"
+        )
+
         {:ok, loaded_album}
 
       {:error, _field, changeset, _} ->
@@ -104,7 +110,7 @@ defmodule Dojinlist.Albums do
     end)
   end
 
-  def update_album(album, attrs) do
+  def update_album(album, attrs, edited_user_id \\ nil) do
     artist_ids =
       List.wrap(attrs[:artist_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
 
@@ -138,6 +144,12 @@ defmodule Dojinlist.Albums do
           "albums"
         )
 
+        Dojinlist.EditHistory.new_album_edit(
+          loaded_album.id,
+          edited_user_id || loaded_album.creator_user_id,
+          "edit_album"
+        )
+
         {:ok, loaded_album}
 
       {:error, _field, changeset, _} ->
@@ -150,7 +162,7 @@ defmodule Dojinlist.Albums do
     |> Repo.get(id)
   end
 
-  def mark_as_verified(id) do
+  def mark_as_verified(id, user_id \\ nil) do
     get_album(id)
     |> case do
       nil ->
@@ -158,19 +170,27 @@ defmodule Dojinlist.Albums do
         {:error, "Could not find an album with that ID."}
 
       album ->
+        Dojinlist.EditHistory.new_album_edit(id, user_id || album.creator_user_id, "verify_album")
+
         album
         |> Schemas.Album.changeset(%{is_verified: true})
         |> Repo.update()
     end
   end
 
-  def mark_as_unverified(id) do
+  def mark_as_unverified(id, user_id \\ nil) do
     get_album(id)
     |> case do
       nil ->
         {:error, "Could not find an album with that ID."}
 
       album ->
+        Dojinlist.EditHistory.new_album_edit(
+          id,
+          user_id || album.creator_user_id,
+          "unverify_album"
+        )
+
         album
         |> Schemas.Album.changeset(%{is_verified: false})
         |> Repo.update()

@@ -17,6 +17,7 @@ defmodule Dojinlist.Schemas.Album do
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
 
     has_many :ratings, Dojinlist.Schemas.UserRating
+    has_many :edit_history, Dojinlist.Schemas.AlbumEditHistory
 
     belongs_to :creator_user, Dojinlist.Schemas.User
     belongs_to :event, Dojinlist.Schemas.Event
