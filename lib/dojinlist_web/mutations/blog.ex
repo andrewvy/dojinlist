@@ -6,6 +6,7 @@ defmodule DojinlistWeb.Mutations.Blog do
       arg(:title, non_null(:string))
       arg(:slug, non_null(:string))
       arg(:content, non_null(:string))
+      arg(:summary, :string)
 
       middleware(DojinlistWeb.Middlewares.Authorization)
       middleware(DojinlistWeb.Middlewares.Permission, permission: "manage_blog")
@@ -18,6 +19,7 @@ defmodule DojinlistWeb.Mutations.Blog do
       arg(:title, non_null(:string))
       arg(:slug, non_null(:string))
       arg(:content, non_null(:string))
+      arg(:summary, :string)
 
       middleware(Absinthe.Relay.Node.ParseIDs, id: :blog_post)
       middleware(DojinlistWeb.Middlewares.Authorization)

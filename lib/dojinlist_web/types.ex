@@ -77,6 +77,7 @@ defmodule DojinlistWeb.Types do
     field :title, :string
     field :slug, :string
     field :content, :string
+    field :summary, :string
 
     field :author, :user do
       resolve(fn post, _, _ ->

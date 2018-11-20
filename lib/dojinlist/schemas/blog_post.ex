@@ -9,6 +9,7 @@ defmodule Dojinlist.Schemas.BlogPost do
     field :title, :string
     field :slug, :string
     field :content, :string
+    field :summary, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -19,7 +20,8 @@ defmodule Dojinlist.Schemas.BlogPost do
       :user_id,
       :title,
       :slug,
-      :content
+      :content,
+      :summary
     ])
     |> validate_required([:user_id, :title, :slug, :content])
     |> unique_constraint(:slug)
