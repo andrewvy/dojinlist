@@ -16,6 +16,7 @@ defmodule DojinlistWeb.Schema do
   import_types(DojinlistWeb.Mutations.Event)
   import_types(DojinlistWeb.Mutations.Permission)
   import_types(DojinlistWeb.Mutations.Me)
+  import_types(DojinlistWeb.Mutations.Blog)
 
   query do
     connection field :albums, node_type: :album do
@@ -47,6 +48,12 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Me.fetch/2)
     end
 
+    field :blog_post, :blog_post do
+      arg(:slug, non_null(:string))
+
+      resolve(&Resolvers.Blog.by_slug/2)
+    end
+
     connection field :artists, node_type: :artist do
       resolve(&Resolvers.Artist.all/2)
     end
@@ -57,6 +64,10 @@ defmodule DojinlistWeb.Schema do
 
     connection field :events, node_type: :event do
       resolve(&Resolvers.Event.all/2)
+    end
+
+    connection field :blog_posts, node_type: :blog_post do
+      resolve(&Resolvers.Blog.all/2)
     end
   end
 
@@ -86,6 +97,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:event_mutations)
     import_fields(:permission_mutations)
     import_fields(:me_mutations)
+    import_fields(:blog_mutations)
   end
 
   node interface do
@@ -107,6 +119,9 @@ defmodule DojinlistWeb.Schema do
 
       %Dojinlist.Schemas.UserRating{}, _ ->
         :rating
+
+      %Dojinlist.Schemas.BlogPost{}, _ ->
+        :blog_post
 
       _, _ ->
         nil

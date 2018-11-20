@@ -71,6 +71,23 @@ defmodule DojinlistWeb.Types do
 
   connection(node_type: :rating)
 
+  connection(node_type: :blog_post)
+
+  node object(:blog_post) do
+    field :title, :string
+    field :slug, :string
+    field :content, :string
+
+    field :author, :user do
+      resolve(fn post, _, _ ->
+        {:ok, post.user}
+      end)
+    end
+
+    field :inserted_at, :datetime
+    field :updated_at, :datetime
+  end
+
   node object(:artist) do
     field :uuid, :string
     field :name, :string
