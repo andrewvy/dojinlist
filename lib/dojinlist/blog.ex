@@ -13,6 +13,17 @@ defmodule Dojinlist.Blog do
     |> Repo.insert()
   end
 
+  def update_post(post, attrs) do
+    post
+    |> BlogPost.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def by_id(id) do
+    BlogPost
+    |> Repo.get(id)
+  end
+
   def by_slug(slug) do
     all_posts_query()
     |> where([p], p.slug == ^slug)
