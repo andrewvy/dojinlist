@@ -55,10 +55,14 @@ defmodule DojinlistWeb.Schema do
     end
 
     connection field :artists, node_type: :artist do
+      arg(:search, :string)
+
       resolve(&Resolvers.Artist.all/2)
     end
 
     connection field :genres, node_type: :genre do
+      arg(:search, :string)
+
       resolve(&Resolvers.Genre.all/2)
     end
 
