@@ -30,7 +30,8 @@ config :dojinlist, Dojinlist.ElasticsearchCluster,
   username: "elastic",
   password: "changeme",
   api: Elasticsearch.API.HTTP,
-  json_library: Jason
+  json_library: Jason,
+  default_opts: [recv_timeout: 20000]
 
 config :arc,
   storage: Arc.Storage.S3,
