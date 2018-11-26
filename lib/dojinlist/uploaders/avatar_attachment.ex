@@ -42,7 +42,7 @@ defmodule Dojinlist.AvatarAttachment do
     (:crypto.strong_rand_bytes(20) |> Base.url_encode64() |> binary_part(0, 20)) <> name
   end
 
-  def storage_dir(version, {file, _scope}) do
+  def storage_dir(_version, {_file, _scope}) do
     "uploads/avatars"
   end
 end

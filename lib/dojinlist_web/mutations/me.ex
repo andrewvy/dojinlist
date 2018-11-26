@@ -14,7 +14,7 @@ defmodule DojinlistWeb.Mutations.Me do
   def upload_avatar(attrs, %{context: %{current_user: current_user}}) do
     with {:ok, avatar} <- handle_avatar(attrs[:avatar]),
          attrs = %{avatar: avatar},
-         {:ok, user} <- Dojinlist.Accounts.update(current_user, attrs) do
+         {:ok, user} <- Dojinlist.Accounts.update_user(current_user, attrs) do
       {:ok, user}
     else
       {:error, _} = error -> error

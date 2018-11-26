@@ -37,6 +37,11 @@ config :arc,
   storage: Arc.Storage.S3,
   bucket: "dojinlist-uploads"
 
+config :dojinlist, Dojinlist.Mailer, adapter: Bamboo.LocalAdapter
+
+config :dojinlist,
+  web_url: "https://localhost:4001"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

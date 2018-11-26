@@ -89,6 +89,12 @@ defmodule DojinlistWeb.Types do
     field :updated_at, :datetime
   end
 
+  connection(node_type: :lite_album)
+
+  node object(:lite_album) do
+    field :name, :string
+  end
+
   node object(:artist) do
     field :uuid, :string
     field :name, :string

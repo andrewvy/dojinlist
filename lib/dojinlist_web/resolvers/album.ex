@@ -4,6 +4,26 @@ defmodule DojinlistWeb.Resolvers.Album do
     Permissions
   }
 
+  def suggest(%{suggestion: suggestion} = params, _) do
+    Dojinlist.AlbumSearch.with_name_suggest(suggestion)
+    |> IO.inspect()
+    |> case do
+      {:ok, search} ->
+        docs =
+          search["suggest"]["name_suggest"]
+          |> Enum.map(fn doc ->
+            doc["_source"]
+          end)
+          |> Enum.reject(&is_nil/1)
+
+        docs
+        |> Absinthe.Relay.Connection.from_list(params)
+
+      _ ->
+        {:error, "Could not search albums at this time."}
+    end
+  end
+
   def all(params, _) do
     Dojinlist.Schemas.Album
     |> Dojinlist.Schemas.Album.where_verified?()
