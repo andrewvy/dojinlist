@@ -40,7 +40,7 @@ config :arc,
 config :dojinlist, Dojinlist.Mailer, adapter: Bamboo.LocalAdapter
 
 config :dojinlist,
-  web_url: "https://localhost:4001"
+  web_url: "http://localhost:3000"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
