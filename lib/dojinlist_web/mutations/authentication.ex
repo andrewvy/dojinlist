@@ -25,6 +25,10 @@ defmodule DojinlistWeb.Mutations.Authentication do
     end
   end
 
+  def confirm_email(%{token: token}, _) do
+    Dojinlist.Accounts.confirm_email_by_token(token)
+  end
+
   def transform_user(user) do
     Map.take(user, [:id, :username, :email])
   end

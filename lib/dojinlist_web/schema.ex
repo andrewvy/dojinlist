@@ -100,6 +100,12 @@ defmodule DojinlistWeb.Schema do
       resolve(&Mutations.Authentication.register/2)
     end
 
+    field :confirm_email, type: :user do
+      arg(:token, non_null(:string))
+
+      resolve(&Mutations.Authentication.confirm_email/2)
+    end
+
     import_fields(:album_mutations)
     import_fields(:artist_mutations)
     import_fields(:genre_mutations)
