@@ -141,6 +141,9 @@ defmodule DojinlistWeb.Schema do
       %Dojinlist.Schemas.BlogPost{}, _ ->
         :blog_post
 
+      %Dojinlist.Schemas.UserLikeRating{}, _ ->
+        :rating_like
+
       _, _ ->
         nil
     end)

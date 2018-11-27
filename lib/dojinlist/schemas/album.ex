@@ -12,6 +12,7 @@ defmodule Dojinlist.Schemas.Album do
     field :purchase_url, :string
     field :is_verified, :boolean, default: false
     field :cover_art, :string
+    field :release_date, :date
 
     many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
@@ -50,7 +51,8 @@ defmodule Dojinlist.Schemas.Album do
       :event_id,
       :is_verified,
       :cover_art,
-      :creator_user_id
+      :creator_user_id,
+      :release_date
     ])
     |> validate_required([:name])
   end

@@ -10,6 +10,7 @@ defmodule DojinlistWeb.Mutations.Album do
       arg(:genre_ids, list_of(:id))
       arg(:event_id, :id)
       arg(:cover_art, :upload)
+      arg(:release_date, :date)
 
       middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
       middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
