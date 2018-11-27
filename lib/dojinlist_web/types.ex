@@ -148,4 +148,9 @@ defmodule DojinlistWeb.Types do
   object :register_response do
     field :user, :user
   end
+
+  object :rating_like do
+    field :user_id, :user
+    field :rating_id, :rating
+  end
 end

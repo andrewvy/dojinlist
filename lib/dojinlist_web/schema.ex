@@ -17,6 +17,7 @@ defmodule DojinlistWeb.Schema do
   import_types(DojinlistWeb.Mutations.Permission)
   import_types(DojinlistWeb.Mutations.Me)
   import_types(DojinlistWeb.Mutations.Blog)
+  import_types(DojinlistWeb.Mutations.Like)
 
   query do
     connection field :albums, node_type: :album do
@@ -114,6 +115,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:permission_mutations)
     import_fields(:me_mutations)
     import_fields(:blog_mutations)
+    import_fields(:like_mutations)
   end
 
   node interface do
