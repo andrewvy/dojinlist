@@ -49,7 +49,7 @@ defmodule Dojinlist.Accounts do
       {:ok, user} ->
         user
         |> Dojinlist.Emails.confirmation_email()
-        |> Dojinlist.Mailer.deliver_later()
+        |> Dojinlist.Mailer.deliver()
 
         {:ok, user}
 

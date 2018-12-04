@@ -37,7 +37,7 @@ config :arc,
   storage: Arc.Storage.S3,
   bucket: "dojinlist-uploads"
 
-config :dojinlist, Dojinlist.Mailer, adapter: Bamboo.LocalAdapter
+config :dojinlist, Dojinlist.Mailer, adapter: Swoosh.Adapters.Local
 
 config :dojinlist,
   web_url: "http://localhost:3000"

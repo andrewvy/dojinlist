@@ -1,12 +1,12 @@
 defmodule Dojinlist.Emails do
-  import Bamboo.Email
+  import Swoosh.Email
 
   def confirmation_email(user) do
-    new_email(
-      to: user.email,
-      from: "Dojinlist <team@dojinlist.co>",
-      subject: "Confirm your email with Dojinlist",
-      html_body: """
+    new()
+    |> to({user.username, user.email})
+    |> from({"Dojinlist", "team@dojinlist.co"})
+    |> subject("Confirm your email with Dojinlist")
+    |> html_body("""
       <html>
           <head></head>
           <body>
@@ -15,15 +15,14 @@ defmodule Dojinlist.Emails do
             <a href="#{base_url() <> "/confirm/email?token=" <> user.confirmation_token}">Click here to confirm your email</a>
           </body>
       </html>
-      """,
-      text_body: """
-      Thanks for signing up with dojinlist.co!
+    """)
+    |> text_body("""
+    Thanks for signing up with dojinlist.co!
 
-      Please confirm your email at the link: #{
-        base_url() <> "/confirm/email?token=" <> user.confirmation_token
-      }
-      """
-    )
+    Please confirm your email at the link: #{
+      base_url() <> "/confirm/email?token=" <> user.confirmation_token
+    }
+    """)
   end
 
   defp base_url() do
