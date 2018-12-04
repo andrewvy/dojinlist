@@ -4,15 +4,15 @@ defmodule Dojinlist.Emails do
   def confirmation_email(user) do
     new_email(
       to: user.email,
-      from: "team@dojinlist.co",
+      from: "Dojinlist <team@dojinlist.co>",
       subject: "Confirm your email with Dojinlist",
       html_body: """
       <html>
           <head></head>
           <body>
-            <p>Hi <%= @user.username %>,</p>
+            <p>Hey #{user.username},</p>
             <p>Thanks for signing up with dojinlist.co! Please confirm your email by clicking the link below.</p>
-            <a href="#{base_url() <> "/confirm/email?token=" <> user.confirmation_token}">Confirm your email</a>
+            <a href="#{base_url() <> "/confirm/email?token=" <> user.confirmation_token}">Click here to confirm your email</a>
           </body>
       </html>
       """,
