@@ -1,7 +1,6 @@
 defmodule Dojinlist.Schemas.Track do
   use Ecto.Schema
 
-  import Ecto.Query
   import Ecto.Changeset
 
   schema "tracks" do

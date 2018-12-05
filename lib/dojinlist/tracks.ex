@@ -22,7 +22,7 @@ defmodule Dojinlist.Tracks do
   end
 
   def update_track(track, attrs) do
-    %Schemas.Track{}
+    track
     |> Schemas.Track.changeset(attrs)
     |> Repo.update()
   end
