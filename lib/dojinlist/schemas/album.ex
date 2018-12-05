@@ -19,6 +19,7 @@ defmodule Dojinlist.Schemas.Album do
 
     has_many :ratings, Dojinlist.Schemas.UserRating
     has_many :edit_history, Dojinlist.Schemas.AlbumEditHistory
+    has_many :tracks, Dojinlist.Schemas.Track
 
     belongs_to :creator_user, Dojinlist.Schemas.User
     belongs_to :event, Dojinlist.Schemas.Event
