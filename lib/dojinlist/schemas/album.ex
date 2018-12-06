@@ -39,7 +39,7 @@ defmodule Dojinlist.Schemas.Album do
 
   def preload(query) do
     query
-    |> preload([o], [:artists, :genres, :event, :ratings])
+    |> preload([o], [:artists, :genres, :event, :ratings, :tracks])
   end
 
   def changeset(album, attrs) do

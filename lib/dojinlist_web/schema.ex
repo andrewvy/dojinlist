@@ -149,6 +149,14 @@ defmodule DojinlistWeb.Schema do
     end)
   end
 
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Dojinlist.Source, Dojinlist.Source.data())
+
+    Map.put(ctx, :loader, loader)
+  end
+
   def plugins do
     [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end

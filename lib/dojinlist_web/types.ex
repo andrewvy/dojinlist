@@ -5,6 +5,8 @@ defmodule DojinlistWeb.Types do
   alias Dojinlist.Repo
   alias DojinlistWeb.Resolvers
 
+  import Absinthe.Resolution.Helpers
+
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
 
@@ -39,8 +41,9 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
-    field :genres, list_of(:genre)
-    field :artists, list_of(:artist)
+    field :genres, list_of(:genre), resolve: dataloader(Dojinlist.Source)
+    field :artists, list_of(:artist), resolve: dataloader(Dojinlist.Source)
+    field :tracks, list_of(:track), resolve: dataloader(Dojinlist.Source)
   end
 
   connection(node_type: :genre)
@@ -98,6 +101,13 @@ defmodule DojinlistWeb.Types do
   node object(:artist) do
     field :uuid, :string
     field :name, :string
+  end
+
+  object :track do
+    field :title, :string
+    field :kana_title, :string
+    field :play_length, :integer
+    field :album, :album, resolve: dataloader(Dojinlist.Source)
   end
 
   object :me do
