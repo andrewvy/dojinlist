@@ -9,15 +9,16 @@ defmodule DojinlistWeb.Schema do
   }
 
   import_types(DojinlistWeb.Types)
-  import_types(DojinlistWeb.Mutations.Album)
-  import_types(DojinlistWeb.Mutations.Genre)
-  import_types(DojinlistWeb.Mutations.Artist)
-  import_types(DojinlistWeb.Mutations.Rating)
-  import_types(DojinlistWeb.Mutations.Event)
-  import_types(DojinlistWeb.Mutations.Permission)
-  import_types(DojinlistWeb.Mutations.Me)
-  import_types(DojinlistWeb.Mutations.Blog)
-  import_types(DojinlistWeb.Mutations.Like)
+  import_types(Mutations.Album)
+  import_types(Mutations.Artist)
+  import_types(Mutations.Blog)
+  import_types(Mutations.Event)
+  import_types(Mutations.Genre)
+  import_types(Mutations.Like)
+  import_types(Mutations.Me)
+  import_types(Mutations.Permission)
+  import_types(Mutations.Rating)
+  import_types(Mutations.Track)
 
   query do
     connection field :albums, node_type: :album do
@@ -109,13 +110,14 @@ defmodule DojinlistWeb.Schema do
 
     import_fields(:album_mutations)
     import_fields(:artist_mutations)
-    import_fields(:genre_mutations)
-    import_fields(:rating_mutations)
-    import_fields(:event_mutations)
-    import_fields(:permission_mutations)
-    import_fields(:me_mutations)
     import_fields(:blog_mutations)
+    import_fields(:event_mutations)
+    import_fields(:genre_mutations)
     import_fields(:like_mutations)
+    import_fields(:me_mutations)
+    import_fields(:permission_mutations)
+    import_fields(:rating_mutations)
+    import_fields(:track_mutations)
   end
 
   node interface do
@@ -143,6 +145,9 @@ defmodule DojinlistWeb.Schema do
 
       %Dojinlist.Schemas.UserLikeRating{}, _ ->
         :rating_like
+
+      %Dojinlist.Schemas.Track{}, _ ->
+        :track
 
       _, _ ->
         nil

@@ -103,7 +103,7 @@ defmodule DojinlistWeb.Types do
     field :name, :string
   end
 
-  object :track do
+  node object(:track) do
     field :title, :string
     field :kana_title, :string
     field :play_length, :integer
@@ -162,5 +162,11 @@ defmodule DojinlistWeb.Types do
   object :rating_like do
     field :user_id, :user
     field :rating_id, :rating
+  end
+
+  input_object :track_input do
+    field :title, :string
+    field :kana_title, non_null(:string)
+    field :play_length, :integer
   end
 end

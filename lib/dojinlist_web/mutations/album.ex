@@ -11,6 +11,7 @@ defmodule DojinlistWeb.Mutations.Album do
       arg(:event_id, :id)
       arg(:cover_art, :upload)
       arg(:release_date, :date)
+      arg(:tracks, list_of(:track_input))
 
       middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
       middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
@@ -59,7 +60,13 @@ defmodule DojinlistWeb.Mutations.Album do
   defp handle_create_album(attrs) do
     case Dojinlist.Albums.create_album(attrs) do
       {:ok, album} ->
-        {:ok, Dojinlist.Repo.preload(album, [:event, :artists, :genres])}
+        attrs
+        |> Map.get(:tracks, [])
+        |> Enum.map(fn track_input ->
+          Dojinlist.Tracks.create_track(album.id, track_input)
+        end)
+
+        {:ok, album}
 
       {:error, _changeset} ->
         # @TODO(vy): i18n
