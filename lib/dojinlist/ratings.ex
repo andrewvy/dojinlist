@@ -19,6 +19,16 @@ defmodule Dojinlist.Ratings do
     |> Repo.insert()
   end
 
+  def get_by_id(id) do
+    Schemas.UserRating
+    |> Repo.get(id)
+  end
+
+  def delete_rating(rating) do
+    rating
+    |> Repo.delete()
+  end
+
   def get_album_rating(user, album) do
     Schemas.UserRating
     |> where([ur], ur.user_id == ^user.id and ur.album_id == ^album.id)
