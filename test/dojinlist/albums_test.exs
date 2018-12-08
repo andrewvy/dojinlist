@@ -4,7 +4,8 @@ defmodule Dojinlist.AlbumsTest do
   alias Dojinlist.{
     Artists,
     Genres,
-    Albums
+    Albums,
+    Repo
   }
 
   test "Can create a new album" do
@@ -83,8 +84,59 @@ defmodule Dojinlist.AlbumsTest do
 
     Albums.update_album(album, %{name: "New Name"}, user.id)
 
-    loaded_album = album |> Dojinlist.Repo.preload([:edit_history])
+    loaded_album = album |> Repo.preload([:edit_history])
 
     assert 2 == Enum.count(loaded_album.edit_history)
+  end
+
+  test "Can add external album links" do
+    {:ok, album} =
+      Albums.create_album(%{
+        name: "External Album Link",
+        external_links: [
+          %{
+            url: "https://",
+            type: "store_digital_only"
+          }
+        ]
+      })
+
+    album = Repo.preload(album, [:external_links])
+
+    assert 1 == Enum.count(album.external_links)
+  end
+
+  test "Can replace external album links" do
+    {:ok, album} =
+      Albums.create_album(%{
+        name: "External Album Link",
+        external_links: [
+          %{
+            url: "https://external-album.link/1",
+            type: "store_digital_only"
+          }
+        ]
+      })
+
+    album = Repo.preload(album, [:external_links])
+    [external_link] = album.external_links
+
+    assert "https://external-album.link/1" == external_link.url
+
+    {:ok, album} =
+      Albums.update_album(album, %{
+        external_links: [
+          %{
+            Map.from_struct(external_link)
+            | url: "https://external-album.link/2"
+          }
+        ]
+      })
+
+    album = Repo.preload(album, [:external_links])
+    [external_link] = album.external_links
+
+    assert 1 == Enum.count(album.external_links)
+    assert "https://external-album.link/2" == external_link.url
   end
 end

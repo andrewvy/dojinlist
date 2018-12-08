@@ -17,6 +17,7 @@ defmodule Dojinlist.Schemas.ExternalAlbumLink do
       :type,
       :album_id
     ])
+    |> update_change(:type, &String.downcase/1)
     |> validate_inclusion(:type, link_types())
     |> validate_required([
       :url,

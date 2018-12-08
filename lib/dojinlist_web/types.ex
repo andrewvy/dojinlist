@@ -44,6 +44,7 @@ defmodule DojinlistWeb.Types do
     field :genres, list_of(:genre), resolve: dataloader(Dojinlist.Source)
     field :artists, list_of(:artist), resolve: dataloader(Dojinlist.Source)
     field :tracks, list_of(:track), resolve: dataloader(Dojinlist.Source)
+    field :external_links, list_of(:external_album_link), resolve: dataloader(Dojinlist.Source)
   end
 
   connection(node_type: :genre)
@@ -110,6 +111,26 @@ defmodule DojinlistWeb.Types do
     field :album, :album, resolve: dataloader(Dojinlist.Source)
   end
 
+  node object(:external_album_link) do
+    field :url, :string
+    field :type, :external_album_link_type
+  end
+
+  enum :external_album_link_type do
+    value(:official, as: "official", description: "A link to official resources")
+    value(:store, as: "store", description: "A link to a store page")
+
+    value(:store_physical_only,
+      as: "store_physical_only",
+      description: "A link to a store page, strictly for physical-only purchase"
+    )
+
+    value(:store_digital_only,
+      as: "store_digital_only",
+      description: "A link to a store page, strictly for digital-only purchase"
+    )
+  end
+
   object :me do
     field :username, :string
     field :email, :string
@@ -162,6 +183,24 @@ defmodule DojinlistWeb.Types do
   object :rating_like do
     field :user_id, :user
     field :rating_id, :rating
+  end
+
+  input_object :album_input do
+    field :name, non_null(:string)
+    field :sample_url, :string
+    field :purchase_url, :string
+    field :artist_ids, list_of(:id)
+    field :genre_ids, list_of(:id)
+    field :event_id, :id
+    field :cover_art, :upload
+    field :release_date, :date
+    field :tracks, list_of(:track_input)
+    field :external_links, list_of(:external_album_link_input)
+  end
+
+  input_object :external_album_link_input do
+    field :url, :string
+    field :type, :external_album_link_type
   end
 
   input_object :track_input do

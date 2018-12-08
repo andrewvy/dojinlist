@@ -34,4 +34,28 @@ defmodule Dojinlist.Fixtures do
     |> Map.merge(attrs)
     |> Dojinlist.Events.create_event()
   end
+
+  def grant_all_permissions_to_user(user) do
+    Dojinlist.Permissions.get_permissions()
+    |> Enum.map(fn permission ->
+      Dojinlist.Permissions.add_permission_to_user(user, permission.type)
+    end)
+
+    user
+  end
+
+  def login_as(conn, user) do
+    token = Dojinlist.Authentication.generate_token(user.id)
+
+    conn
+    |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+  end
+
+  def create_and_login_as_admin(conn) do
+    {:ok, user} = user()
+    user = grant_all_permissions_to_user(user)
+
+    conn
+    |> login_as(user)
+  end
 end

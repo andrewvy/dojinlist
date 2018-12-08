@@ -20,6 +20,7 @@ defmodule Dojinlist.Schemas.Album do
     has_many :ratings, Dojinlist.Schemas.UserRating
     has_many :edit_history, Dojinlist.Schemas.AlbumEditHistory
     has_many :tracks, Dojinlist.Schemas.Track
+    has_many :external_links, Dojinlist.Schemas.ExternalAlbumLink, on_replace: :delete
 
     belongs_to :creator_user, Dojinlist.Schemas.User
     belongs_to :event, Dojinlist.Schemas.Event
@@ -55,6 +56,7 @@ defmodule Dojinlist.Schemas.Album do
       :creator_user_id,
       :release_date
     ])
+    |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
     |> validate_required([:name])
   end
 end

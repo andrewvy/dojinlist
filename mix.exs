@@ -38,8 +38,6 @@ defmodule Dojinlist.MixProject do
       {:absinthe_relay, github: "absinthe-graphql/absinthe_relay"},
       {:arc, "~> 0.11.0"},
       {:argon2_elixir, "~> 1.2"},
-      {:swoosh, "~> 0.20"},
-      {:gen_smtp, "~> 0.13.0"},
       {:corsica, "~> 1.0"},
       {:dataloader, "~> 1.0.0"},
       {:distillery, "~> 2.0"},
@@ -50,6 +48,7 @@ defmodule Dojinlist.MixProject do
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:faker, "~> 0.11.0", only: :test},
+      {:gen_smtp, "~> 0.13.0"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.6"},
       {:httpoison, ">= 0.0.0"},
@@ -61,6 +60,7 @@ defmodule Dojinlist.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.1"},
+      {:swoosh, "~> 0.20"},
       {:postgrex, ">= 0.0.0"},
       {:sweet_xml, "~> 0.6"}
     ]

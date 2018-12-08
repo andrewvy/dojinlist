@@ -3,15 +3,7 @@ defmodule DojinlistWeb.Mutations.Album do
 
   object :album_mutations do
     field :create_album, type: :album do
-      arg(:name, non_null(:string))
-      arg(:sample_url, :string)
-      arg(:purchase_url, :string)
-      arg(:artist_ids, list_of(:id))
-      arg(:genre_ids, list_of(:id))
-      arg(:event_id, :id)
-      arg(:cover_art, :upload)
-      arg(:release_date, :date)
-      arg(:tracks, list_of(:track_input))
+      arg(:album, non_null(:album_input))
 
       middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
       middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
@@ -38,9 +30,9 @@ defmodule DojinlistWeb.Mutations.Album do
     end
   end
 
-  def create_album(attrs, %{context: %{current_user: user}}) do
-    with {:ok, cover_art} <- handle_cover_art(attrs[:cover_art]),
-         merged_attrs = Map.merge(attrs, %{cover_art: cover_art, creator_user_id: user.id}),
+  def create_album(%{album: album_attrs}, %{context: %{current_user: user}}) do
+    with {:ok, cover_art} <- handle_cover_art(album_attrs[:cover_art]),
+         merged_attrs = Map.merge(album_attrs, %{cover_art: cover_art, creator_user_id: user.id}),
          {:ok, album} <- handle_create_album(merged_attrs) do
       {:ok, Dojinlist.Repo.preload(album, [:event, :artists, :genres])}
     else
