@@ -69,4 +69,19 @@ defmodule Dojinlist.AlbumSearch do
       }
     })
   end
+
+  def with_track_name(track_name) do
+    Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
+      "query" => %{
+        "nested" => %{
+          "path" => "tracks",
+          "query" => %{
+            "match_phrase" => %{
+              "tracks.title" => track_name
+            }
+          }
+        }
+      }
+    })
+  end
 end

@@ -25,7 +25,18 @@
           "type": "long"
         },
         "tracks": {
-          "type": "nested"
+          "type": "nested",
+          "properties": {
+            "title": {
+              "type": "text"
+            },
+            "kana_title": {
+              "type": "text"
+            },
+            "play_length": {
+              "type": "long"
+            }
+          }
         }
       }
     }
