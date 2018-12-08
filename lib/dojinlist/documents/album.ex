@@ -12,9 +12,18 @@ defimpl Elasticsearch.Document, for: Dojinlist.Schemas.Album do
       },
       artists: Enum.map(album.artists, & &1.id),
       genres: Enum.map(album.genres, & &1.id),
+      tracks: Enum.map(album.tracks, &encode_track(&1)),
       event_id: album.event_id
     }
     |> add_kana_name(album)
+  end
+
+  def encode_track(track) do
+    %{
+      title: track.title,
+      kana_title: track.kana_title,
+      play_length: track.play_length
+    }
   end
 
   def add_kana_name(doc, %{kana_name: nil}), do: doc

@@ -23,6 +23,9 @@
         },
         "event_id": {
           "type": "long"
+        },
+        "tracks": {
+          "type": "nested"
         }
       }
     }
