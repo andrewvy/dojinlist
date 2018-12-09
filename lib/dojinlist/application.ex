@@ -12,7 +12,8 @@ defmodule Dojinlist.Application do
       Dojinlist.Repo,
       # Start the endpoint when the application starts
       DojinlistWeb.Endpoint,
-      Dojinlist.ElasticsearchCluster
+      Dojinlist.ElasticsearchCluster,
+      Dojinlist.Ratings.Store
       # Starts a worker by calling: Dojinlist.Worker.start_link(arg)
       # {Dojinlist.Worker, arg},
     ]
