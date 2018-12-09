@@ -23,6 +23,12 @@ defmodule DojinlistWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint DojinlistWeb.Endpoint
+
+      def execute_graphql(conn, query, variables) do
+        conn
+        |> post(@endpoint, %{query: query, variables: variables})
+        |> json_response(200)
+      end
     end
   end
 

@@ -34,8 +34,7 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
     response =
       build_conn()
       |> Fixtures.create_and_login_as_admin()
-      |> post(@endpoint, %{query: @query, variables: variables})
-      |> json_response(200)
+      |> execute_graphql(@query, variables)
 
     assert %{"data" => %{"albums" => %{"edges" => [edge]}}} = response
     assert %{"node" => %{"event" => %{"id" => ^event_id}}} = edge

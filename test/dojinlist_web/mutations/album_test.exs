@@ -21,8 +21,7 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     response =
       build_conn()
       |> Fixtures.create_and_login_as_admin()
-      |> post(@endpoint, %{query: query, variables: variables})
-      |> json_response(200)
+      |> execute_graphql(query, variables)
 
     assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response
   end
@@ -55,8 +54,7 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     response =
       build_conn()
       |> Fixtures.create_and_login_as_admin()
-      |> post(@endpoint, %{query: query, variables: variables})
-      |> json_response(200)
+      |> execute_graphql(query, variables)
 
     assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response
 

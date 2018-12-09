@@ -27,16 +27,14 @@ defmodule DojinlistWeb.Resolvers.EventTest do
 
     response =
       conn
-      |> post(@endpoint, %{query: @query, variables: %{name: "Test"}})
-      |> json_response(200)
+      |> execute_graphql(@query, %{name: "Test"})
 
     assert %{"data" => %{"events" => %{"edges" => events}}} = response
     assert 3 == Enum.count(events)
 
     response =
       conn
-      |> post(@endpoint, %{query: @query, variables: %{name: "Alpha"}})
-      |> json_response(200)
+      |> execute_graphql(@query, %{name: "Alpha"})
 
     assert %{"data" => %{"events" => %{"edges" => [event]}}} = response
     assert %{"node" => %{"name" => "Test Alpha"}} = event
