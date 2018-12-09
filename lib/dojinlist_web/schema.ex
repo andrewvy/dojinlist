@@ -26,9 +26,11 @@ defmodule DojinlistWeb.Schema do
       arg(:genre_ids, list_of(:id))
       arg(:artist_names, list_of(:string))
       arg(:genre_names, list_of(:string))
+      arg(:event_id, :id)
 
       middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
       middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
+      middleware(Absinthe.Relay.Node.ParseIDs, event_id: :event)
 
       resolve(&Resolvers.Album.all/2)
     end
