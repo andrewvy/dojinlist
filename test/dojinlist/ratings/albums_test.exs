@@ -31,6 +31,7 @@ defmodule Dojinlist.Ratings.AlbumsTest do
     score_2 = Dojinlist.Ratings.Store.get(:albums, album_2.id)
     score_3 = Dojinlist.Ratings.Store.get(:albums, album_3.id)
 
-    assert [^score_1, ^score_2, ^score_3] = Enum.sort([score_1, score_2, score_3])
+    assert [{_, ^score_3}, {_, ^score_2}, {_, ^score_1}] =
+             Dojinlist.Ratings.Store.top(:albums, 10)
   end
 end
