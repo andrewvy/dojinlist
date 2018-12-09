@@ -77,6 +77,8 @@ defmodule DojinlistWeb.Schema do
     end
 
     connection field :events, node_type: :event do
+      arg(:name, :string)
+
       resolve(&Resolvers.Event.all/2)
     end
 

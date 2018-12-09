@@ -22,4 +22,9 @@ defmodule Dojinlist.Events do
     |> where([o], o.name == ^name)
     |> Repo.one()
   end
+
+  def by_name(name) do
+    Schemas.Event
+    |> where([e], ilike(e.name, ^"%#{name}%"))
+  end
 end
