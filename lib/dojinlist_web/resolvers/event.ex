@@ -1,8 +1,8 @@
 defmodule DojinlistWeb.Resolvers.Event do
   alias Dojinlist.Events
 
-  def all(%{name: name} = params, _) do
-    Events.by_name(name)
+  def all(%{search: search} = params, _) do
+    Events.by_name(search)
     |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
   end
 

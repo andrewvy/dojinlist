@@ -73,11 +73,27 @@ defmodule Dojinlist.Ratings.Albums do
           value + acc
         end)
 
-      score = sum_of_weighted_prior / number_of_votes
+      lifetime_score = sum_of_weighted_prior / number_of_votes
 
-      Store.insert(:albums, album.id, score)
+      rate = 1 / 3_600
 
-      score
+      timed_score =
+        album.ratings
+        |> Enum.reject(&(&1.rating == nil || &1.rating == 0))
+        |> Enum.reduce(1, fn rating, acc ->
+          inserted_at = rating.inserted_at
+          t = DateTime.to_unix(inserted_at, :second)
+
+          u = :erlang.max(acc + rating.rating, rate * t)
+          v = :erlang.min(acc + rating.rating, rate * t)
+
+          acc + u + :math.log(1 + :math.exp(v - u))
+        end)
+
+      Store.insert(:albums_lifetime_scores, album.id, lifetime_score)
+      Store.insert(:albums_timed_scores, album.id, timed_score)
+
+      {lifetime_score, timed_score}
     end)
   end
 

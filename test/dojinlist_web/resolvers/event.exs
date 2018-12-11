@@ -4,8 +4,8 @@ defmodule DojinlistWeb.Resolvers.EventTest do
   alias Dojinlist.Fixtures
 
   @query """
-    query SearchEvents($name: String!) {
-      events(first: 25, name: $name) {
+    query SearchEvents($search: String!) {
+      events(first: 25, search: $search) {
         edges {
           node {
             id
@@ -27,14 +27,14 @@ defmodule DojinlistWeb.Resolvers.EventTest do
 
     response =
       conn
-      |> execute_graphql(@query, %{name: "Test"})
+      |> execute_graphql(@query, %{search: "Test"})
 
     assert %{"data" => %{"events" => %{"edges" => events}}} = response
     assert 3 == Enum.count(events)
 
     response =
       conn
-      |> execute_graphql(@query, %{name: "Alpha"})
+      |> execute_graphql(@query, %{search: "Alpha"})
 
     assert %{"data" => %{"events" => %{"edges" => [event]}}} = response
     assert %{"node" => %{"name" => "Test Alpha"}} = event
