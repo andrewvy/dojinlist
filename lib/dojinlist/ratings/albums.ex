@@ -100,8 +100,17 @@ defmodule Dojinlist.Ratings.Albums do
         album.artists
         |> Enum.map(& &1.id)
 
-      Store.insert(:albums_lifetime_scores, album.id, {lifetime_score, genre_ids, artist_ids})
-      Store.insert(:albums_timed_scores, album.id, {timed_score, genre_ids, artist_ids})
+      Store.insert(
+        :albums_lifetime_scores,
+        album.id,
+        {lifetime_score, genre_ids, artist_ids, [album.event_id]}
+      )
+
+      Store.insert(
+        :albums_timed_scores,
+        album.id,
+        {timed_score, genre_ids, artist_ids, [album.event_id]}
+      )
 
       {lifetime_score, timed_score}
     end)
@@ -109,9 +118,47 @@ defmodule Dojinlist.Ratings.Albums do
 
   def top_by_genre_id(type, genre_id, count) do
     {_total, _max, result} =
-      Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, genres, _}} = element,
+      Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, genres, _, _}} = element,
                                                             {current_count, max, list} = acc ->
         if Enum.any?(genres, &(&1 == genre_id)) do
+          if current_count + 1 == max do
+            {:halt, {max, max, [element | list]}}
+          else
+            {:cont, {current_count + 1, max, [element | list]}}
+          end
+        else
+          {:cont, acc}
+        end
+      end)
+
+    result
+    |> Enum.reverse()
+  end
+
+  def top_by_artist_id(type, artist_id, count) do
+    {_total, _max, result} =
+      Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, _, artists, _}} = element,
+                                                            {current_count, max, list} = acc ->
+        if Enum.any?(artists, &(&1 == artist_id)) do
+          if current_count + 1 == max do
+            {:halt, {max, max, [element | list]}}
+          else
+            {:cont, {current_count + 1, max, [element | list]}}
+          end
+        else
+          {:cont, acc}
+        end
+      end)
+
+    result
+    |> Enum.reverse()
+  end
+
+  def top_by_event_id(type, event_id, count) do
+    {_total, _max, result} =
+      Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, _, _, events}} = element,
+                                                            {current_count, max, list} = acc ->
+        if Enum.any?(events, &(&1 == event_id)) do
           if current_count + 1 == max do
             {:halt, {max, max, [element | list]}}
           else

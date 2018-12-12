@@ -4,6 +4,7 @@ defmodule Dojinlist.Ratings.AlbumsTest do
   alias Dojinlist.Fixtures
 
   alias Dojinlist.{
+    Artists,
     Ratings,
     Genres
   }
@@ -147,6 +148,124 @@ defmodule Dojinlist.Ratings.AlbumsTest do
     # Get top rated recent albums filtered by genre.
     assert [{_, ^score_3}, {_, ^score_1}] =
              Dojinlist.Ratings.Albums.top_by_genre_id(:albums_timed_scores, genre_2.id, 10)
+  end
+
+  test "Time-decayed votes by artist" do
+    {:ok, user_1} = Fixtures.user()
+    {:ok, user_2} = Fixtures.user()
+    {:ok, user_3} = Fixtures.user()
+
+    {:ok, artist_1} =
+      Artists.create_artist(%{
+        name: "Sakuzyo"
+      })
+
+    {:ok, artist_2} =
+      Artists.create_artist(%{
+        name: "Foreground Eclipse"
+      })
+
+    {:ok, album_1} = Fixtures.album(%{artist_ids: [artist_1.id, artist_2.id]})
+    {:ok, album_2} = Fixtures.album(%{artist_ids: [artist_1.id]})
+    {:ok, album_3} = Fixtures.album(%{artist_ids: [artist_2.id]})
+
+    time_1 = DateTime.utc_now()
+
+    time_2 =
+      Faker.Date.forward(7)
+      |> NaiveDateTime.new(~T[00:00:00.000])
+      |> elem(1)
+      |> DateTime.from_naive!("Etc/UTC")
+
+    time_3 =
+      Faker.Date.forward(14)
+      |> NaiveDateTime.new(~T[00:00:00.000])
+      |> elem(1)
+      |> DateTime.from_naive!("Etc/UTC")
+
+    Ratings.create_rating(user_1, album_1, %{rating: 8, inserted_at: time_1})
+    Ratings.create_rating(user_2, album_1, %{rating: 8, inserted_at: time_1})
+    Ratings.create_rating(user_3, album_1, %{rating: 8, inserted_at: time_1})
+
+    Ratings.create_rating(user_1, album_2, %{rating: 7, inserted_at: time_2})
+    Ratings.create_rating(user_2, album_2, %{rating: 7, inserted_at: time_2})
+    Ratings.create_rating(user_3, album_2, %{rating: 7, inserted_at: time_2})
+
+    Ratings.create_rating(user_1, album_3, %{rating: 7, inserted_at: time_3})
+    Ratings.create_rating(user_2, album_3, %{rating: 7, inserted_at: time_3})
+    Ratings.create_rating(user_3, album_3, %{rating: 7, inserted_at: time_3})
+
+    Dojinlist.Ratings.Albums.calculate()
+
+    # Higher score, but not recent. Should be last.
+    score_1 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_1.id)
+
+    # Second-most recent.
+    _score_2 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_2.id)
+
+    # Even more recent.
+    score_3 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_3.id)
+
+    # Get top rated recent albums filtered by artist.
+    assert [{_, ^score_3}, {_, ^score_1}] =
+             Dojinlist.Ratings.Albums.top_by_artist_id(:albums_timed_scores, artist_2.id, 10)
+  end
+
+  test "Time-decayed votes by event" do
+    {:ok, user_1} = Fixtures.user()
+    {:ok, user_2} = Fixtures.user()
+    {:ok, user_3} = Fixtures.user()
+
+    {:ok, event_1} = Fixtures.event(%{name: "RTS 1"})
+    {:ok, event_2} = Fixtures.event(%{name: "Comiket 1"})
+
+    {:ok, album_1} = Fixtures.album(%{event_id: event_1.id})
+    {:ok, album_2} = Fixtures.album(%{event_id: event_2.id})
+    {:ok, album_3} = Fixtures.album(%{event_id: event_1.id})
+
+    time_1 = DateTime.utc_now()
+
+    time_2 =
+      Faker.Date.forward(7)
+      |> NaiveDateTime.new(~T[00:00:00.000])
+      |> elem(1)
+      |> DateTime.from_naive!("Etc/UTC")
+
+    time_3 =
+      Faker.Date.forward(14)
+      |> NaiveDateTime.new(~T[00:00:00.000])
+      |> elem(1)
+      |> DateTime.from_naive!("Etc/UTC")
+
+    Ratings.create_rating(user_1, album_1, %{rating: 8, inserted_at: time_1})
+    Ratings.create_rating(user_2, album_1, %{rating: 8, inserted_at: time_1})
+    Ratings.create_rating(user_3, album_1, %{rating: 8, inserted_at: time_1})
+
+    Ratings.create_rating(user_1, album_2, %{rating: 7, inserted_at: time_2})
+    Ratings.create_rating(user_2, album_2, %{rating: 7, inserted_at: time_2})
+    Ratings.create_rating(user_3, album_2, %{rating: 7, inserted_at: time_2})
+
+    Ratings.create_rating(user_1, album_3, %{rating: 7, inserted_at: time_3})
+    Ratings.create_rating(user_2, album_3, %{rating: 7, inserted_at: time_3})
+    Ratings.create_rating(user_3, album_3, %{rating: 7, inserted_at: time_3})
+
+    Dojinlist.Ratings.Albums.calculate()
+
+    # Higher score, but not recent. Should be last.
+    score_1 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_1.id)
+
+    # Second-most recent.
+    score_2 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_2.id)
+
+    # Even more recent.
+    score_3 = Dojinlist.Ratings.Store.get(:albums_timed_scores, album_3.id)
+
+    # Get top rated recent albums filtered by artist.
+    assert [{_, ^score_3}, {_, ^score_1}] =
+             Dojinlist.Ratings.Albums.top_by_event_id(:albums_timed_scores, event_1.id, 10)
+
+    assert [{_, ^score_2}] =
+             Dojinlist.Ratings.Albums.top_by_event_id(:albums_timed_scores, event_2.id, 10)
   end
 
   @tag slow: true
