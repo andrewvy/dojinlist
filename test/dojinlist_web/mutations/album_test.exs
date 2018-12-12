@@ -14,7 +14,8 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
 
     variables = %{
       album: %{
-        name: "GraphQL Album Test"
+        romanized_title: "GraphQL Album Test",
+        japanese_title: "GraphQL Album Test"
       }
     }
 
@@ -41,7 +42,8 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
 
     variables = %{
       album: %{
-        name: "GraphQL Album Test",
+        romanized_title: "GraphQL Album Test",
+        japanese_title: "GraphQL Album Test",
         external_links: [
           %{
             url: "https://test.com",

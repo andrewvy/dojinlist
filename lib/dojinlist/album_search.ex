@@ -1,16 +1,16 @@
 defmodule Dojinlist.AlbumSearch do
-  def match_name(input) do
+  def match_romanized_title(input) do
     %{
       "match_phrase" => %{
-        "name" => input
+        "romanized_title" => input
       }
     }
   end
 
-  def match_kana_name(input) do
+  def match_japanese_title(input) do
     %{
       "match_phrase" => %{
-        "kana_name" => input
+        "japanese_title" => input
       }
     }
   end
@@ -23,61 +23,61 @@ defmodule Dojinlist.AlbumSearch do
     }
   end
 
-  def with_name(input) do
+  def with_romanized_title(input) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
-      "query" => match_name(input)
+      "query" => match_romanized_title(input)
     })
   end
 
-  def with_kana_name(input) do
+  def with_japanese_title(input) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
-      "query" => match_kana_name(input)
+      "query" => match_japanese_title(input)
     })
   end
 
-  def with_name_suggest(input) do
+  def with_romanized_title_suggest(input) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
       "suggest" => %{
-        "name_suggest" => %{
+        "romanized_title_suggest" => %{
           "prefix" => input,
           "completion" => %{
-            "field" => "name_suggest"
+            "field" => "romanized_title_suggest"
           }
         }
       }
     })
   end
 
-  def with_name_and_artists(query, ids) do
+  def with_romanized_title_and_artists(query, ids) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
       "query" => %{
         "bool" => %{
-          "must" => match_name(query),
+          "must" => match_romanized_title(query),
           "filter" => match_terms("artists", ids)
         }
       }
     })
   end
 
-  def with_name_and_genres(query, ids) do
+  def with_romanized_title_and_genres(query, ids) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
       "query" => %{
         "bool" => %{
-          "must" => match_name(query),
+          "must" => match_romanized_title(query),
           "filter" => match_terms("genres", ids)
         }
       }
     })
   end
 
-  def with_track_name(track_name) do
+  def with_track_romanized_title(track_romanized_title) do
     Elasticsearch.post(Dojinlist.ElasticsearchCluster, "/albums/_doc/_search", %{
       "query" => %{
         "nested" => %{
           "path" => "tracks",
           "query" => %{
             "match_phrase" => %{
-              "tracks.title" => track_name
+              "tracks.romanized_title" => track_romanized_title
             }
           }
         }

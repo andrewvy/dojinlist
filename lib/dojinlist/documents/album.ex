@@ -4,10 +4,10 @@ defimpl Elasticsearch.Document, for: Dojinlist.Schemas.Album do
 
   def encode(album) do
     %{
-      name: album.name,
-      name_suggest: %{
+      romanized_title: album.romanized_title,
+      romanized_title_suggest: %{
         input: [
-          album.name
+          album.romanized_title
         ]
       },
       artists: Enum.map(album.artists, & &1.id),
@@ -15,26 +15,26 @@ defimpl Elasticsearch.Document, for: Dojinlist.Schemas.Album do
       tracks: Enum.map(album.tracks, &encode_track(&1)),
       event_id: album.event_id
     }
-    |> add_kana_name(album)
+    |> add_japanese_title(album)
   end
 
   def encode_track(track) do
     %{
-      title: track.title,
-      kana_title: track.kana_title,
+      romanized_title: track.romanized_title,
+      japanese_title: track.japanese_title,
       play_length: track.play_length
     }
   end
 
-  def add_kana_name(doc, %{kana_name: nil}), do: doc
-  def add_kana_name(doc, %{kana_name: ""}), do: doc
+  def add_japanese_title(doc, %{japanese_title: nil}), do: doc
+  def add_japanese_title(doc, %{japanese_title: ""}), do: doc
 
-  def add_kana_name(doc, album) do
+  def add_japanese_title(doc, album) do
     %{
-      kana_name: album.kana_name,
-      kana_name_suggest: %{
+      japanese_title: album.japanese_title,
+      japanese_title_suggest: %{
         input: [
-          album.kana_name
+          album.japanese_title
         ]
       }
     }

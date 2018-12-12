@@ -11,7 +11,7 @@ defmodule Dojinlist.AlbumsTest do
   test "Can create a new album" do
     assert {:ok, album} =
              Albums.create_album(%{
-               name: "02 EP",
+               japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
                purchase_url: "https://02-ep.local"
              })
@@ -22,7 +22,7 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, album} =
              Albums.create_album(%{
-               name: "02 EP",
+               japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
                purchase_url: "https://02-ep.local",
                artist_ids: [artist.id]
@@ -36,7 +36,7 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, album} =
              Albums.create_album(%{
-               name: "02 EP",
+               japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
                purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
@@ -68,21 +68,21 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, updated_album} =
              Albums.update_album(album, %{
-               name: "Test",
+               japanese_title: "Test",
                artist_ids: [artist.id],
                genre_ids: [genre.id]
              })
 
-    assert album.name != updated_album.name
+    assert album.japanese_title != updated_album.japanese_title
     assert 1 = Enum.count(updated_album.artists)
     assert 1 = Enum.count(updated_album.genres)
   end
 
   test "Edit history is created for album submission/edits" do
     {:ok, user} = Dojinlist.Fixtures.user()
-    {:ok, album} = Albums.create_album(%{name: "Test", creator_user_id: user.id})
+    {:ok, album} = Albums.create_album(%{japanese_title: "Test", creator_user_id: user.id})
 
-    Albums.update_album(album, %{name: "New Name"}, user.id)
+    Albums.update_album(album, %{japanese_title: "New Name"}, user.id)
 
     loaded_album = album |> Repo.preload([:edit_history])
 
@@ -92,7 +92,7 @@ defmodule Dojinlist.AlbumsTest do
   test "Can add external album links" do
     {:ok, album} =
       Albums.create_album(%{
-        name: "External Album Link",
+        japanese_title: "External Album Link",
         external_links: [
           %{
             url: "https://",
@@ -109,7 +109,7 @@ defmodule Dojinlist.AlbumsTest do
   test "Can replace external album links" do
     {:ok, album} =
       Albums.create_album(%{
-        name: "External Album Link",
+        japanese_title: "External Album Link",
         external_links: [
           %{
             url: "https://external-album.link/1",

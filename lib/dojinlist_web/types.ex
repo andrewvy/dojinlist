@@ -20,7 +20,8 @@ defmodule DojinlistWeb.Types do
 
   node object(:album) do
     field :uuid, :string
-    field :name, :string
+    field :romanized_title, :string
+    field :japanese_title, :string
     field :description, :string
     field :release_date, :datetime
     field :sample_url, :string
@@ -96,7 +97,7 @@ defmodule DojinlistWeb.Types do
   connection(node_type: :lite_album)
 
   node object(:lite_album) do
-    field :name, :string
+    field :title, :string
   end
 
   node object(:artist) do
@@ -105,8 +106,8 @@ defmodule DojinlistWeb.Types do
   end
 
   node object(:track) do
-    field :title, :string
-    field :kana_title, :string
+    field :romanized_title, :string
+    field :japanese_title, :string
     field :play_length, :integer
     field :album, :album, resolve: dataloader(Dojinlist.Source)
   end
@@ -186,7 +187,8 @@ defmodule DojinlistWeb.Types do
   end
 
   input_object :album_input do
-    field :name, non_null(:string)
+    field :romanized_title, :string
+    field :japanese_title, non_null(:string)
     field :sample_url, :string
     field :purchase_url, :string
     field :artist_ids, list_of(:id)
@@ -205,7 +207,7 @@ defmodule DojinlistWeb.Types do
 
   input_object :track_input do
     field :title, :string
-    field :kana_title, non_null(:string)
+    field :japanese_title, non_null(:string)
     field :play_length, :integer
   end
 end

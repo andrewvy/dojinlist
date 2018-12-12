@@ -11,8 +11,8 @@ defmodule Dojinlist.TracksTest do
 
     {:ok, track} =
       Tracks.create_track(album.id, %{
-        title: "The Beginning",
-        kana_title: "The Beginning",
+        romanized_title: "The Beginning",
+        japanese_title: "The Beginning",
         play_length: 126
       })
 

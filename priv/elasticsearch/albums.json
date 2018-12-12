@@ -2,17 +2,17 @@
   "mappings": {
     "_doc": {
       "properties": {
-        "kana_name": {
+        "japanese_title": {
           "type": "text"
         },
-        "kana_name_suggest": {
+        "japanese_title_suggest": {
           "type": "completion",
           "analyzer": "kuromoji"
         },
-        "name": {
+        "romanized_title": {
           "type": "text"
         },
-        "name_suggest": {
+        "romanized_title_suggest": {
           "type": "completion"
         },
         "artists": {
@@ -27,10 +27,10 @@
         "tracks": {
           "type": "nested",
           "properties": {
-            "title": {
+            "romanized_title": {
               "type": "text"
             },
-            "kana_title": {
+            "japanese_title": {
               "type": "text"
             },
             "play_length": {

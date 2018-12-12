@@ -6,8 +6,8 @@ defmodule Dojinlist.Schemas.Album do
 
   schema "albums" do
     field :uuid, Ecto.UUID, autogenerate: true
-    field :name, :string
-    field :kana_name, :string
+    field :romanized_title, :string
+    field :japanese_title, :string
     field :sample_url, :string
     field :purchase_url, :string
     field :is_verified, :boolean, default: false
@@ -46,8 +46,8 @@ defmodule Dojinlist.Schemas.Album do
   def changeset(album, attrs) do
     album
     |> cast(attrs, [
-      :name,
-      :kana_name,
+      :romanized_title,
+      :japanese_title,
       :sample_url,
       :purchase_url,
       :event_id,
@@ -57,6 +57,6 @@ defmodule Dojinlist.Schemas.Album do
       :release_date
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
-    |> validate_required([:name])
+    |> validate_required([:japanese_title])
   end
 end

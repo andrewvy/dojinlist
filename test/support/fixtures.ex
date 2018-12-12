@@ -19,7 +19,7 @@ defmodule Dojinlist.Fixtures do
 
   def album(attrs \\ %{}) do
     default_attrs = %{
-      name: Faker.Lorem.sentence(),
+      japanese_title: Faker.Lorem.sentence(),
       sample_url: Faker.Internet.url() <> "/sample.mp3",
       purchase_url: Faker.Internet.url() <> "/purchase"
     }
