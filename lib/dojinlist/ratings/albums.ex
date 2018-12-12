@@ -45,7 +45,7 @@ defmodule Dojinlist.Ratings.Albums do
 
   def calculate() do
     Dojinlist.Schemas.Album
-    |> preload([:ratings])
+    |> preload([:ratings, :genres, :artists])
     |> cursor_stream()
     |> Enum.map(fn album ->
       ratings =
@@ -75,7 +75,7 @@ defmodule Dojinlist.Ratings.Albums do
 
       lifetime_score = sum_of_weighted_prior / number_of_votes
 
-      rate = 1 / 3_600
+      rate = 1 / 360
 
       timed_score =
         album.ratings
@@ -84,17 +84,46 @@ defmodule Dojinlist.Ratings.Albums do
           inserted_at = rating.inserted_at
           t = DateTime.to_unix(inserted_at, :second)
 
-          u = :erlang.max(acc + rating.rating, rate * t)
-          v = :erlang.min(acc + rating.rating, rate * t)
+          normalized_rating = rating.rating / 10.0
+
+          u = :erlang.max(acc + normalized_rating, rate * t + normalized_rating)
+          v = :erlang.min(acc + normalized_rating, rate * t + normalized_rating)
 
           acc + u + :math.log(1 + :math.exp(v - u))
         end)
 
-      Store.insert(:albums_lifetime_scores, album.id, lifetime_score)
-      Store.insert(:albums_timed_scores, album.id, timed_score)
+      genre_ids =
+        album.genres
+        |> Enum.map(& &1.id)
+
+      artist_ids =
+        album.artists
+        |> Enum.map(& &1.id)
+
+      Store.insert(:albums_lifetime_scores, album.id, {lifetime_score, genre_ids, artist_ids})
+      Store.insert(:albums_timed_scores, album.id, {timed_score, genre_ids, artist_ids})
 
       {lifetime_score, timed_score}
     end)
+  end
+
+  def top_by_genre_id(type, genre_id, count) do
+    {_total, _max, result} =
+      Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, genres, _}} = element,
+                                                            {current_count, max, list} = acc ->
+        if Enum.any?(genres, &(&1 == genre_id)) do
+          if current_count + 1 == max do
+            {:halt, {max, max, [element | list]}}
+          else
+            {:cont, {current_count + 1, max, [element | list]}}
+          end
+        else
+          {:cont, acc}
+        end
+      end)
+
+    result
+    |> Enum.reverse()
   end
 
   def cursor_stream(query) do

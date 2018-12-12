@@ -16,7 +16,7 @@ defmodule Dojinlist.Schemas.UserRating do
 
   def changeset(rating, attrs) do
     rating
-    |> cast(attrs, [:user_id, :album_id, :rating, :description])
+    |> cast(attrs, [:user_id, :album_id, :rating, :description, :inserted_at])
     |> validate_required([:user_id, :album_id])
     |> validate_inclusion(:rating, 0..10)
     |> unique_constraint(:user_id)

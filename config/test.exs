@@ -15,6 +15,10 @@ config :dojinlist, Dojinlist.Repo,
   password: "postgres",
   database: "dojinlist_test",
   hostname: "localhost",
+  timeout: 360_000,
+  ownership_timeout: 360_000,
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :argon2_elixir, t_cost: 2, m_cost: 8
 
 config :dojinlist, Dojinlist.ElasticsearchCluster, api: Dojinlist.ElasticsearchMock

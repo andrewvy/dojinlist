@@ -1,4 +1,6 @@
 defmodule Dojinlist.Fixtures do
+  alias Dojinlist.Repo
+
   def user(attrs \\ %{}) do
     default_attrs = %{
       email: Faker.Internet.email(),
@@ -6,9 +8,13 @@ defmodule Dojinlist.Fixtures do
       password: Faker.Lorem.sentence()
     }
 
-    default_attrs
-    |> Map.merge(attrs)
-    |> Dojinlist.Accounts.register()
+    merged_attrs =
+      default_attrs
+      |> Map.merge(attrs)
+
+    %Dojinlist.Schemas.User{}
+    |> Dojinlist.Schemas.User.changeset(merged_attrs)
+    |> Repo.insert()
   end
 
   def album(attrs \\ %{}) do

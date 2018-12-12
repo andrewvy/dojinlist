@@ -26,7 +26,7 @@ defmodule Dojinlist.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Dojinlist.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Dojinlist.Repo, ownership_timeout: 360_000)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Dojinlist.Repo, {:shared, self()})

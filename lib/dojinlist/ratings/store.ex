@@ -42,6 +42,36 @@ defmodule Dojinlist.Ratings.Store do
     ETS.insert(type, {key, value})
   end
 
+  def find(type, acc, fun) do
+    :ets.safe_fixtable(type, true)
+
+    first = :ets.last(type)
+
+    try do
+      do_find(fun, {:continue, acc}, first, type)
+    after
+      :ets.safe_fixtable(type, false)
+    end
+  end
+
+  def do_find(fun, acc, key, type) do
+    case {acc, key} do
+      {{:halt, acc}, _} ->
+        acc
+
+      {{_, acc}, :"$end_of_table"} ->
+        acc
+
+      _ ->
+        do_find(
+          fun,
+          :lists.foldl(fun, elem(acc, 1), :ets.lookup(type, key)),
+          :ets.prev(type, key),
+          type
+        )
+    end
+  end
+
   def get(type, key, default \\ nil)
 
   def get(type, key, default) do
@@ -49,5 +79,9 @@ defmodule Dojinlist.Ratings.Store do
       [{_, value}] -> value
       _ -> default
     end
+  end
+
+  def count(type) do
+    ETS.select_count(type, [{:"$1", [], [true]}])
   end
 end
