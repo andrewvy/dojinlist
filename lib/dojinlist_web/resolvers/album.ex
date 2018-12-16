@@ -5,7 +5,7 @@ defmodule DojinlistWeb.Resolvers.Album do
   }
 
   def suggest(%{suggestion: suggestion} = params, _) do
-    Dojinlist.AlbumSearch.with_name_suggest(suggestion)
+    Dojinlist.AlbumSearch.with_romanized_title_suggest(suggestion)
     |> case do
       {:ok, search} ->
         docs =

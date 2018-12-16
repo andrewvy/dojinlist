@@ -21,6 +21,8 @@ defmodule Dojinlist.Ratings.Store do
       )
     end)
 
+    send(self(), :rebuild_store)
+
     {:ok, %{}}
   end
 
@@ -83,5 +85,13 @@ defmodule Dojinlist.Ratings.Store do
 
   def count(type) do
     ETS.select_count(type, [{:"$1", [], [true]}])
+  end
+
+  def handle_info(:rebuild_store, state) do
+    Dojinlist.Ratings.Albums.calculate()
+
+    Process.send_after(self(), :rebuild_store, 1_000 * 60 * 60 * 1)
+
+    {:noreply, state}
   end
 end

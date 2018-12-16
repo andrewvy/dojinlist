@@ -116,6 +116,10 @@ defmodule Dojinlist.Ratings.Albums do
     end)
   end
 
+  def top(type, limit) do
+    Dojinlist.Ratings.Store.top(type, limit)
+  end
+
   def top_by_genre_id(type, genre_id, count) do
     {_total, _max, result} =
       Dojinlist.Ratings.Store.find(type, {0, count, []}, fn {_, {_, genres, _, _}} = element,

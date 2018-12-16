@@ -11,6 +11,13 @@ defmodule Dojinlist.Schemas.AlbumEditHistory do
     timestamps(type: :utc_datetime)
   end
 
+  @album_edit_types [
+    "submitted_album",
+    "edit_album",
+    "verify_album",
+    "unverify_album"
+  ]
+
   def changeset(edit_history, attrs) do
     edit_history
     |> cast(attrs, [
@@ -23,5 +30,6 @@ defmodule Dojinlist.Schemas.AlbumEditHistory do
       :user_id,
       :edit_type
     ])
+    |> validate_inclusion(:edit_type, @album_edit_types)
   end
 end
