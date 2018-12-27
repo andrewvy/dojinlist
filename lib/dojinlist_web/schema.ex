@@ -18,6 +18,7 @@ defmodule DojinlistWeb.Schema do
   import_types(Mutations.Me)
   import_types(Mutations.Permission)
   import_types(Mutations.Rating)
+  import_types(Mutations.Storefront)
   import_types(Mutations.Track)
 
   query do
@@ -121,6 +122,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:me_mutations)
     import_fields(:permission_mutations)
     import_fields(:rating_mutations)
+    import_fields(:storefront_mutations)
     import_fields(:track_mutations)
   end
 

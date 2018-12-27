@@ -44,6 +44,7 @@ defmodule DojinlistWeb.Mutations.Album do
       {:ok, Dojinlist.Repo.preload(album, [:event, :artists, :genres])}
     else
       {:error, _} = error -> error
+      # @TODO(vy): i18n
       _ -> {:error, "Error while submitting album"}
     end
   end
@@ -67,8 +68,7 @@ defmodule DojinlistWeb.Mutations.Album do
 
         {:ok, album}
 
-      {:error, changeset} ->
-        IO.inspect(changeset)
+      {:error, _changeset} ->
         # @TODO(vy): i18n
         {:error, "Could not create album"}
     end

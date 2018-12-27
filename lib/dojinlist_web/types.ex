@@ -215,4 +215,8 @@ defmodule DojinlistWeb.Types do
     field :japanese_title, non_null(:string)
     field :play_length, :integer
   end
+
+  input_object :storefront_input do
+    field :subdomain, :string
+  end
 end
