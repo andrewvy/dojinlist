@@ -21,7 +21,12 @@ defmodule Dojinlist.Fixtures do
     default_attrs = %{
       japanese_title: Faker.Lorem.sentence(),
       sample_url: Faker.Internet.url() <> "/sample.mp3",
-      purchase_url: Faker.Internet.url() <> "/purchase"
+      purchase_url: Faker.Internet.url() <> "/purchase",
+      storefront_id:
+        Map.get_lazy(attrs, :storefront_id, fn ->
+          {:ok, storefront} = storefront()
+          storefront.id
+        end)
     }
 
     default_attrs
@@ -39,6 +44,21 @@ defmodule Dojinlist.Fixtures do
     default_attrs
     |> Map.merge(attrs)
     |> Dojinlist.Events.create_event()
+  end
+
+  def storefront(attrs \\ %{}) do
+    default_attrs = %{
+      subdomain:
+        Map.get_lazy(attrs, :subdomain, fn -> Faker.Lorem.word() |> String.downcase() end),
+      creator_id:
+        Map.get_lazy(attrs, :creator_id, fn ->
+          {:ok, user} = user()
+          user.id
+        end)
+    }
+
+    default_attrs
+    |> Dojinlist.Storefront.create_storefront()
   end
 
   def grant_all_permissions_to_user(user) do

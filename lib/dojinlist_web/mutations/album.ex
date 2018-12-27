@@ -5,9 +5,16 @@ defmodule DojinlistWeb.Mutations.Album do
     field :create_album, type: :album do
       arg(:album, non_null(:album_input))
 
-      middleware(Absinthe.Relay.Node.ParseIDs, artist_ids: :artist)
-      middleware(Absinthe.Relay.Node.ParseIDs, genre_ids: :genre)
-      middleware(Absinthe.Relay.Node.ParseIDs, event_id: :event)
+      middleware(
+        Absinthe.Relay.Node.ParseIDs,
+        album: [
+          storefront_id: :storefront,
+          artist_ids: :artist,
+          genre_ids: :genre,
+          event_id: :event
+        ]
+      )
+
       middleware(DojinlistWeb.Middlewares.Authorization)
 
       resolve(&create_album/2)
@@ -60,7 +67,8 @@ defmodule DojinlistWeb.Mutations.Album do
 
         {:ok, album}
 
-      {:error, _changeset} ->
+      {:error, changeset} ->
+        IO.inspect(changeset)
         # @TODO(vy): i18n
         {:error, "Could not create album"}
     end

@@ -2,28 +2,37 @@ defmodule Dojinlist.AlbumsTest do
   use Dojinlist.DataCase
 
   alias Dojinlist.{
-    Artists,
-    Genres,
     Albums,
+    Artists,
+    Fixtures,
+    Genres,
     Repo
   }
 
-  test "Can create a new album" do
+  setup do
+    {:ok, storefront} = Fixtures.storefront()
+
+    {:ok, storefront: storefront}
+  end
+
+  test "Can create a new album", %{storefront: storefront} do
     assert {:ok, album} =
              Albums.create_album(%{
                japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
-               purchase_url: "https://02-ep.local"
+               purchase_url: "https://02-ep.local",
+               storefront_id: storefront.id
              })
   end
 
-  test "Can create a new album with artists" do
+  test "Can create a new album with artists", %{storefront: storefront} do
     {:ok, artist} = Artists.create_artist(%{name: "DJ Test"})
 
     assert {:ok, album} =
              Albums.create_album(%{
                japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
+               storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
                artist_ids: [artist.id]
              })
@@ -31,13 +40,14 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 == Enum.count(album.artists)
   end
 
-  test "Can create a new album with genres" do
+  test "Can create a new album with genres", %{storefront: storefront} do
     {:ok, genre} = Genres.create_genre(%{name: "Electronic"})
 
     assert {:ok, album} =
              Albums.create_album(%{
                japanese_title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
+               storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
              })
@@ -46,7 +56,7 @@ defmodule Dojinlist.AlbumsTest do
   end
 
   test "Can mark an album as verified" do
-    {:ok, album} = Dojinlist.Fixtures.album()
+    {:ok, album} = Fixtures.album()
 
     assert album.is_verified == false
     assert {:ok, album} = Albums.mark_as_verified(album.id)
@@ -54,7 +64,7 @@ defmodule Dojinlist.AlbumsTest do
   end
 
   test "Can mark an album as unverified" do
-    {:ok, album} = Dojinlist.Fixtures.album(%{is_verified: true})
+    {:ok, album} = Fixtures.album(%{is_verified: true})
 
     assert album.is_verified == true
     assert {:ok, album} = Albums.mark_as_unverified(album.id)
@@ -62,7 +72,7 @@ defmodule Dojinlist.AlbumsTest do
   end
 
   test "Can update an album" do
-    {:ok, album} = Dojinlist.Fixtures.album()
+    {:ok, album} = Fixtures.album()
     {:ok, artist} = Artists.create_artist(%{name: "DJ Test"})
     {:ok, genre} = Genres.create_genre(%{name: "Electronic"})
 
@@ -78,9 +88,15 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 = Enum.count(updated_album.genres)
   end
 
-  test "Edit history is created for album submission/edits" do
-    {:ok, user} = Dojinlist.Fixtures.user()
-    {:ok, album} = Albums.create_album(%{japanese_title: "Test", creator_user_id: user.id})
+  test "Edit history is created for album submission/edits", %{storefront: storefront} do
+    {:ok, user} = Fixtures.user()
+
+    {:ok, album} =
+      Albums.create_album(%{
+        japanese_title: "Test",
+        creator_user_id: user.id,
+        storefront_id: storefront.id
+      })
 
     Albums.update_album(album, %{japanese_title: "New Name"}, user.id)
 
@@ -89,10 +105,11 @@ defmodule Dojinlist.AlbumsTest do
     assert 2 == Enum.count(loaded_album.edit_history)
   end
 
-  test "Can add external album links" do
+  test "Can add external album links", %{storefront: storefront} do
     {:ok, album} =
       Albums.create_album(%{
         japanese_title: "External Album Link",
+        storefront_id: storefront.id,
         external_links: [
           %{
             url: "https://",
@@ -106,10 +123,11 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 == Enum.count(album.external_links)
   end
 
-  test "Can replace external album links" do
+  test "Can replace external album links", %{storefront: storefront} do
     {:ok, album} =
       Albums.create_album(%{
         japanese_title: "External Album Link",
+        storefront_id: storefront.id,
         external_links: [
           %{
             url: "https://external-album.link/1",

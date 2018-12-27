@@ -153,6 +153,9 @@ defmodule DojinlistWeb.Schema do
       %Dojinlist.Schemas.Track{}, _ ->
         :track
 
+      %Dojinlist.Schemas.Storefront{}, _ ->
+        :storefront
+
       _, _ ->
         nil
     end)

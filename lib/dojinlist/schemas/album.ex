@@ -24,6 +24,7 @@ defmodule Dojinlist.Schemas.Album do
 
     belongs_to :creator_user, Dojinlist.Schemas.User
     belongs_to :event, Dojinlist.Schemas.Event
+    belongs_to :storefront, Dojinlist.Schemas.Storefront
 
     timestamps(type: :utc_datetime)
   end
@@ -46,17 +47,18 @@ defmodule Dojinlist.Schemas.Album do
   def changeset(album, attrs) do
     album
     |> cast(attrs, [
-      :romanized_title,
-      :japanese_title,
-      :sample_url,
-      :purchase_url,
-      :event_id,
-      :is_verified,
       :cover_art,
       :creator_user_id,
-      :release_date
+      :event_id,
+      :is_verified,
+      :japanese_title,
+      :purchase_url,
+      :release_date,
+      :romanized_title,
+      :sample_url,
+      :storefront_id
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
-    |> validate_required([:japanese_title])
+    |> validate_required([:japanese_title, :storefront_id])
   end
 end

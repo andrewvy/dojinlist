@@ -12,10 +12,16 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     }
     """
 
+    {:ok, storefront} = Fixtures.storefront()
+
+    storefront_id =
+      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+
     variables = %{
       album: %{
         romanized_title: "GraphQL Album Test",
-        japanese_title: "GraphQL Album Test"
+        japanese_title: "GraphQL Album Test",
+        storefront_id: storefront_id
       }
     }
 
@@ -40,10 +46,16 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     }
     """
 
+    {:ok, storefront} = Fixtures.storefront()
+
+    storefront_id =
+      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+
     variables = %{
       album: %{
         romanized_title: "GraphQL Album Test",
         japanese_title: "GraphQL Album Test",
+        storefront_id: storefront_id,
         external_links: [
           %{
             url: "https://test.com",

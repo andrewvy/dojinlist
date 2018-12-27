@@ -132,6 +132,10 @@ defmodule DojinlistWeb.Types do
     )
   end
 
+  node object(:storefront) do
+    field :subdomain, :string
+  end
+
   object :me do
     field :username, :string
     field :email, :string
@@ -193,6 +197,7 @@ defmodule DojinlistWeb.Types do
     field :purchase_url, :string
     field :artist_ids, list_of(:id)
     field :genre_ids, list_of(:id)
+    field :storefront_id, :id
     field :event_id, :id
     field :cover_art, :upload
     field :release_date, :date
