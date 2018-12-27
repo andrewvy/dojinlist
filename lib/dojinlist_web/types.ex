@@ -197,7 +197,7 @@ defmodule DojinlistWeb.Types do
     field :purchase_url, :string
     field :artist_ids, list_of(:id)
     field :genre_ids, list_of(:id)
-    field :storefront_id, :id
+    field :storefront_id, non_null(:id)
     field :event_id, :id
     field :cover_art, :upload
     field :release_date, :date
