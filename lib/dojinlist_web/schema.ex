@@ -65,6 +65,12 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Blog.by_slug/2)
     end
 
+    field :storefront, :storefront do
+      arg(:subdomain, non_null(:string))
+
+      resolve(&Resolvers.Storefront.by_subdomain/2)
+    end
+
     connection field :artists, node_type: :artist do
       arg(:search, :string)
 
