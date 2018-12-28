@@ -18,7 +18,18 @@ defmodule Dojinlist.Schemas.Storefront do
       :creator_id,
       :subdomain
     ])
+    |> validate_subdomain()
     |> validate_required([:creator_id, :subdomain])
     |> unique_constraint(:subdomain)
+  end
+
+  def validate_subdomain(changeset) do
+    subdomain = get_change(changeset, :subdomain)
+
+    if Dojinlist.Subdomain.blacklisted?(subdomain) do
+      add_error(changeset, :subdomain, "Invalid subdomain")
+    else
+      changeset
+    end
   end
 end
