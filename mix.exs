@@ -54,6 +54,7 @@ defmodule Dojinlist.MixProject do
       {:httpoison, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:joken, "~> 2.0-rc2"},
+      {:money, "~> 1.3"},
       {:paginator, "~> 0.5"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
