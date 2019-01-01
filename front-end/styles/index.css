@@ -1,0 +1,234 @@
+@tailwind preflight;
+@tailwind utilities;
+
+.container {
+  @apply mx-auto;
+}
+
+.vertical-center {
+  @apply flex content-center items-center flex-col;
+}
+
+#__next,
+.page {
+  height: auto;
+  min-height: 100vh;
+}
+
+html,
+body {
+  @apply bg-grey-lighter;
+
+  height: auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 100%;
+}
+
+* {
+  @apply font-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply mb-8 mt-8;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.375rem;
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-size: 0.875rem;
+}
+
+p {
+  @apply mb-4 mt-4;
+}
+
+li {
+  @apply mb-4;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-heavy {
+  font-weight: 700;
+}
+
+/* POSITIONING */
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.justify {
+  text-align: justify;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+input[type=text],
+input[type=email],
+input[type=select],
+input[type=password] {
+  @apply bg-grey-lighter;
+
+  border: 1px solid transparent;
+  box-shadow: none;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: .6rem 1.0rem;
+  width: 100%;
+}
+
+input:focus {
+  outline: 0;
+  border: 1px solid #2D9CDB;
+}
+
+fieldset.has-error input {
+  @apply border-red border-solid border;
+}
+
+input::placeholder {
+  @apply text-blue-grey;
+
+  left: 5px;
+  padding: 16px 16px;
+}
+
+input[type=submit],
+.button {
+  @apply bg-blue-darker text-grey-lighter;
+
+  height: 40px;
+  border: none;
+  font-weight: 500;
+  padding: 0 16px;
+  border-radius: 5px;
+}
+
+input[type=submit]:hover,
+input[type=submit]:focus,
+.button:hover,
+.button:focus {
+  @apply bg-blue-dark;
+}
+
+.float-right {
+  float: right;
+}
+
+nav a {
+  @apply text-grey-darker;
+
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a {
+  @apply text-grey-darker;
+
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a:hover,
+a:focus {
+  @apply text-blue-darker;
+}
+
+a.active {
+  @apply text-blue-dark;
+}
+
+footer {
+  @apply bg-dark-blue;
+
+  width: 100%;
+  height: 80px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clear: both;
+  position: relative;
+  height: 80px;
+  font-size: 12px;
+}
+
+footer a {
+  @apply text-grey-lighter;
+
+  padding: 8px;
+  text-decoration: none;
+}
+
+fieldset {
+  @apply my-4;
+}
+
+input {
+  @apply my-2;
+}
+
+.form {
+  @apply w-full;
+}
+
+@screen lg {
+  .form {
+    @apply px-20;
+  }
+}
+
+@screen sm {
+  .form {
+    @apply px-10;
+  }
+}
+
+.limit-screen {
+  max-width: 80%;
+}

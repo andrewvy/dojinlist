@@ -1,0 +1,3 @@
+.form-container {
+  @apply flex content-center items-center flex-col bg-white py-8 rounded shadow;
+}
