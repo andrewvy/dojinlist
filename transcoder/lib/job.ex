@@ -2,13 +2,17 @@ defmodule Transcoder.Job do
   use FFmpex.Options
 
   defstruct [
-    :input_bucket,
-    :input_filepath,
-    :output_bucket,
-    :output_filepath,
     :input_file,
     :output_file,
-    :desired_format
+    :desired_format,
+
+    # Tags
+    :title,
+    :artist,
+    :date,
+    :comment,
+    :album,
+    :track
   ]
 
   @formats %{
@@ -53,27 +57,49 @@ defmodule Transcoder.Job do
     Map.get(@formats, format)
   end
 
-  def format_to_ffmpeg(%__MODULE__{desired_format: format} = job) do
+  def execute(%__MODULE__{desired_format: format} = job) do
     preset = preset_for_format(format)
 
     if preset do
-      transcoded_filepath = Path.rootname(job.input_file) <> preset.ext
-
-      base_command =
-        FFmpex.new_command()
-        |> FFmpex.add_global_option(option_y())
-        |> FFmpex.add_input_file(job.input_file)
-        |> FFmpex.add_output_file(transcoded_filepath)
-
-      Enum.reduce(preset.file_options, base_command, fn file_option, acc ->
-        acc
-        |> FFmpex.add_file_option(file_option)
-      end)
-      |> FFmpex.prepare()
+      execute_ffmpeg(job, preset)
     else
       {:error, "Could not find preset for format #{format}"}
     end
   end
 
-  def format_to_ffmpeg(_), do: {:error, "Desired format not recognized."}
+  def execute(_), do: {:error, "Desired format not recognized."}
+
+  def execute_ffmpeg(job, preset) do
+    transcoded_filepath = Path.rootname(job.input_file) <> preset.ext
+
+    base_command =
+      FFmpex.new_command()
+      |> FFmpex.add_global_option(option_y())
+      |> FFmpex.add_input_file(job.input_file)
+      |> FFmpex.add_output_file(transcoded_filepath)
+
+    command =
+      Enum.reduce(preset.file_options, base_command, fn file_option, acc ->
+        acc
+        |> FFmpex.add_file_option(file_option)
+      end)
+      |> tags(job)
+
+    command
+    |> FFmpex.prepare()
+    |> IO.inspect()
+
+    command
+    |> FFmpex.execute()
+  end
+
+  def tags(command, job) do
+    command
+    |> FFmpex.add_file_option(option_metadata("title=#{job.title}"))
+    |> FFmpex.add_file_option(option_metadata("album=#{job.album}"))
+    |> FFmpex.add_file_option(option_metadata("artist=#{job.artist}"))
+    |> FFmpex.add_file_option(option_metadata("album_artist=#{job.artist}"))
+    |> FFmpex.add_file_option(option_metadata("track=#{job.track}"))
+    |> FFmpex.add_file_option(option_metadata("comment=#{job.comment}"))
+  end
 end
