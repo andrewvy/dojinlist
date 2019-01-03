@@ -3,7 +3,6 @@ defmodule Transcoder.Job do
 
   defstruct [
     :input_file,
-    :output_file,
     :desired_format,
 
     # Tags
@@ -70,13 +69,13 @@ defmodule Transcoder.Job do
   def execute(_), do: {:error, "Desired format not recognized."}
 
   def execute_ffmpeg(job, preset) do
-    transcoded_filepath = Path.rootname(job.input_file) <> preset.ext
+    {:ok, output_file} = Briefly.create(extname: preset.ext)
 
     base_command =
       FFmpex.new_command()
       |> FFmpex.add_global_option(option_y())
       |> FFmpex.add_input_file(job.input_file)
-      |> FFmpex.add_output_file(transcoded_filepath)
+      |> FFmpex.add_output_file(output_file)
 
     command =
       Enum.reduce(preset.file_options, base_command, fn file_option, acc ->
@@ -86,11 +85,11 @@ defmodule Transcoder.Job do
       |> tags(job)
 
     command
-    |> FFmpex.prepare()
-    |> IO.inspect()
-
-    command
     |> FFmpex.execute()
+    |> case do
+      :ok -> {:ok, output_file}
+      {:error, _} -> {:error, "Error while transcoding file."}
+    end
   end
 
   def tags(command, job) do
