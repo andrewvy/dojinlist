@@ -22,8 +22,13 @@ defmodule Transcoder.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_aws, "~> 2.1"},
+      {:ex_aws, "~> 2.1", override: true},
+      {:ex_aws_s3, "~> 2.0"},
+      {:ex_aws_sqs, "~> 2.0"},
+      {:poison, "~> 3.0"},
+      {:hackney, "~> 1.9"},
       {:briefly, "~> 0.3"},
+      {:sweet_xml, "~> 0.6"},
       {:ffmpex,
        git: "git@github.com:andrewvy/ffmpex.git", ref: "2f47d3a2993e18e58a5b8a2e8dcda1836409e6c7"}
       # {:dep_from_hexpm, "~> 0.3.0"},
