@@ -2,7 +2,9 @@ defmodule Transcoder.Job do
   use FFmpex.Options
 
   defstruct [
-    :input_file,
+    :input_bucket,
+    :output_bucket,
+    :input_filepath,
     :desired_format,
 
     # Tags
@@ -56,25 +58,25 @@ defmodule Transcoder.Job do
     Map.get(@formats, format)
   end
 
-  def execute(%__MODULE__{desired_format: format} = job) do
+  def transcode(%__MODULE__{desired_format: format} = job) do
     preset = preset_for_format(format)
 
     if preset do
-      execute_ffmpeg(job, preset)
+      transcode_ffmpeg(job, preset)
     else
       {:error, "Could not find preset for format #{format}"}
     end
   end
 
-  def execute(_), do: {:error, "Desired format not recognized."}
+  def transcode(_), do: {:error, "Desired format not recognized."}
 
-  def execute_ffmpeg(job, preset) do
+  def transcode_ffmpeg(job, preset) do
     {:ok, output_file} = Briefly.create(extname: preset.ext)
 
     base_command =
       FFmpex.new_command()
       |> FFmpex.add_global_option(option_y())
-      |> FFmpex.add_input_file(job.input_file)
+      |> FFmpex.add_input_file(job.input_filepath)
       |> FFmpex.add_output_file(output_file)
 
     command =
