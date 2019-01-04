@@ -5,7 +5,9 @@ defmodule Transcoder.Job do
     :input_bucket,
     :output_bucket,
     :input_filepath,
+    :output_filepath,
     :desired_format,
+    :elapsed_time,
 
     # Tags
     :title,
@@ -51,6 +53,26 @@ defmodule Transcoder.Job do
       ]
     }
   }
+
+  def new(params) do
+    job = %{
+      input_bucket: params["input_bucket"],
+      input_filepath: params["input_filepath"],
+      output_bucket: params["output_bucket"],
+      desired_format: params["desired_format"]
+    }
+
+    if Vex.valid?(job,
+         input_bucket: [presence: true],
+         input_filepath: [presence: true],
+         output_bucket: [presence: true],
+         desired_format: [presence: true]
+       ) do
+      {:ok, struct(__MODULE__, job)}
+    else
+      {:error, "Invalid job format."}
+    end
+  end
 
   def formats, do: @formats |> Map.keys()
 

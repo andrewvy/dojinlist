@@ -10,6 +10,8 @@ defmodule Transcoder.Application do
     children = [
       # Starts a worker by calling: Transcoder.Worker.start_link(arg)
       # {Transcoder.Worker, arg},
+      {Transcoder.SQS.Producer, {"transcoder_jobs", [name: :producer_1]}},
+      {Transcoder.SQS.Consumer, {"transcoder_jobs", [:producer_1]}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

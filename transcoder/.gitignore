@@ -26,3 +26,5 @@ transcoder-*.tar
 **/*.wav
 **/*.aiff
 **/*.flac
+
+.env
