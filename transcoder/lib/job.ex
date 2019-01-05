@@ -17,7 +17,8 @@ defmodule Transcoder.Job do
     :date,
     :comment,
     :album,
-    :track
+    :track,
+    :album_artist
   ]
 
   @formats %{
@@ -77,7 +78,8 @@ defmodule Transcoder.Job do
       date: params["date"],
       comment: params["comment"],
       album: params["album"],
-      track: params["track"]
+      track: params["track"],
+      album_artist: params["album_artist"]
     }
 
     if Vex.valid?(job,
@@ -87,7 +89,9 @@ defmodule Transcoder.Job do
          album_uuid: [presence: true],
          track_uuid: [presence: true],
          title: [presence: true],
-         track: [presence: true]
+         track: [presence: true],
+         artist: [presence: true],
+         album_artist: [presence: true]
        ) do
       {:ok, struct(__MODULE__, job)}
     else
@@ -110,29 +114,30 @@ defmodule Transcoder.Job do
       |> case do
         {:ok, source_file} ->
           @formats
-          |> Enum.map(fn {format, preset} ->
-            IO.puts("format=#{format} source_file=#{source_file}")
-
-            with {:ok, transcoded_file} <-
-                   transcode_ffmpeg(%{job | input_filepath: source_file}, preset),
-                 transcode_extname = Path.extname(transcoded_file),
-                 output_filepath =
-                   Path.join([album_uuid, format, "#{track_uuid}#{transcode_extname}"]),
-                 {:ok, _} <-
-                   Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath,
-                     meta: [
-                       {"track-name", job.title || ""},
-                       {"track-index", job.track || "1"},
-                       {"album-name", job.album || ""},
-                       {"album-artist", job.album_artist || ""}
-                     ]
-                   ) do
-              {:ok, job}
-            else
-              _ ->
-                {:error, "Could not transcode into format: #{format}"}
-            end
-          end)
+          |> Task.async_stream(
+            fn {format, preset} ->
+              with {:ok, transcoded_file} <-
+                     transcode_ffmpeg(%{job | input_filepath: source_file}, preset),
+                   transcode_extname = Path.extname(transcoded_file),
+                   output_filepath =
+                     Path.join([album_uuid, format, "#{track_uuid}#{transcode_extname}"]),
+                   {:ok, _} <-
+                     Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath,
+                       meta: [
+                         {"track-name", job.title || ""},
+                         {"track-index", job.track || "1"},
+                         {"album-name", job.album || ""},
+                         {"album-artist", job.album_artist || ""}
+                       ]
+                     ) do
+                {:ok, job}
+              else
+                _ ->
+                  {:error, "Could not transcode into format: #{format}"}
+              end
+            end,
+            timeout: 120_000
+          )
 
         _ ->
           {:error, "Could not download source file."}
@@ -174,7 +179,7 @@ defmodule Transcoder.Job do
     |> FFmpex.add_file_option(option_metadata("title=#{job.title}"))
     |> FFmpex.add_file_option(option_metadata("album=#{job.album}"))
     |> FFmpex.add_file_option(option_metadata("artist=#{job.artist}"))
-    |> FFmpex.add_file_option(option_metadata("album_artist=#{job.artist}"))
+    |> FFmpex.add_file_option(option_metadata("album_artist=#{job.album_artist}"))
     |> FFmpex.add_file_option(option_metadata("track=#{job.track}"))
     |> FFmpex.add_file_option(option_metadata("comment=#{job.comment}"))
   end
