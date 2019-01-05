@@ -9,26 +9,24 @@ defmodule Transcoder do
   def execute(job) do
     start_ms = System.monotonic_time(:milliseconds)
 
-    with {:ok, source_file} <- Transcoder.S3.download(job.input_bucket, job.input_filepath),
-         {:ok, transcoded_file} <- Transcoder.Job.transcode(%{job | input_filepath: source_file}),
-         source_extname = Path.extname(source_file),
-         transcode_extname = Path.extname(transcoded_file),
-         output_filepath = String.replace(job.input_filepath, source_extname, transcode_extname),
-         {:ok, _} <- Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath) do
-      Briefly.cleanup()
+    case Transcoder.Job.transcode(job) do
+      {:ok, job} ->
+        end_ms = System.monotonic_time(:milliseconds)
+        diff = end_ms - start_ms
 
-      end_ms = System.monotonic_time(:milliseconds)
-      diff = end_ms - start_ms
+        successful_job = %{
+          job
+          | elapsed_time: diff
+        }
 
-      successful_job = %{
-        job
-        | output_filepath: output_filepath,
-          elapsed_time: diff
-      }
+        Briefly.cleanup()
 
-      {:ok, successful_job}
-    else
-      error -> error
+        {:ok, successful_job}
+
+      error ->
+        Briefly.cleanup()
+
+        error
     end
   end
 end

@@ -69,8 +69,6 @@ defmodule Transcoder.SQS.Consumer do
       input_bucket: job.input_bucket,
       input_filepath: job.input_filepath,
       output_bucket: job.output_bucket,
-      output_filepath: job.output_filepath,
-      desired_format: job.desired_format,
       elapsed_time: job.elapsed_time
     }
 

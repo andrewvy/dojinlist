@@ -3,11 +3,13 @@ defmodule Transcoder.Job do
 
   defstruct [
     :input_bucket,
-    :output_bucket,
     :input_filepath,
-    :output_filepath,
-    :desired_format,
+    :output_bucket,
     :elapsed_time,
+
+    # Meta
+    :album_uuid,
+    :track_uuid,
 
     # Tags
     :title,
@@ -54,19 +56,30 @@ defmodule Transcoder.Job do
     }
   }
 
+  @doc """
+  This expects params with:
+
+  input_bucket:
+  output_bucket:
+  input_filepath:
+  album_uuid:
+  track_uuid:
+  """
   def new(params) do
     job = %{
       input_bucket: params["input_bucket"],
       input_filepath: params["input_filepath"],
       output_bucket: params["output_bucket"],
-      desired_format: params["desired_format"]
+      album_uuid: params["album_uuid"],
+      track_uuid: params["track_uuid"]
     }
 
     if Vex.valid?(job,
          input_bucket: [presence: true],
          input_filepath: [presence: true],
          output_bucket: [presence: true],
-         desired_format: [presence: true]
+         album_uuid: [presence: true],
+         track_uuid: [presence: true]
        ) do
       {:ok, struct(__MODULE__, job)}
     else
@@ -80,17 +93,42 @@ defmodule Transcoder.Job do
     Map.get(@formats, format)
   end
 
-  def transcode(%__MODULE__{desired_format: format} = job) do
-    preset = preset_for_format(format)
+  def transcode(job) do
+    album_uuid = job.album_uuid
+    track_uuid = job.track_uuid
 
-    if preset do
-      transcode_ffmpeg(job, preset)
+    results =
+      Transcoder.S3.download(job.input_bucket, job.input_filepath)
+      |> case do
+        {:ok, source_file} ->
+          @formats
+          |> Enum.map(fn {format, preset} ->
+            IO.puts("format=#{format} source_file=#{source_file}")
+
+            with {:ok, transcoded_file} <-
+                   transcode_ffmpeg(%{job | input_filepath: source_file}, preset),
+                 transcode_extname = Path.extname(transcoded_file),
+                 output_filepath =
+                   Path.join([album_uuid, format, "#{track_uuid}#{transcode_extname}"]),
+                 {:ok, _} <-
+                   Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath) do
+              {:ok, job}
+            else
+              _ ->
+                {:error, "Could not transcode into format: #{format}"}
+            end
+          end)
+
+        _ ->
+          {:error, "Could not download source file."}
+      end
+
+    if Enum.all?(results, fn {status, _} -> status == :ok end) do
+      {:ok, job}
     else
-      {:error, "Could not find preset for format #{format}"}
+      Enum.find(results, fn {status, _} -> status == :error end)
     end
   end
-
-  def transcode(_), do: {:error, "Desired format not recognized."}
 
   def transcode_ffmpeg(job, preset) do
     {:ok, output_file} = Briefly.create(extname: preset.ext)
