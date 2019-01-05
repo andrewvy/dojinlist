@@ -16,10 +16,10 @@ defmodule Transcoder.S3 do
     end
   end
 
-  def upload(bucket, input_filepath, output_filepath) do
+  def upload(bucket, input_filepath, output_filepath, options) do
     input_filepath
     |> ExAws.S3.Upload.stream_file()
-    |> ExAws.S3.upload(bucket, output_filepath)
+    |> ExAws.S3.upload(bucket, output_filepath, options)
     |> ExAws.request()
   end
 end

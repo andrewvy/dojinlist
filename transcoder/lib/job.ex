@@ -71,7 +71,13 @@ defmodule Transcoder.Job do
       input_filepath: params["input_filepath"],
       output_bucket: params["output_bucket"],
       album_uuid: params["album_uuid"],
-      track_uuid: params["track_uuid"]
+      track_uuid: params["track_uuid"],
+      title: params["title"],
+      artist: params["artist"],
+      date: params["date"],
+      comment: params["comment"],
+      album: params["album"],
+      track: params["track"]
     }
 
     if Vex.valid?(job,
@@ -79,7 +85,8 @@ defmodule Transcoder.Job do
          input_filepath: [presence: true],
          output_bucket: [presence: true],
          album_uuid: [presence: true],
-         track_uuid: [presence: true]
+         track_uuid: [presence: true],
+         title: [presence: true]
        ) do
       {:ok, struct(__MODULE__, job)}
     else
@@ -111,7 +118,12 @@ defmodule Transcoder.Job do
                  output_filepath =
                    Path.join([album_uuid, format, "#{track_uuid}#{transcode_extname}"]),
                  {:ok, _} <-
-                   Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath) do
+                   Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath,
+                     meta: [
+                       {"track-name", job.title || ""},
+                       {"track-index", job.track || "0"}
+                     ]
+                   ) do
               {:ok, job}
             else
               _ ->
