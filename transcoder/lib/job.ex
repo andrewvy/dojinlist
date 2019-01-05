@@ -86,7 +86,8 @@ defmodule Transcoder.Job do
          output_bucket: [presence: true],
          album_uuid: [presence: true],
          track_uuid: [presence: true],
-         title: [presence: true]
+         title: [presence: true],
+         track: [presence: true]
        ) do
       {:ok, struct(__MODULE__, job)}
     else
@@ -121,7 +122,9 @@ defmodule Transcoder.Job do
                    Transcoder.S3.upload(job.output_bucket, transcoded_file, output_filepath,
                      meta: [
                        {"track-name", job.title || ""},
-                       {"track-index", job.track || "0"}
+                       {"track-index", job.track || "1"},
+                       {"album-name", job.album || ""},
+                       {"album-artist", job.album_artist || ""}
                      ]
                    ) do
               {:ok, job}

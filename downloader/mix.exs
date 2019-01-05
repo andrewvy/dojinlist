@@ -30,7 +30,9 @@ defmodule Downloader.MixProject do
        git: "git@github.com:CargoSense/briefly.git",
        ref: "c7a6b5438536fbcef025e2c15b59ee3f462171eb"},
       {:plug_cowboy, "~> 2.0"},
-      {:jason, "~> 1.1"}
+      {:jason, "~> 1.1"},
+      {:sweet_xml, "~> 0.6"},
+      {:zstream, "~> 0.2.0"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]

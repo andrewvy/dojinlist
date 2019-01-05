@@ -32,7 +32,7 @@ defmodule Transcoder.SQS.Producer do
     aws_resp =
       ExAws.SQS.receive_message(
         state.queue,
-        wait_time_seconds: 2,
+        wait_time_seconds: 5,
         max_number_of_messages: min(state.demand, 10)
       )
       |> ExAws.request()
