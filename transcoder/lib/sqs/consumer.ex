@@ -3,6 +3,8 @@ defmodule Transcoder.SQS.Consumer do
 
   alias ExAws.SQS
 
+  require Logger
+
   def start_link({queue_name, producers}, opts \\ []) do
     GenStage.start_link(__MODULE__, [queue: queue_name, producers: producers], opts)
   end
@@ -11,6 +13,8 @@ defmodule Transcoder.SQS.Consumer do
     state = %{
       queue: queue_name
     }
+
+    Logger.info("Started SQS.Consumer")
 
     subscriptions = Enum.map(producers, &{&1, [max_demand: 1]})
 
@@ -42,24 +46,24 @@ defmodule Transcoder.SQS.Consumer do
   defp process_message(message) do
     body = message.body
 
-    IO.puts("Got message #{message.message_id}")
+    Logger.info("message_id=#{message.message_id} received=true")
 
     with {:ok, json_body} <- Jason.decode(body),
          {:ok, job} <- Transcoder.Job.new(json_body) do
       case Transcoder.execute(job) do
         {:ok, job} ->
-          IO.puts("message_id=#{message.message_id} elapsed_time=#{job.elapsed_time}ms")
+          Logger.info("message_id=#{message.message_id} elapsed_time=#{job.elapsed_time}ms")
           emit_successful_job(job)
 
         _ ->
-          IO.puts("message_id=#{message.message_id} error='Transcoder Error'")
+          Logger.info("message_id=#{message.message_id} error='Transcoder Error'")
           :error
       end
 
       {:ok, message}
     else
       _ ->
-        IO.puts("message_id=#{message.message_id} error='Invalid job format.'")
+        Logger.info("message_id=#{message.message_id} error='Invalid job format.'")
         {:ok, message}
     end
   end

@@ -1,6 +1,8 @@
 defmodule Transcoder.SQS.Producer do
   use GenStage
 
+  require Logger
+
   def start_link({queue_name, opts}) do
     GenStage.start_link(__MODULE__, queue_name, opts)
   end
@@ -10,6 +12,8 @@ defmodule Transcoder.SQS.Producer do
       demand: 0,
       queue: queue_name
     }
+
+    Logger.info("Started SQS.Producer")
 
     {:producer, state}
   end

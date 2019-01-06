@@ -42,11 +42,22 @@ defmodule Downloader do
       object_path = Path.join([album_uuid, encoding, "#{track_uuid}#{extname}"])
       {:ok, tmp_file} = Briefly.create(extname: extname)
 
+      file =
+        ExAws.S3.head_object(@bucket, object_path)
+        |> ExAws.request!()
+
+      response_headers = Map.new(file.headers)
+      track_name = get_track_name(response_headers)
+      track_index = get_track_index(response_headers)
+      album_name = get_album_name(response_headers)
+
+      download_name = "#{album_name} - #{track_index} - #{track_name}#{extname}"
+
       ExAws.S3.download_file(@bucket, object_path, tmp_file)
       |> ExAws.request()
       |> case do
         {:ok, _} ->
-          {:ok, tmp_file}
+          {:ok, {download_name, tmp_file}}
 
         _ ->
           {:error, "Failed to download file from S3"}

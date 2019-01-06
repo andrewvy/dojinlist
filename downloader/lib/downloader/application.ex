@@ -3,6 +3,8 @@ defmodule Downloader.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  require Logger
+
   use Application
 
   def start(_type, _args) do
@@ -12,6 +14,8 @@ defmodule Downloader.Application do
     children = [
       Plug.Cowboy.child_spec(scheme: :http, plug: Downloader.Router, options: [port: port])
     ]
+
+    Logger.info("Listening on port: #{port}")
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -3,6 +3,8 @@ defmodule Transcoder.Application do
   # for more information on OTP Applications
   @moduledoc false
 
+  require Logger
+
   use Application
 
   def start(_type, _args) do
@@ -13,6 +15,8 @@ defmodule Transcoder.Application do
       {Transcoder.SQS.Producer, {"transcoder_jobs", [name: :producer_1]}},
       {Transcoder.SQS.Consumer, {"transcoder_jobs", [:producer_1]}}
     ]
+
+    Logger.info("Started Transcoder Application")
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

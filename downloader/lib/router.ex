@@ -11,6 +11,10 @@ defmodule Downloader.Router do
 
   @dojinlist_header "x-dojinlist-secret"
 
+  get "/" do
+    send_resp(conn, 200, "")
+  end
+
   # ?enc - Requested encoding.
   get "/:album_uuid/:track_uuid/:hash" do
     request_headers = Map.new(conn.req_headers)
@@ -21,9 +25,8 @@ defmodule Downloader.Router do
     if valid_headers?(request_headers) && encoding && album_uuid && track_uuid do
       Downloader.download_track(album_uuid, track_uuid, encoding)
       |> case do
-        {:ok, tmp_file} ->
+        {:ok, {download_name, tmp_file}} ->
           mimetype = Downloader.get_mimetype(encoding)
-          download_name = conn.params["as"] || track_uuid <> Downloader.get_extname(encoding)
 
           conn
           |> put_resp_content_type(mimetype)
@@ -38,7 +41,7 @@ defmodule Downloader.Router do
     end
   end
 
-  get "/:album_uuid/hash" do
+  get "/:album_uuid/:hash" do
     request_headers = Map.new(conn.req_headers)
     encoding = conn.params["enc"]
     album_uuid = conn.params["album_uuid"]
@@ -70,16 +73,20 @@ defmodule Downloader.Router do
     send_resp(conn, 404, "")
   end
 
-  defp valid_headers?(request_headers) do
-    case Map.get(request_headers, @dojinlist_header) do
-      "" ->
-        false
+  if Mix.env() == :dev do
+    defp valid_headers?(_), do: true
+  else
+    defp valid_headers?(request_headers) do
+      case Map.get(request_headers, @dojinlist_header) do
+        "" ->
+          false
 
-      nil ->
-        false
+        nil ->
+          false
 
-      header_value ->
-        header_value == System.get_env("DOJINLIST_SECRET_HEADER_VALUE")
+        header_value ->
+          header_value == System.get_env("DOJINLIST_SECRET_HEADER_VALUE")
+      end
     end
   end
 end
