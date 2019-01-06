@@ -73,7 +73,9 @@ defmodule Transcoder.SQS.Consumer do
       input_bucket: job.input_bucket,
       input_filepath: job.input_filepath,
       output_bucket: job.output_bucket,
-      elapsed_time: job.elapsed_time
+      elapsed_time: job.elapsed_time,
+      album_uuid: job.album_uuid,
+      track_uuid: job.track_uuid
     }
 
     json = Jason.encode!(message)
