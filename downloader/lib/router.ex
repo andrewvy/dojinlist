@@ -31,6 +31,7 @@ defmodule Downloader.Router do
           conn
           |> put_resp_content_type(mimetype)
           |> put_resp_header("content-disposition", ~s[attachment; filename="#{download_name}"])
+          |> set_cache_headers()
           |> Plug.Conn.send_file(200, tmp_file)
 
         {:error, _} ->
@@ -53,6 +54,7 @@ defmodule Downloader.Router do
         conn
         |> put_resp_content_type("application/octet-stream")
         |> put_resp_header("content-disposition", ~s[attachment; filename="#{filename}"])
+        |> set_cache_headers()
         |> send_chunked(200)
 
       Enum.reduce_while(zip_stream, conn, fn chunk, conn ->
@@ -71,6 +73,11 @@ defmodule Downloader.Router do
 
   match _ do
     send_resp(conn, 404, "")
+  end
+
+  defp set_cache_headers(conn) do
+    conn
+    |> put_resp_header("cache-control", "max-age=31536000")
   end
 
   if Mix.env() == :dev do
