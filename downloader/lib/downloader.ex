@@ -92,6 +92,22 @@ defmodule Downloader do
       {"#{album_name} - #{track_index} - #{track_name}#{extname}", tmp_file}
     end
 
+    download_file = fn object ->
+      filepath = object.key
+      filename = Path.basename(filepath)
+
+      tmp_file =
+        Path.join([
+          tmpdir,
+          filename
+        ])
+
+      ExAws.S3.download_file(@bucket, filepath, tmp_file)
+      |> ExAws.request!()
+
+      {filename, tmp_file}
+    end
+
     response =
       ExAws.S3.list_objects(@bucket, prefix: Path.join([album_uuid, encoding]))
       |> ExAws.request!()
@@ -99,6 +115,19 @@ defmodule Downloader do
     zipped_files =
       response.body.contents
       |> Task.async_stream(download_object, max_concurrency: 5, timeout: 120_000)
+      |> Enum.map(fn {_status, result} -> result end)
+      |> Enum.map(fn {download_filename, tmp_file} ->
+        Zstream.entry(download_filename, File.stream!(tmp_file))
+      end)
+
+    additional_files_response =
+      ExAws.S3.list_objects(@bucket, prefix: Path.join([album_uuid, "additional"]))
+      |> ExAws.request!()
+
+    zipped_additional_files =
+      additional_files_response.body.contents
+      |> Enum.reject(fn object -> String.ends_with?(object.key, "/") end)
+      |> Task.async_stream(download_file, max_concurrency: 5, timeout: 120_000)
       |> Enum.map(fn {_status, result} -> result end)
       |> Enum.map(fn {download_filename, tmp_file} ->
         Zstream.entry(download_filename, File.stream!(tmp_file))
@@ -114,12 +143,17 @@ defmodule Downloader do
 
     album_headers = Map.new(file.headers)
     album_name = get_album_name(album_headers)
+    album_artist = get_album_artist(album_headers)
 
-    {"#{album_name}.zip", Zstream.zip(zipped_files)}
+    {"#{album_artist} - #{album_name}.zip", Zstream.zip(zipped_files ++ zipped_additional_files)}
   end
 
   def get_album_name(headers) do
     Map.get(headers, "x-amz-meta-album-name", "")
+  end
+
+  def get_album_artist(headers) do
+    Map.get(headers, "x-amz-meta-album-artist", "")
   end
 
   def get_track_name(headers) do
