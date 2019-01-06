@@ -18,3 +18,7 @@ run: ## Run the app in Docker
 	docker run --env-file config/docker.env \
 		--expose 4000 -p 4000:4000 \
 		--rm -it $(APP_NAME):latest
+
+deploy_production:
+	docker tag transcoder:latest 281089364417.dkr.ecr.us-east-1.amazonaws.com/transcoder:latest
+	docker push 281089364417.dkr.ecr.us-east-1.amazonaws.com/transcoder:latest
