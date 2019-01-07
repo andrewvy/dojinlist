@@ -31,8 +31,6 @@ defmodule Transcoder.MixProject do
        git: "git@github.com:CargoSense/briefly.git",
        ref: "c7a6b5438536fbcef025e2c15b59ee3f462171eb"},
       {:sweet_xml, "~> 0.6"},
-      {:ffmpex,
-       git: "git@github.com:andrewvy/ffmpex.git", ref: "2f47d3a2993e18e58a5b8a2e8dcda1836409e6c7"},
       {:gen_stage, "~> 0.14"},
       {:vex, "~> 0.8.0"},
       {:jason, "~> 1.1"},

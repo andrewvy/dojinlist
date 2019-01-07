@@ -3,6 +3,8 @@ defmodule Transcoder do
   Documentation for Transcoder.
   """
 
+  require Logger
+
   @doc """
   Execute a defined Transcoder.Job struct.
   """
@@ -25,6 +27,8 @@ defmodule Transcoder do
 
       error ->
         Briefly.cleanup()
+
+        Logger.error("Transcoding error")
 
         error
     end
