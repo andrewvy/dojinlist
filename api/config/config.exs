@@ -42,6 +42,13 @@ config :dojinlist, Dojinlist.Mailer, adapter: Swoosh.Adapters.Local
 config :dojinlist,
   web_url: "http://localhost:3000"
 
+config :ex_money,
+  default_cldr_backend: Dojinlist.Cldr
+
+config :ex_cldr,
+  default_locale: "en",
+  json_library: Jason
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

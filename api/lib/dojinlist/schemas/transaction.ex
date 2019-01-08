@@ -6,8 +6,11 @@ defmodule Dojinlist.Schemas.Transaction do
   alias Dojinlist.Schemas.PaymentProcessor
 
   schema "transactions" do
-    field :amount, :integer
     field :transaction_id, :string
+
+    field :sub_total, Money.Ecto.Composite.Type
+    field :tax_total, Money.Ecto.Composite.Type
+    field :cut_total, Money.Ecto.Composite.Type
 
     belongs_to :payment_processor, PaymentProcessor
 
@@ -17,12 +20,16 @@ defmodule Dojinlist.Schemas.Transaction do
   def changeset(transaction, attrs) do
     transaction
     |> cast(attrs, [
-      :amount,
+      :sub_total,
+      :tax_total,
+      :cut_total,
       :transaction_id,
       :payment_processor_id
     ])
     |> validate_required([
-      :amount,
+      :sub_total,
+      :tax_total,
+      :cut_total,
       :transaction_id,
       :payment_processor_id
     ])

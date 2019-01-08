@@ -10,9 +10,9 @@ defmodule Dojinlist.Schemas.PurchasedAlbum do
   }
 
   schema "purchased_albums" do
-    belongs_to :user, User
-    belongs_to :transaction, Transaction
-    belongs_to :album, Album
+    belongs_to(:user, User)
+    belongs_to(:transaction, Transaction)
+    belongs_to(:album, Album)
 
     timestamps(type: :utc_datetime)
   end
@@ -29,5 +29,6 @@ defmodule Dojinlist.Schemas.PurchasedAlbum do
       :transaction_id,
       :album_id
     ])
+    |> unique_constraint(:user_id)
   end
 end

@@ -1,5 +1,20 @@
 defmodule Dojinlist.Downloader do
+  alias Dojinlist.Repo
+  alias Dojinlist.Schemas.PurchasedAlbum
+
+  import Ecto.Query
+
   @default_expiry_time 60
+
+  def able_to_download_album?(user, album) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^album.id)
+      |> where([a], a.user_id == ^user.id)
+      |> Repo.one()
+
+    purchased_album !== nil
+  end
 
   def download_album(album_uuid, encoding) do
     url = "https://bits.dojinlist.co/#{album_uuid}/a?enc=#{encoding}"
