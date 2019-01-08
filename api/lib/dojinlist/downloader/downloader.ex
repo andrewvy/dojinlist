@@ -2,7 +2,14 @@ defmodule Dojinlist.Downloader do
   @default_expiry_time 60
 
   def download_album(album_uuid, encoding) do
-    url = "https://bits.dojinlist.co/#{album_uuid}/124?enc=#{encoding}"
+    url = "https://bits.dojinlist.co/#{album_uuid}/a?enc=#{encoding}"
+    params = parameters(url)
+
+    url <> "&" <> params
+  end
+
+  def download_track(album_uuid, track_uuid, encoding) do
+    url = "https://bits.dojinlist.co/#{album_uuid}/#{track_uuid}/a?enc=#{encoding}"
     params = parameters(url)
 
     url <> "&" <> params
