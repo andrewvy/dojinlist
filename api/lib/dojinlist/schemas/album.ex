@@ -14,6 +14,8 @@ defmodule Dojinlist.Schemas.Album do
     field :cover_art, :string
     field :release_date, :date
 
+    field :price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0)
+
     many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
 
@@ -56,7 +58,8 @@ defmodule Dojinlist.Schemas.Album do
       :release_date,
       :romanized_title,
       :sample_url,
-      :storefront_id
+      :storefront_id,
+      :price
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
     |> validate_required([:japanese_title, :storefront_id])

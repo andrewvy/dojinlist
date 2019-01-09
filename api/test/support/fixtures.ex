@@ -22,6 +22,7 @@ defmodule Dojinlist.Fixtures do
       japanese_title: Faker.Lorem.sentence(),
       sample_url: Faker.Internet.url() <> "/sample.mp3",
       purchase_url: Faker.Internet.url() <> "/purchase",
+      price: Money.from_integer(800, :usd),
       storefront_id:
         Map.get_lazy(attrs, :storefront_id, fn ->
           {:ok, storefront} = storefront()

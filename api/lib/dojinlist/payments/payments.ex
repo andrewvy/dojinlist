@@ -2,17 +2,25 @@ defmodule Dojinlist.Payments do
   alias Dojinlist.Repo
   alias Dojinlist.Schemas.PurchasedAlbum
 
-  def test_totals() do
-    %Dojinlist.Payments.Totals{
-      sub_total: Money.from_integer(8_00, :usd),
-      tax_total: Money.from_integer(0, :usd),
-      cut_total: Money.from_integer(7_50, :usd)
-    }
+  def fees(sub_total) do
+    percentage_fee = Decimal.new("0.05")
+    flat_fee = Money.from_integer(30, :usd)
+    percentage = Money.mult!(sub_total, percentage_fee)
+
+    Money.add!(percentage, flat_fee)
   end
 
   def purchase_album(user, album, token) do
     adapter = get_payment_adapter()
-    totals = test_totals()
+    sub_total = album.price
+    fee = fees(sub_total)
+
+    totals =
+      struct!(Dojinlist.Payments.Totals, %{
+        sub_total: sub_total,
+        tax_total: Money.from_integer(0, :usd),
+        cut_total: Money.sub!(sub_total, fee)
+      })
 
     adapter.perform_transaction(totals, token)
     |> case do
@@ -24,6 +32,10 @@ defmodule Dojinlist.Payments do
           transaction_id: transaction.id
         })
         |> Repo.insert()
+        |> case do
+          {:ok, _} -> {:ok, transaction}
+          error -> error
+        end
 
       error ->
         error
