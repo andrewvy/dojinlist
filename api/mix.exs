@@ -63,7 +63,8 @@ defmodule Dojinlist.MixProject do
       {:poison, "~> 3.1"},
       {:swoosh, "~> 0.20"},
       {:postgrex, ">= 0.0.0"},
-      {:sweet_xml, "~> 0.6"}
+      {:sweet_xml, "~> 0.6"},
+      {:stripity_stripe, "~> 2.2"}
     ]
   end
 

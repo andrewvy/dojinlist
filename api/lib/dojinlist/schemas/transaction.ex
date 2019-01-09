@@ -10,6 +10,8 @@ defmodule Dojinlist.Schemas.Transaction do
 
     field :sub_total, Money.Ecto.Composite.Type
     field :tax_total, Money.Ecto.Composite.Type
+
+    # Amount sent to album seller.
     field :cut_total, Money.Ecto.Composite.Type
 
     belongs_to :payment_processor, PaymentProcessor

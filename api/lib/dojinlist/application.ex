@@ -6,6 +6,8 @@ defmodule Dojinlist.Application do
   use Application
 
   def start(_type, _args) do
+    Application.put_env(:stripity_stripe, :api_key, System.get_env("STRIPE_API_KEY"))
+
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
