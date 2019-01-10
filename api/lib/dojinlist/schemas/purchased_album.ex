@@ -23,6 +23,7 @@ defmodule Dojinlist.Schemas.PurchasedAlbum do
     purchased_album
     |> cast(attrs, [
       :user_id,
+      :user_email,
       :transaction_id,
       :album_id
     ])
@@ -32,7 +33,7 @@ defmodule Dojinlist.Schemas.PurchasedAlbum do
     ])
     |> validate_required_inclusion([:user_id, :user_email])
     |> unique_constraint(:user_id)
-    |> unique_constraint(:email)
+    |> unique_constraint(:user_email)
   end
 
   def validate_required_inclusion(changeset, fields) do

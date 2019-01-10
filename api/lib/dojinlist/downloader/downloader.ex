@@ -1,16 +1,30 @@
 defmodule Dojinlist.Downloader do
   alias Dojinlist.Repo
-  alias Dojinlist.Schemas.PurchasedAlbum
+
+  alias Dojinlist.Schemas.{
+    PurchasedAlbum,
+    User
+  }
 
   import Ecto.Query
 
   @default_expiry_time 60
 
-  def able_to_download_album?(user, album) do
+  def able_to_download_album?(%User{} = user, album) do
     purchased_album =
       PurchasedAlbum
       |> where([a], a.album_id == ^album.id)
       |> where([a], a.user_id == ^user.id)
+      |> Repo.one()
+
+    purchased_album !== nil
+  end
+
+  def able_to_download_album?(user_email, album) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^album.id)
+      |> where([a], a.user_email == ^user_email)
       |> Repo.one()
 
     purchased_album !== nil

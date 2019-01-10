@@ -14,7 +14,7 @@ defmodule Dojinlist.PaymentsTest do
 
     assert false == Dojinlist.Downloader.able_to_download_album?(user, album)
 
-    {:ok, transaction} = Payments.purchase_album(user, album, "tok_visa")
+    {:ok, transaction} = Payments.purchase_album_with_account(user, album, "tok_visa")
 
     assert Money.equal?(transaction.sub_total, album.price)
 
@@ -24,5 +24,27 @@ defmodule Dojinlist.PaymentsTest do
     assert Money.equal?(transaction.cut_total, cut)
 
     assert true == Dojinlist.Downloader.able_to_download_album?(user, album)
+  end
+
+  test "Can purchase under an email" do
+    email = "test@test.com"
+
+    {:ok, album} =
+      Fixtures.album(%{
+        price: Money.from_integer(12_00, :usd)
+      })
+
+    assert false == Dojinlist.Downloader.able_to_download_album?(email, album)
+
+    {:ok, transaction} = Payments.purchase_album_with_email(email, album, "tok_visa")
+
+    assert Money.equal?(transaction.sub_total, album.price)
+
+    fee = Payments.fees(album.price)
+    cut = Money.sub!(album.price, fee)
+
+    assert Money.equal?(transaction.cut_total, cut)
+
+    assert true == Dojinlist.Downloader.able_to_download_album?(email, album)
   end
 end
