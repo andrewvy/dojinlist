@@ -9,7 +9,7 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
         edges {
           node {
             id
-            name
+            title
             event {
               id
               name
@@ -38,5 +38,45 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
 
     assert %{"data" => %{"albums" => %{"edges" => [edge]}}} = response
     assert %{"node" => %{"event" => %{"id" => ^event_id}}} = edge
+  end
+
+  @query """
+    query SearchAlbums($storefrontId: ID) {
+      albums(first: 25, storefrontId: $storefrontId) {
+        edges {
+          node {
+            id
+            title
+            event {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  """
+
+  test "Can search for albums by storefront_id" do
+    {:ok, storefront} = Fixtures.storefront(%{subdomain: "bitplane"})
+
+    {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.album()
+
+    storefront_id =
+      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+
+    variables = %{
+      storefrontId: storefront_id
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.create_and_login_as_admin()
+      |> execute_graphql(@query, variables)
+
+    assert %{"data" => %{"albums" => %{"edges" => albums}}} = response
+    assert 2 = Enum.count(albums)
   end
 end

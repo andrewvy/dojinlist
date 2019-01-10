@@ -57,6 +57,13 @@ defmodule Dojinlist.Albums do
     |> where([a], a.event_id == ^id)
   end
 
+  def build_query_from_attr(query, {:storefront_id, id}) do
+    id = id |> Utility.parse_integer()
+
+    query
+    |> where([a], a.storefront_id == ^id)
+  end
+
   def build_query_from_attr(query, _), do: query
 
   def create_album(attrs) do
