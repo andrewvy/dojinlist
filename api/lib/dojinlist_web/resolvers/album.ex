@@ -1,8 +1,5 @@
 defmodule DojinlistWeb.Resolvers.Album do
-  alias Dojinlist.{
-    Albums,
-    Permissions
-  }
+  alias Dojinlist.Albums
 
   def suggest(%{suggestion: suggestion} = params, _) do
     Dojinlist.AlbumSearch.with_title_suggest(suggestion)
@@ -29,7 +26,7 @@ defmodule DojinlistWeb.Resolvers.Album do
     |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
   end
 
-  def by_id(%{id: id}, %{context: %{current_user: user}}) do
+  def by_id(%{id: id}, _) do
     case Albums.get_album(id) do
       nil ->
         # @TODO(vy): i18n

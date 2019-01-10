@@ -8,6 +8,7 @@ defmodule Dojinlist.Schemas.Album do
     field :uuid, Ecto.UUID, autogenerate: true
 
     field :title, :string
+    field :description, :string
     field :cover_art, :string
     field :release_datetime, :utc_datetime
     field :price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0)
@@ -35,6 +36,7 @@ defmodule Dojinlist.Schemas.Album do
   def changeset(album, attrs) do
     album
     |> cast(attrs, [
+      :description,
       :cover_art,
       :creator_user_id,
       :event_id,
