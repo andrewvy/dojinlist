@@ -4,8 +4,7 @@ defmodule Dojinlist.Schemas.Track do
   import Ecto.Changeset
 
   schema "tracks" do
-    field :romanized_title, :string
-    field :japanese_title, :string
+    field :title, :string
     field :play_length, :integer
 
     belongs_to :album, Dojinlist.Schemas.Album
@@ -14,11 +13,10 @@ defmodule Dojinlist.Schemas.Track do
   def changeset(track, attrs) do
     track
     |> cast(attrs, [
-      :romanized_title,
-      :japanese_title,
+      :title,
       :play_length,
       :album_id
     ])
-    |> validate_required([:japanese_title])
+    |> validate_required([:title])
   end
 end

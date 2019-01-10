@@ -19,9 +19,7 @@ defmodule Dojinlist.Fixtures do
 
   def album(attrs \\ %{}) do
     default_attrs = %{
-      japanese_title: Faker.Lorem.sentence(),
-      sample_url: Faker.Internet.url() <> "/sample.mp3",
-      purchase_url: Faker.Internet.url() <> "/purchase",
+      title: Faker.Lorem.sentence(),
       price: Money.from_integer(800, :usd),
       storefront_id:
         Map.get_lazy(attrs, :storefront_id, fn ->
@@ -49,8 +47,7 @@ defmodule Dojinlist.Fixtures do
 
   def storefront(attrs \\ %{}) do
     default_attrs = %{
-      subdomain:
-        Map.get_lazy(attrs, :subdomain, fn -> Faker.Lorem.word() |> String.downcase() end),
+      subdomain: Map.get_lazy(attrs, :subdomain, fn -> random_string() |> String.downcase() end),
       creator_id:
         Map.get_lazy(attrs, :creator_id, fn ->
           {:ok, user} = user()
@@ -84,5 +81,9 @@ defmodule Dojinlist.Fixtures do
 
     conn
     |> login_as(user)
+  end
+
+  def random_string() do
+    :crypto.strong_rand_bytes(20) |> Base.url_encode64() |> binary_part(0, 20)
   end
 end

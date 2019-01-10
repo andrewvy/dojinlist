@@ -168,39 +168,4 @@ defmodule Dojinlist.Albums do
     Schemas.Album
     |> Repo.get(id)
   end
-
-  def mark_as_verified(id, user_id \\ nil) do
-    get_album(id)
-    |> case do
-      nil ->
-        # @todo(vy): i18n
-        {:error, "Could not find an album with that ID."}
-
-      album ->
-        Dojinlist.EditHistory.new_album_edit(id, user_id || album.creator_user_id, "verify_album")
-
-        album
-        |> Schemas.Album.changeset(%{is_verified: true})
-        |> Repo.update()
-    end
-  end
-
-  def mark_as_unverified(id, user_id \\ nil) do
-    get_album(id)
-    |> case do
-      nil ->
-        {:error, "Could not find an album with that ID."}
-
-      album ->
-        Dojinlist.EditHistory.new_album_edit(
-          id,
-          user_id || album.creator_user_id,
-          "unverify_album"
-        )
-
-        album
-        |> Schemas.Album.changeset(%{is_verified: false})
-        |> Repo.update()
-    end
-  end
 end

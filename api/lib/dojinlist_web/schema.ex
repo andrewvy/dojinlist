@@ -36,10 +36,6 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Album.all/2)
     end
 
-    connection field :unverified_albums, node_type: :album do
-      resolve(&Resolvers.Album.unverified/2)
-    end
-
     connection field :search_albums, node_type: :lite_album do
       arg(:suggestion, non_null(:string))
 

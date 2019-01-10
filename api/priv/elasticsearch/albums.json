@@ -2,18 +2,15 @@
   "mappings": {
     "_doc": {
       "properties": {
-        "japanese_title": {
+        "title": {
           "type": "text"
+        },
+        "title_suggest": {
+          "type": "completion"
         },
         "japanese_title_suggest": {
           "type": "completion",
           "analyzer": "kuromoji"
-        },
-        "romanized_title": {
-          "type": "text"
-        },
-        "romanized_title_suggest": {
-          "type": "completion"
         },
         "artists": {
           "type": "long"
@@ -27,10 +24,7 @@
         "tracks": {
           "type": "nested",
           "properties": {
-            "romanized_title": {
-              "type": "text"
-            },
-            "japanese_title": {
+            "title": {
               "type": "text"
             },
             "play_length": {

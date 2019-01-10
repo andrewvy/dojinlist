@@ -6,14 +6,10 @@ defmodule Dojinlist.Schemas.Album do
 
   schema "albums" do
     field :uuid, Ecto.UUID, autogenerate: true
-    field :romanized_title, :string
-    field :japanese_title, :string
-    field :sample_url, :string
-    field :purchase_url, :string
-    field :is_verified, :boolean, default: false
-    field :cover_art, :string
-    field :release_date, :date
 
+    field :title, :string
+    field :cover_art, :string
+    field :release_datetime, :utc_datetime
     field :price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0)
 
     many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
@@ -31,16 +27,6 @@ defmodule Dojinlist.Schemas.Album do
     timestamps(type: :utc_datetime)
   end
 
-  def where_verified?(query) do
-    query
-    |> where([o], o.is_verified == true)
-  end
-
-  def where_unverified?(query) do
-    query
-    |> where([o], o.is_verified == false)
-  end
-
   def preload(query) do
     query
     |> preload([o], [:artists, :genres, :event, :ratings, :tracks])
@@ -52,16 +38,12 @@ defmodule Dojinlist.Schemas.Album do
       :cover_art,
       :creator_user_id,
       :event_id,
-      :is_verified,
-      :japanese_title,
-      :purchase_url,
-      :release_date,
-      :romanized_title,
-      :sample_url,
+      :price,
+      :release_datetime,
       :storefront_id,
-      :price
+      :title
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
-    |> validate_required([:japanese_title, :storefront_id])
+    |> validate_required([:title, :storefront_id])
   end
 end

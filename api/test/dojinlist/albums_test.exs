@@ -18,7 +18,7 @@ defmodule Dojinlist.AlbumsTest do
   test "Can create a new album", %{storefront: storefront} do
     assert {:ok, album} =
              Albums.create_album(%{
-               japanese_title: "02 EP",
+               title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
                purchase_url: "https://02-ep.local",
                storefront_id: storefront.id
@@ -30,7 +30,7 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, album} =
              Albums.create_album(%{
-               japanese_title: "02 EP",
+               title: "02 EP",
                sample_url: "https://02-ep.local/sample.mp3",
                storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
@@ -45,30 +45,13 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, album} =
              Albums.create_album(%{
-               japanese_title: "02 EP",
-               sample_url: "https://02-ep.local/sample.mp3",
+               title: "02 EP",
                storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
              })
 
     assert 1 == Enum.count(album.genres)
-  end
-
-  test "Can mark an album as verified" do
-    {:ok, album} = Fixtures.album()
-
-    assert album.is_verified == false
-    assert {:ok, album} = Albums.mark_as_verified(album.id)
-    assert album.is_verified == true
-  end
-
-  test "Can mark an album as unverified" do
-    {:ok, album} = Fixtures.album(%{is_verified: true})
-
-    assert album.is_verified == true
-    assert {:ok, album} = Albums.mark_as_unverified(album.id)
-    assert album.is_verified == false
   end
 
   test "Can update an album" do
@@ -78,12 +61,12 @@ defmodule Dojinlist.AlbumsTest do
 
     assert {:ok, updated_album} =
              Albums.update_album(album, %{
-               japanese_title: "Test",
+               title: "Test",
                artist_ids: [artist.id],
                genre_ids: [genre.id]
              })
 
-    assert album.japanese_title != updated_album.japanese_title
+    assert album.title != updated_album.title
     assert 1 = Enum.count(updated_album.artists)
     assert 1 = Enum.count(updated_album.genres)
   end
@@ -93,12 +76,12 @@ defmodule Dojinlist.AlbumsTest do
 
     {:ok, album} =
       Albums.create_album(%{
-        japanese_title: "Test",
+        title: "Test",
         creator_user_id: user.id,
         storefront_id: storefront.id
       })
 
-    Albums.update_album(album, %{japanese_title: "New Name"}, user.id)
+    Albums.update_album(album, %{title: "New Name"}, user.id)
 
     loaded_album = album |> Repo.preload([:edit_history])
 
@@ -108,12 +91,12 @@ defmodule Dojinlist.AlbumsTest do
   test "Can add external album links", %{storefront: storefront} do
     {:ok, album} =
       Albums.create_album(%{
-        japanese_title: "External Album Link",
+        title: "External Album Link",
         storefront_id: storefront.id,
         external_links: [
           %{
             url: "https://",
-            type: "store_digital_only"
+            type: "official"
           }
         ]
       })
@@ -126,12 +109,12 @@ defmodule Dojinlist.AlbumsTest do
   test "Can replace external album links", %{storefront: storefront} do
     {:ok, album} =
       Albums.create_album(%{
-        japanese_title: "External Album Link",
+        title: "External Album Link",
         storefront_id: storefront.id,
         external_links: [
           %{
             url: "https://external-album.link/1",
-            type: "store_digital_only"
+            type: "official"
           }
         ]
       })

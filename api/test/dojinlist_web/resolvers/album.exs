@@ -22,8 +22,8 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
 
   test "Can search for an album by event_id" do
     {:ok, event} = Fixtures.event()
-    {:ok, _} = Fixtures.album(%{is_verified: true})
-    {:ok, _} = Fixtures.album(%{event_id: event.id, is_verified: true})
+    {:ok, _} = Fixtures.album()
+    {:ok, _} = Fixtures.album(%{event_id: event.id})
 
     event_id = Absinthe.Relay.Node.to_global_id(:event, event.id, DojinlistWeb.Schema)
 

@@ -5,7 +5,7 @@ defmodule DojinlistWeb.Resolvers.Album do
   }
 
   def suggest(%{suggestion: suggestion} = params, _) do
-    Dojinlist.AlbumSearch.with_romanized_title_suggest(suggestion)
+    Dojinlist.AlbumSearch.with_title_suggest(suggestion)
     |> case do
       {:ok, search} ->
         docs =
@@ -25,19 +25,8 @@ defmodule DojinlistWeb.Resolvers.Album do
 
   def all(params, _) do
     Dojinlist.Schemas.Album
-    |> Dojinlist.Schemas.Album.where_verified?()
     |> Albums.build_query(params)
     |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
-  end
-
-  def unverified(params, %{context: %{current_user: user}}) do
-    if Permissions.in_user_permissions?(user, "verify_albums") do
-      Dojinlist.Schemas.Album
-      |> Dojinlist.Schemas.Album.where_unverified?()
-      |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
-    else
-      {:ok, %{}}
-    end
   end
 
   def by_id(%{id: id}, %{context: %{current_user: user}}) do
@@ -47,12 +36,7 @@ defmodule DojinlistWeb.Resolvers.Album do
         {:error, "Could not find album with that id"}
 
       album ->
-        if album.is_verified || Permissions.in_user_permissions?(user, "verify_albums") do
-          {:ok, album}
-        else
-          # @TODO(vy): i18n
-          {:error, "Could not find album with that id"}
-        end
+        {:ok, album}
     end
   end
 end
