@@ -92,10 +92,12 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Blog.all/2)
     end
 
-    field :stripe_oauth_redirect_url, :string do
+    field :oauth_redirect_url, :string do
+      arg(:oauth_provider, non_null(:string))
+
       middleware(Middlewares.Authorization)
 
-      resolve(&Resolvers.OAuth.stripe_redirect_url/2)
+      resolve(&Resolvers.OAuth.redirect_url/2)
     end
   end
 

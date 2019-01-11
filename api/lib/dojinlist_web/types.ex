@@ -211,7 +211,8 @@ defmodule DojinlistWeb.Types do
     field :subdomain, :string
   end
 
-  object :stripe_oauth_response do
+  object :oauth_response do
+    field :oauth_provider, non_null(:string)
     field :user, :user
     field :errors, list_of(:error)
   end

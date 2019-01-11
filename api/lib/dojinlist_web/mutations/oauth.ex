@@ -2,21 +2,24 @@ defmodule DojinlistWeb.Mutations.OAuth do
   use Absinthe.Schema.Notation
 
   object :oauth_mutations do
-    field :stripe_exchange_code, type: :stripe_oauth_response do
+    field :exchange_code, type: :oauth_response do
+      arg(:oauth_provider, non_null(:string))
       arg(:state, non_null(:string))
       arg(:code, non_null(:string))
 
       middleware(DojinlistWeb.Middlewares.Authorization)
 
-      resolve(&stripe_exchange_code/2)
+      resolve(&exchange_code/2)
     end
   end
 
-  def stripe_exchange_code(attrs, %{context: %{current_user: current_user}}) do
-    Dojinlist.OAuth.Stripe.exchange_code(current_user, attrs[:state], attrs[:code])
+  def exchange_code(%{state: state, code: code, oauth_provider: "stripe"}, %{
+        context: %{current_user: current_user}
+      }) do
+    Dojinlist.OAuth.Stripe.exchange_code(current_user, state, code)
     |> case do
       {:ok, _} ->
-        {:ok, %{user: current_user}}
+        {:ok, %{user: current_user, oauth_provider: "stripe"}}
 
       {:error, _} ->
         errors = [
