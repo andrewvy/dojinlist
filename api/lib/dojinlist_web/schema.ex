@@ -20,6 +20,7 @@ defmodule DojinlistWeb.Schema do
   import_types(Mutations.Rating)
   import_types(Mutations.Storefront)
   import_types(Mutations.Track)
+  import_types(Mutations.OAuth)
 
   query do
     connection field :albums, node_type: :album do
@@ -90,6 +91,12 @@ defmodule DojinlistWeb.Schema do
     connection field :blog_posts, node_type: :blog_post do
       resolve(&Resolvers.Blog.all/2)
     end
+
+    field :stripe_oauth_redirect_url, :string do
+      middleware(Middlewares.Authorization)
+
+      resolve(&Resolvers.OAuth.stripe_redirect_url/2)
+    end
   end
 
   mutation do
@@ -128,6 +135,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:rating_mutations)
     import_fields(:storefront_mutations)
     import_fields(:track_mutations)
+    import_fields(:oauth_mutations)
   end
 
   node interface do

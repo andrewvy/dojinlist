@@ -16,6 +16,7 @@ defmodule Dojinlist.Schemas.User do
 
     many_to_many :permissions, Dojinlist.Schemas.Permission, join_through: "users_permissions"
 
+    has_one :stripe_account, Dojinlist.Schemas.StripeAccount
     has_many :ratings, Dojinlist.Schemas.UserRating
     has_many :albums, through: [:ratings, :album]
 

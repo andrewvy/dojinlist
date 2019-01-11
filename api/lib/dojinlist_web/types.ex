@@ -210,4 +210,14 @@ defmodule DojinlistWeb.Types do
   input_object :storefront_input do
     field :subdomain, :string
   end
+
+  object :stripe_oauth_response do
+    field :user, :user
+    field :errors, list_of(:error)
+  end
+
+  object :error do
+    field :error_code, non_null(:string)
+    field :error_message, non_null(:string)
+  end
 end
