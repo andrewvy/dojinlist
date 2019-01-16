@@ -19,10 +19,10 @@ defmodule DojinlistWeb.Types do
   end
 
   node object(:album) do
-    field :uuid, :string
-    field :title, :string
-    field :release_datetime, :datetime
-    field :event, :event, resolve: dataloader(Dojinlist.Source)
+    field(:uuid, :string)
+    field(:title, :string)
+    field(:release_datetime, :datetime)
+    field(:event, :event, resolve: dataloader(Dojinlist.Source))
 
     field :cover_art_url, :string do
       resolve(fn album, _, _ ->
@@ -38,36 +38,36 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
-    field :genres, list_of(:genre), resolve: dataloader(Dojinlist.Source)
-    field :artists, list_of(:artist), resolve: dataloader(Dojinlist.Source)
-    field :tracks, list_of(:track), resolve: dataloader(Dojinlist.Source)
-    field :external_links, list_of(:external_album_link), resolve: dataloader(Dojinlist.Source)
+    field(:genres, list_of(:genre), resolve: dataloader(Dojinlist.Source))
+    field(:artists, list_of(:artist), resolve: dataloader(Dojinlist.Source))
+    field(:tracks, list_of(:track), resolve: dataloader(Dojinlist.Source))
+    field(:external_links, list_of(:external_album_link), resolve: dataloader(Dojinlist.Source))
   end
 
   connection(node_type: :genre)
 
   node object(:genre) do
-    field :uuid, :string
-    field :name, :string
+    field(:uuid, :string)
+    field(:name, :string)
   end
 
   connection(node_type: :artist)
 
   node object(:event) do
-    field :uuid, :string
-    field :name, :string
-    field :start_date, :date
-    field :end_date, :date
+    field(:uuid, :string)
+    field(:name, :string)
+    field(:start_date, :date)
+    field(:end_date, :date)
   end
 
   connection(node_type: :event)
 
   node object(:rating) do
-    field :rating, :integer
-    field :description, :string
-    field :inserted_at, :datetime
-    field :updated_at, :datetime
-    field :album, :album
+    field(:rating, :integer)
+    field(:description, :string)
+    field(:inserted_at, :datetime)
+    field(:updated_at, :datetime)
+    field(:album, :album)
   end
 
   connection(node_type: :rating)
@@ -75,10 +75,10 @@ defmodule DojinlistWeb.Types do
   connection(node_type: :blog_post)
 
   node object(:blog_post) do
-    field :title, :string
-    field :slug, :string
-    field :content, :string
-    field :summary, :string
+    field(:title, :string)
+    field(:slug, :string)
+    field(:content, :string)
+    field(:summary, :string)
 
     field :author, :user do
       resolve(fn post, _, _ ->
@@ -86,30 +86,30 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
-    field :inserted_at, :datetime
-    field :updated_at, :datetime
+    field(:inserted_at, :datetime)
+    field(:updated_at, :datetime)
   end
 
   connection(node_type: :lite_album)
 
   node object(:lite_album) do
-    field :title, :string
+    field(:title, :string)
   end
 
   node object(:artist) do
-    field :uuid, :string
-    field :name, :string
+    field(:uuid, :string)
+    field(:name, :string)
   end
 
   node object(:track) do
-    field :title, :string
-    field :play_length, :integer
-    field :album, :album, resolve: dataloader(Dojinlist.Source)
+    field(:title, :string)
+    field(:play_length, :integer)
+    field(:album, :album, resolve: dataloader(Dojinlist.Source))
   end
 
   node object(:external_album_link) do
-    field :url, :string
-    field :type, :external_album_link_type
+    field(:url, :string)
+    field(:type, :external_album_link_type)
   end
 
   enum :external_album_link_type do
@@ -128,12 +128,12 @@ defmodule DojinlistWeb.Types do
   end
 
   node object(:storefront) do
-    field :subdomain, :string
+    field(:subdomain, :string)
   end
 
   object :me do
-    field :username, :string
-    field :email, :string
+    field(:username, :string)
+    field(:email, :string)
 
     field :rating_count, :integer do
       resolve(fn _, %{context: %{current_user: user}} ->
@@ -153,15 +153,15 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
-    connection field :ratings, node_type: :rating do
+    connection field(:ratings, node_type: :rating) do
       resolve(&Resolvers.Rating.get_ratings_by_user/2)
     end
   end
 
   object :user do
-    field :id, :id
-    field :username, :string
-    field :email, :string
+    field(:id, :id)
+    field(:username, :string)
+    field(:email, :string)
 
     field :avatar, :string do
       resolve(fn user, _, _ ->
@@ -172,53 +172,70 @@ defmodule DojinlistWeb.Types do
   end
 
   object :login_response do
-    field :token, :string
-    field :user, :user
+    field(:token, :string)
+    field(:user, :user)
   end
 
   object :register_response do
-    field :user, :user
+    field(:user, :user)
   end
 
   object :rating_like do
-    field :user_id, :user
-    field :rating_id, :rating
+    field(:user_id, :user)
+    field(:rating_id, :rating)
   end
 
   input_object :album_input do
-    field :title, non_null(:string)
-    field :artist_ids, list_of(:id)
-    field :genre_ids, list_of(:id)
-    field :storefront_id, non_null(:id)
-    field :event_id, :id
-    field :cover_art, :upload
-    field :release_datetime, :datetime
-    field :tracks, list_of(:track_input)
-    field :external_links, list_of(:external_album_link_input)
+    field(:title, non_null(:string))
+    field(:artist_ids, list_of(:id))
+    field(:genre_ids, list_of(:id))
+    field(:storefront_id, non_null(:id))
+    field(:event_id, :id)
+    field(:cover_art, :upload)
+    field(:release_datetime, :datetime)
+    field(:tracks, list_of(:track_input))
+    field(:external_links, list_of(:external_album_link_input))
   end
 
   input_object :external_album_link_input do
-    field :url, :string
-    field :type, :external_album_link_type
+    field(:url, :string)
+    field(:type, :external_album_link_type)
   end
 
   input_object :track_input do
-    field :title, non_null(:string)
-    field :play_length, :integer
+    field(:title, non_null(:string))
+    field(:play_length, :integer)
   end
 
   input_object :storefront_input do
-    field :subdomain, :string
+    field(:subdomain, :string)
   end
 
   object :oauth_response do
-    field :oauth_provider, non_null(:string)
-    field :user, :user
-    field :errors, list_of(:error)
+    field(:oauth_provider, non_null(:string))
+    field(:user, :user)
+    field(:errors, list_of(:error))
   end
 
   object :error do
-    field :error_code, non_null(:string)
-    field :error_message, non_null(:string)
+    field(:error_code, non_null(:string))
+    field(:error_message, non_null(:string))
+  end
+
+  enum :encodings do
+    value(:mp3_320, as: "mp3-320")
+    value(:mp3_128, as: "mp3-128")
+    value(:mp3_v0, as: "mp3-v0")
+    value(:flac, as: "flac")
+  end
+
+  input_object :download_input do
+    field(:album_id, non_null(:id))
+    field(:encoding, non_null(:encodings))
+  end
+
+  object :download_response do
+    field(:url, :string)
+    field(:errors, list_of(:error))
   end
 end

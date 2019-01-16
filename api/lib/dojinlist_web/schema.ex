@@ -21,9 +21,10 @@ defmodule DojinlistWeb.Schema do
   import_types(Mutations.Storefront)
   import_types(Mutations.Track)
   import_types(Mutations.OAuth)
+  import_types(Mutations.Download)
 
   query do
-    connection field :albums, node_type: :album do
+    connection field(:albums, node_type: :album) do
       arg(:artist_ids, list_of(:id))
       arg(:genre_ids, list_of(:id))
       arg(:artist_names, list_of(:string))
@@ -39,7 +40,7 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Album.all/2)
     end
 
-    connection field :search_albums, node_type: :lite_album do
+    connection field(:search_albums, node_type: :lite_album) do
       arg(:suggestion, non_null(:string))
 
       resolve(&Resolvers.Album.suggest/2)
@@ -70,25 +71,25 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Storefront.by_subdomain/2)
     end
 
-    connection field :artists, node_type: :artist do
+    connection field(:artists, node_type: :artist) do
       arg(:search, :string)
 
       resolve(&Resolvers.Artist.all/2)
     end
 
-    connection field :genres, node_type: :genre do
+    connection field(:genres, node_type: :genre) do
       arg(:search, :string)
 
       resolve(&Resolvers.Genre.all/2)
     end
 
-    connection field :events, node_type: :event do
+    connection field(:events, node_type: :event) do
       arg(:name, :string)
 
       resolve(&Resolvers.Event.all/2)
     end
 
-    connection field :blog_posts, node_type: :blog_post do
+    connection field(:blog_posts, node_type: :blog_post) do
       resolve(&Resolvers.Blog.all/2)
     end
 
@@ -138,6 +139,7 @@ defmodule DojinlistWeb.Schema do
     import_fields(:storefront_mutations)
     import_fields(:track_mutations)
     import_fields(:oauth_mutations)
+    import_fields(:download_mutations)
   end
 
   node interface do
