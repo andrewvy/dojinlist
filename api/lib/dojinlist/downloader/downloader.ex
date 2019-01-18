@@ -30,15 +30,19 @@ defmodule Dojinlist.Downloader do
     purchased_album !== nil
   end
 
-  def download_album(album_uuid, encoding) do
-    url = "https://bits.dojinlist.co/#{album_uuid}/a?enc=#{encoding}"
+  def download_album(album, encoding) do
+    album_id = Dojinlist.Hashid.encode(album.id)
+    url = "https://bits.dojinlist.co/#{album_id}/#{hash_album(album)}?enc=#{encoding}"
+
     params = parameters(url)
 
     url <> "&" <> params
   end
 
-  def download_track(album_uuid, track_uuid, encoding) do
-    url = "https://bits.dojinlist.co/#{album_uuid}/#{track_uuid}/a?enc=#{encoding}"
+  def download_track(album, track, encoding) do
+    album_id = Dojinlist.Hashid.encode(album.id)
+    track_id = Dojinlist.Hashid.encode(track.id)
+    url = "https://bits.dojinlist.co/#{album_id}/#{track_id}/#{hash_track(track)}?enc=#{encoding}"
     params = parameters(url)
 
     url <> "&" <> params
@@ -89,5 +93,41 @@ defmodule Dojinlist.Downloader do
     |> :public_key.pem_decode()
     |> hd()
     |> :public_key.pem_entry_decode()
+  end
+
+  def hash_album(album) do
+    dependent_parts = [
+      album.title,
+      album.cover_art
+    ]
+
+    track_parts = Enum.map(album.tracks, & &1.title)
+
+    (dependent_parts ++ track_parts)
+    |> hash()
+  end
+
+  def hash_track(track) do
+    [
+      track.title
+    ]
+    |> hash()
+  end
+
+  def hash(parts) do
+    sha = :crypto.hash_init(:sha256)
+
+    sha =
+      parts
+      |> Enum.reject(&(&1 == nil))
+      |> Enum.reduce(sha, fn part, acc ->
+        :crypto.hash_update(acc, part)
+      end)
+
+    sha_binary = :crypto.hash_final(sha)
+
+    sha_binary
+    |> Base.encode16()
+    |> String.downcase()
   end
 end

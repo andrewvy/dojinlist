@@ -174,5 +174,6 @@ defmodule Dojinlist.Albums do
   def get_album(id) do
     Schemas.Album
     |> Repo.get(id)
+    |> Repo.preload([:tracks])
   end
 end

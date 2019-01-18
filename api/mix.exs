@@ -47,24 +47,25 @@ defmodule Dojinlist.MixProject do
       {:elasticsearch, "~> 0.6.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
+      {:ex_money, "~> 3.1"},
       {:faker, "~> 0.11.0", only: :test},
       {:gen_smtp, "~> 0.13.0"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.6"},
+      {:hashids, "~> 2.0"},
       {:httpoison, ">= 0.0.0"},
       {:jason, "~> 1.0"},
       {:joken, "~> 2.0-rc2"},
-      {:ex_money, "~> 3.1"},
       {:paginator, "~> 0.5"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_pubsub, "~> 1.1"},
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.1"},
-      {:swoosh, "~> 0.20"},
       {:postgrex, ">= 0.0.0"},
+      {:stripity_stripe, "~> 2.2"},
       {:sweet_xml, "~> 0.6"},
-      {:stripity_stripe, "~> 2.2"}
+      {:swoosh, "~> 0.20"}
     ]
   end
 

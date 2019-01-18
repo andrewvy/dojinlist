@@ -36,7 +36,7 @@ defmodule DojinlistWeb.Mutations.Download do
 
       album ->
         if Dojinlist.Downloader.able_to_download_album?(user, album) do
-          url = Dojinlist.Downloader.download_album(album.uuid, encoding)
+          url = Dojinlist.Downloader.download_album(album, encoding)
 
           {:ok,
            %{
