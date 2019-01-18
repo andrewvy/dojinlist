@@ -229,8 +229,13 @@ defmodule DojinlistWeb.Types do
     value(:flac, as: "flac")
   end
 
-  input_object :download_input do
+  input_object :download_album_input do
     field(:album_id, non_null(:id))
+    field(:encoding, non_null(:encodings))
+  end
+
+  input_object :download_track_input do
+    field(:track_id, non_null(:id))
     field(:encoding, non_null(:encodings))
   end
 

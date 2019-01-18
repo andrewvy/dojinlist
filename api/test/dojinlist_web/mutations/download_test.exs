@@ -11,7 +11,7 @@ defmodule DojinlistWeb.Mutations.DownloadTest do
 
   test "Cannot download a non-purchased album" do
     query = """
-    mutation GenerateDownloadLink($download: DownloadInput) {
+    mutation GenerateDownloadLink($download: DownloadAlbumInput) {
       generateAlbumDownloadUrl(download: $download) {
         url
         errors {
@@ -52,7 +52,7 @@ defmodule DojinlistWeb.Mutations.DownloadTest do
 
   test "Can download an album" do
     query = """
-    mutation GenerateDownloadLink($download: DownloadInput) {
+    mutation GenerateDownloadLink($download: DownloadAlbumInput) {
       generateAlbumDownloadUrl(download: $download) {
         url
         errors {
@@ -100,5 +100,132 @@ defmodule DojinlistWeb.Mutations.DownloadTest do
       |> execute_graphql(query, variables)
 
     assert %{"data" => %{"generateAlbumDownloadUrl" => %{"url" => _}}} = response
+  end
+
+  test "Can download a track from a purchased album" do
+    query = """
+    mutation GenerateDownloadLink($download: DownloadTrackInput) {
+      generateTrackDownloadUrl(download: $download) {
+        url
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+    {:ok, album} = Fixtures.album()
+    {:ok, track} = Fixtures.track(%{album_id: album.id})
+
+    transaction =
+      %Transaction{}
+      |> Transaction.changeset(%{
+        sub_total: Money.new(:usd, 0),
+        tax_total: Money.new(:usd, 0),
+        cut_total: Money.new(:usd, 0),
+        transaction_id: "123w241212",
+        payment_processor_id: 1
+      })
+      |> Repo.insert!()
+
+    %PurchasedAlbum{}
+    |> PurchasedAlbum.changeset(%{
+      user_id: user.id,
+      album_id: album.id,
+      transaction_id: transaction.id
+    })
+    |> Repo.insert!()
+
+    track_id = Absinthe.Relay.Node.to_global_id(:track, track.id, DojinlistWeb.Schema)
+
+    variables = %{
+      download: %{
+        track_id: track_id,
+        encoding: "MP3_V0"
+      }
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{"data" => %{"generateTrackDownloadUrl" => %{"url" => _}}} = response
+  end
+
+  test "Can download a track with a whitelisted encoding" do
+    query = """
+    mutation GenerateDownloadLink($download: DownloadTrackInput) {
+      generateTrackDownloadUrl(download: $download) {
+        url
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+    {:ok, album} = Fixtures.album()
+    {:ok, track} = Fixtures.track(%{album_id: album.id})
+
+    track_id = Absinthe.Relay.Node.to_global_id(:track, track.id, DojinlistWeb.Schema)
+
+    variables = %{
+      download: %{
+        track_id: track_id,
+        encoding: "MP3_128"
+      }
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{"data" => %{"generateTrackDownloadUrl" => %{"url" => _}}} = response
+  end
+
+  test "Cannot download a track with a whitelisted encoding" do
+    query = """
+    mutation GenerateDownloadLink($download: DownloadTrackInput) {
+      generateTrackDownloadUrl(download: $download) {
+        url
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+    {:ok, album} = Fixtures.album()
+    {:ok, track} = Fixtures.track(%{album_id: album.id})
+
+    track_id = Absinthe.Relay.Node.to_global_id(:track, track.id, DojinlistWeb.Schema)
+
+    variables = %{
+      download: %{
+        track_id: track_id,
+        encoding: "MP3_V0"
+      }
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{
+             "data" => %{
+               "generateTrackDownloadUrl" => %{
+                 "errors" => [%{"errorCode" => "TRACK_NOT_PURCHASED"}]
+               }
+             }
+           } = response
   end
 end

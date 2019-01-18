@@ -19,6 +19,7 @@ defmodule Dojinlist.Tracks do
   def get_by_id(id) do
     Schemas.Track
     |> Repo.get(id)
+    |> Repo.preload([:album])
   end
 
   def update_track(track, attrs) do

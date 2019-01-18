@@ -10,6 +10,10 @@ defmodule Dojinlist.Downloader do
 
   @default_expiry_time 60
 
+  @whitelisted_encodings [
+    "mp3-128"
+  ]
+
   def able_to_download_album?(%User{} = user, album) do
     purchased_album =
       PurchasedAlbum
@@ -28,6 +32,28 @@ defmodule Dojinlist.Downloader do
       |> Repo.one()
 
     purchased_album !== nil
+  end
+
+  def able_to_download_track?(user, track, encoding \\ nil)
+
+  def able_to_download_track?(%User{} = user, track, encoding) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^track.album_id)
+      |> where([a], a.user_id == ^user.id)
+      |> Repo.one()
+
+    purchased_album !== nil || Enum.member?(@whitelisted_encodings, encoding)
+  end
+
+  def able_to_download_track?(user_email, track, encoding) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^track.album_id)
+      |> where([a], a.user_email == ^user_email)
+      |> Repo.one()
+
+    purchased_album !== nil || Enum.member?(@whitelisted_encodings, encoding)
   end
 
   def download_album(album, encoding) do

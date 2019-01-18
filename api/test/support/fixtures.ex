@@ -33,6 +33,24 @@ defmodule Dojinlist.Fixtures do
     |> Dojinlist.Albums.create_album()
   end
 
+  def track(attrs \\ %{}) do
+    default_attrs = %{
+      title: Faker.Lorem.sentence(),
+      play_length: 120,
+      album_id:
+        Map.get_lazy(attrs, :album_id, fn ->
+          {:ok, album} = album()
+          album.id
+        end)
+    }
+
+    attrs =
+      default_attrs
+      |> Map.merge(attrs)
+
+    Dojinlist.Tracks.create_track(attrs.album_id, attrs)
+  end
+
   def event(attrs \\ %{}) do
     default_attrs = %{
       name: Faker.Lorem.sentence(),
