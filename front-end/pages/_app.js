@@ -41,12 +41,12 @@ class MainApp extends App {
     return (
       <Container>
         <Head>
-          <title>dojinlist: Track, Discover and Share Doujin Music</title>
+          <title>dojinlist | Doujin Music Marketplace and Community</title>
           <meta charSet='utf-8' />
           <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no' />
-          <meta name='description' content='dojinlist is a community site where users can track, discover, and share doujin music.' />
-          <meta property='og:title' content='dojinlist: Track, Discover and Share Doujin Music' />
-          <meta property='og:description' content='dojinlist is a community site where users can track, discover, and share doujin music.' />
+          <meta name='description' content='Dojinlist is your friendly international doujin music marketplace and community.' />
+          <meta property='og:title' content='dojinlist: International Doujin Music Marketplace and Community' />
+          <meta property='og:description' content='dojinlist is an international music marketplace and community for self-published creators.' />
           <meta property='og:url' content='https://dojinlist.co' />
 
           <link rel="icon" type="image/png" sizes="16x16" href='/static/favicon-16x16.png' />
