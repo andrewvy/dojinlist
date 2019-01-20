@@ -37,6 +37,30 @@ defmodule Dojinlist.Orders.Totals do
     totals
   end
 
+  def calculate_cut_total(%__MODULE__{} = totals) do
+    # 5% cut rate.
+    percentage_rate = 0.05
+
+    # $0.30 USD flat fee.
+    flat_rate =
+      Money.new(:usd, 30)
+      |> Money.to_currency!(totals.currency_code)
+
+    fee_total =
+      totals.sub_total
+      |> Money.mult!(percentage_rate)
+      |> Money.add!(flat_rate)
+
+    cut_total =
+      totals.sub_total
+      |> Money.sub!(fee_total)
+
+    %{
+      totals
+      | cut_total: cut_total
+    }
+  end
+
   def calculate_grand_total(%__MODULE__{} = totals) do
     default_amount = Money.new(totals.currency_code, 0)
 

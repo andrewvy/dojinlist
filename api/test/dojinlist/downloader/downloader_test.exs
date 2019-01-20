@@ -20,6 +20,9 @@ defmodule Dojinlist.DownloaderTest do
         sub_total: Money.new(:usd, 0),
         tax_total: Money.new(:usd, 0),
         cut_total: Money.new(:usd, 0),
+        shipping_total: Money.new(:usd, 0),
+        grand_total: Money.new(:usd, 0),
+        charged_total: Money.new(:usd, 0),
         transaction_id: "123w241212",
         payment_processor_id: 1
       })
@@ -49,6 +52,9 @@ defmodule Dojinlist.DownloaderTest do
         sub_total: Money.new(:usd, 0),
         tax_total: Money.new(:usd, 0),
         cut_total: Money.new(:usd, 0),
+        shipping_total: Money.new(:usd, 0),
+        grand_total: Money.new(:usd, 0),
+        charged_total: Money.new(:usd, 0),
         transaction_id: "123w241212",
         payment_processor_id: 1
       })

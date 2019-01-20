@@ -61,7 +61,10 @@ defmodule Dojinlist.Payments do
       struct!(Dojinlist.Payments.Totals, %{
         sub_total: sub_total,
         tax_total: Money.from_integer(0, :usd),
-        cut_total: Money.sub!(sub_total, fee)
+        cut_total: Money.sub!(sub_total, fee),
+        shipping_total: Money.from_integer(0, :usd),
+        grand_total: Money.from_integer(0, :usd),
+        charged_total: Money.from_integer(0, :usd)
       })
 
     adapter.perform_transaction(totals, token)

@@ -7,6 +7,9 @@ defmodule Dojinlist.Payments.Totals do
   defstruct [
     :sub_total,
     :tax_total,
-    :cut_total
+    :cut_total,
+    :shipping_total,
+    :grand_total,
+    :charged_total
   ]
 end

@@ -37,6 +37,9 @@ defmodule Dojinlist.Schemas.Transaction do
       :sub_total,
       :tax_total,
       :cut_total,
+      :shipping_total,
+      :grand_total,
+      :charged_total,
       :transaction_id,
       :payment_processor_id
     ])
@@ -44,6 +47,9 @@ defmodule Dojinlist.Schemas.Transaction do
       :sub_total,
       :tax_total,
       :cut_total,
+      :shipping_total,
+      :grand_total,
+      :charged_total,
       :transaction_id,
       :payment_processor_id
     ])

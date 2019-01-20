@@ -22,6 +22,9 @@ defmodule Dojinlist.Payments.Stripe do
       sub_total: totals.sub_total,
       tax_total: totals.tax_total,
       cut_total: totals.cut_total,
+      shipping_total: totals.shipping_total,
+      grand_total: totals.grand_total,
+      charged_total: totals.charged_total,
       # Stripe Payment Processor
       payment_processor_id: 1
     })
