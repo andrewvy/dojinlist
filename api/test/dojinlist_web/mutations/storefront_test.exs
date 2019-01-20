@@ -8,13 +8,21 @@ defmodule DojinlistWeb.Mutations.StorefrontTest do
     mutation CreateStorefront($storefront: StorefrontInput) {
       createStorefront(storefront: $storefront) {
         id
+        displayName
+        description
+        location
       }
     }
     """
 
     variables = %{
       storefront: %{
-        subdomain: "bitplane"
+        subdomain: "bitplane",
+        displayName: "Bitplane",
+        description: """
+        Making music.
+        """,
+        location: "Tokyo, Japan"
       }
     }
 
@@ -23,6 +31,14 @@ defmodule DojinlistWeb.Mutations.StorefrontTest do
       |> Fixtures.create_and_login_as_admin()
       |> execute_graphql(query, variables)
 
-    assert %{"data" => %{"createStorefront" => %{"id" => _}}} = response
+    assert %{
+             "data" => %{
+               "createStorefront" => %{
+                 "id" => _,
+                 "displayName" => "Bitplane",
+                 "location" => "Tokyo, Japan"
+               }
+             }
+           } = response
   end
 end

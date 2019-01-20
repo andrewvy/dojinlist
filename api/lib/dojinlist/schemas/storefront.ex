@@ -4,6 +4,9 @@ defmodule Dojinlist.Schemas.Storefront do
   import Ecto.Changeset
 
   schema "storefronts" do
+    field :description, :string
+    field :display_name, :string
+    field :location, :string
     field :subdomain, :string
 
     belongs_to :creator, Dojinlist.Schemas.User
@@ -16,6 +19,9 @@ defmodule Dojinlist.Schemas.Storefront do
     storefront
     |> cast(attrs, [
       :creator_id,
+      :description,
+      :display_name,
+      :location,
       :subdomain
     ])
     |> validate_subdomain()

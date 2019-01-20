@@ -128,6 +128,9 @@ defmodule DojinlistWeb.Types do
   end
 
   node object(:storefront) do
+    field(:description, :string)
+    field(:display_name, :string)
+    field(:location, :string)
     field(:subdomain, :string)
   end
 
@@ -208,7 +211,10 @@ defmodule DojinlistWeb.Types do
   end
 
   input_object :storefront_input do
-    field(:subdomain, :string)
+    field(:subdomain, non_null(:string))
+    field(:description, :string)
+    field(:display_name, :string)
+    field(:location, :string)
   end
 
   object :oauth_response do
