@@ -2,14 +2,6 @@ defmodule Dojinlist.Payments do
   alias Dojinlist.Repo
   alias Dojinlist.Schemas.PurchasedAlbum
 
-  def fees(sub_total) do
-    percentage_fee = Decimal.new("0.05")
-    flat_fee = Money.from_integer(30, :usd)
-    percentage = Money.mult!(sub_total, percentage_fee)
-
-    Money.add!(percentage, flat_fee)
-  end
-
   def purchase_album_with_email(email, album, token) do
     adapter_purchase(album, token)
     |> case do
@@ -52,20 +44,11 @@ defmodule Dojinlist.Payments do
     end
   end
 
+  # @todo(vy): Pass in address all the way into here for order total calcuation.
   defp adapter_purchase(album, token) do
     adapter = get_payment_adapter()
-    sub_total = album.price
-    fee = fees(sub_total)
 
-    totals =
-      struct!(Dojinlist.Payments.Totals, %{
-        sub_total: sub_total,
-        tax_total: Money.from_integer(0, :usd),
-        cut_total: Money.sub!(sub_total, fee),
-        shipping_total: Money.from_integer(0, :usd),
-        grand_total: Money.from_integer(0, :usd),
-        charged_total: Money.from_integer(0, :usd)
-      })
+    totals = Dojinlist.Orders.calculate_totals_for_album(%Dojinlist.Address{}, album)
 
     adapter.perform_transaction(totals, token)
   end

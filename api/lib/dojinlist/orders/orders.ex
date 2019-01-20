@@ -9,6 +9,7 @@ defmodule Dojinlist.Orders do
     |> Totals.set_sub_total(album.price)
     |> Totals.calculate_tax_total(address)
     |> Totals.calculate_shipping_total(address)
+    |> Totals.calculate_cut_total()
     |> Totals.calculate_grand_total()
   end
 end

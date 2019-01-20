@@ -6,18 +6,22 @@ defmodule Dojinlist.Orders.Totals do
     :sub_total,
     :tax_total,
     :shipping_total,
-    :grand_total
+    :grand_total,
+    :cut_total,
+    :charged_total
   ]
 
   def new(currency_code \\ "USD") do
-    default_amount = Money.new(currency_code, 0)
+    default_amount = Money.from_integer(0, currency_code)
 
     %__MODULE__{
       currency_code: currency_code,
       sub_total: default_amount,
       tax_total: default_amount,
       shipping_total: default_amount,
-      grand_total: default_amount
+      grand_total: default_amount,
+      cut_total: default_amount,
+      charged_total: default_amount
     }
   end
 
@@ -43,8 +47,13 @@ defmodule Dojinlist.Orders.Totals do
 
     # $0.30 USD flat fee.
     flat_rate =
-      Money.new(:usd, 30)
-      |> Money.to_currency!(totals.currency_code)
+      if totals.currency_code == "USD" || totals.currency_code == :usd ||
+           totals.currency_code == :USD do
+        Money.from_integer(30, :usd)
+      else
+        Money.from_integer(30, :usd)
+        |> Money.to_currency!(totals.currency_code)
+      end
 
     fee_total =
       totals.sub_total
@@ -62,7 +71,7 @@ defmodule Dojinlist.Orders.Totals do
   end
 
   def calculate_grand_total(%__MODULE__{} = totals) do
-    default_amount = Money.new(totals.currency_code, 0)
+    default_amount = Money.from_integer(0, totals.currency_code)
 
     grand_total =
       default_amount

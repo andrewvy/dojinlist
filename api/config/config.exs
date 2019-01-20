@@ -52,6 +52,9 @@ config :ex_cldr,
 config :dojinlist,
   payment_adapter: Dojinlist.Payments.Stripe
 
+config :ex_money,
+  open_exchange_rates_app_id: {:system, "OPEN_EXCHANGE_RATES_APP_ID"}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

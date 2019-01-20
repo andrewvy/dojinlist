@@ -18,7 +18,7 @@ defmodule Dojinlist.PaymentsTest do
 
     assert Money.equal?(transaction.sub_total, album.price)
 
-    fee = Payments.fees(album.price)
+    fee = Money.from_integer(90, :usd)
     cut = Money.sub!(album.price, fee)
 
     assert Money.equal?(transaction.cut_total, cut)
@@ -40,7 +40,7 @@ defmodule Dojinlist.PaymentsTest do
 
     assert Money.equal?(transaction.sub_total, album.price)
 
-    fee = Payments.fees(album.price)
+    fee = Money.from_integer(90, :usd)
     cut = Money.sub!(album.price, fee)
 
     assert Money.equal?(transaction.cut_total, cut)
