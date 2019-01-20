@@ -128,18 +128,28 @@ defmodule DojinlistWeb.Schema do
     end
 
     import_fields(:album_mutations)
-    import_fields(:artist_mutations)
     import_fields(:blog_mutations)
-    import_fields(:event_mutations)
-    import_fields(:genre_mutations)
-    import_fields(:like_mutations)
+    import_fields(:download_mutations)
     import_fields(:me_mutations)
+    import_fields(:oauth_mutations)
     import_fields(:permission_mutations)
-    import_fields(:rating_mutations)
     import_fields(:storefront_mutations)
     import_fields(:track_mutations)
-    import_fields(:oauth_mutations)
-    import_fields(:download_mutations)
+
+    # ---
+    # Unreleased
+    # ---
+    #
+    # import_fields(:artist_mutations)
+    # import_fields(:event_mutations)
+    # import_fields(:genre_mutations)
+
+    # ---
+    # Social Features
+    # ---
+    #
+    # import_fields(:like_mutations)
+    # import_fields(:rating_mutations)
   end
 
   node interface do
