@@ -8,11 +8,23 @@ defmodule Dojinlist.Schemas.Transaction do
   schema "transactions" do
     field :transaction_id, :string
 
-    field :sub_total, Money.Ecto.Composite.Type
-    field :tax_total, Money.Ecto.Composite.Type
-
     # Amount sent to album seller.
     field :cut_total, Money.Ecto.Composite.Type
+
+    # Amount of goods, minux tax + shipping.
+    field :sub_total, Money.Ecto.Composite.Type
+
+    # Tax total.
+    field :tax_total, Money.Ecto.Composite.Type
+
+    # Shipping total.
+    field :shipping_total, Money.Ecto.Composite.Type
+
+    # Grand total.
+    field :grand_total, Money.Ecto.Composite.Type
+
+    # Charged total.
+    field :charged_total, Money.Ecto.Composite.Type
 
     belongs_to :payment_processor, PaymentProcessor
 
