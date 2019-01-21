@@ -63,3 +63,7 @@ config :dojinlist, Dojinlist.Repo,
 config :arc,
   storage: Arc.Storage.Local,
   bucket: "uploads"
+
+config :ex_taxjar,
+  api_key: System.get_env("TAXJAR_API_KEY"),
+  end_point: "https://api.sandbox.taxjar.com/v2"

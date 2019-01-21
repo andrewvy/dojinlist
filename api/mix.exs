@@ -47,6 +47,7 @@ defmodule Dojinlist.MixProject do
       {:elasticsearch, "~> 0.6.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
+      {:ex_taxjar, "~> 0.5.0"},
       {:ex_money, "~> 3.1"},
       {:faker, "~> 0.11.0", only: :test},
       {:gen_smtp, "~> 0.13.0"},

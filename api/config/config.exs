@@ -50,10 +50,15 @@ config :ex_cldr,
   json_library: Jason
 
 config :dojinlist,
-  payment_adapter: Dojinlist.Payments.Stripe
+  payment_adapter: Dojinlist.Payments.Stripe,
+  tax_adapter: Dojinlist.Tax.TaxjarAdapter
 
 config :ex_money,
   open_exchange_rates_app_id: {:system, "OPEN_EXCHANGE_RATES_APP_ID"}
+
+config :ex_taxjar,
+  api_key: System.get_env("TAXJAR_API_KEY"),
+  end_point: "https://api.taxjar.com/v2"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
