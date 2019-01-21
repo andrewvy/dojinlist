@@ -12,6 +12,7 @@ defmodule DojinlistWeb.Schema do
   import_types(Mutations.Album)
   import_types(Mutations.Artist)
   import_types(Mutations.Blog)
+  import_types(Mutations.Checkout)
   import_types(Mutations.Event)
   import_types(Mutations.Genre)
   import_types(Mutations.Like)
@@ -129,6 +130,7 @@ defmodule DojinlistWeb.Schema do
 
     import_fields(:album_mutations)
     import_fields(:blog_mutations)
+    import_fields(:checkout_mutations)
     import_fields(:download_mutations)
     import_fields(:me_mutations)
     import_fields(:oauth_mutations)

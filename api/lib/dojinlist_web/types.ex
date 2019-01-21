@@ -249,4 +249,21 @@ defmodule DojinlistWeb.Types do
     field(:url, :string)
     field(:errors, list_of(:error))
   end
+
+  object :cart_totals do
+    field(:sub_total, :money)
+    field(:tax_total, :money)
+    field(:shipping_total, :money)
+    field(:grand_total, :money)
+  end
+
+  object :cart_totals_response do
+    field(:cart_totals, non_null(:cart_totals))
+    field(:errors, list_of(:error))
+  end
+
+  object :money do
+    field(:amount, non_null(:string))
+    field(:currency, non_null(:string))
+  end
 end
