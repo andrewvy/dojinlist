@@ -12,6 +12,16 @@ defmodule DojinlistWeb.Mutations.Checkout do
 
       resolve(&calculate_totals_for_album/2)
     end
+
+    field :checkout_album, :checkout_response do
+      arg(:album_id, non_null(:id))
+      arg(:token, non_null(:string))
+      arg(:user_email, :string)
+
+      middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+
+      resolve(&checkout_album/2)
+    end
   end
 
   def calculate_totals_for_album(%{album_id: album_id} = params, _) do
@@ -26,10 +36,7 @@ defmodule DojinlistWeb.Mutations.Checkout do
         {:ok,
          %{
            errors: [
-             %{
-               error_code: "ALBUM_NOT_FOUND",
-               error_message: "Album was not found"
-             }
+             DojinlistWeb.Errors.album_not_found()
            ]
          }}
 
@@ -40,6 +47,60 @@ defmodule DojinlistWeb.Mutations.Checkout do
          %{
            cart_totals: format_totals(totals)
          }}
+    end
+  end
+
+  def checkout_album(%{album_id: album_id, user_email: user_email, token: token}, _) do
+    case Dojinlist.Albums.get_album(album_id) do
+      nil ->
+        {:ok,
+         %{
+           errors: [
+             DojinlistWeb.Errors.album_not_found()
+           ]
+         }}
+
+      album ->
+        Dojinlist.Payments.purchase_album_with_email(user_email, album, token)
+        |> case do
+          {:ok, _} ->
+            {:ok, %{}}
+
+          {:error, _} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_failed()
+               ]
+             }}
+        end
+    end
+  end
+
+  def checkout_album(%{album_id: album_id, token: token}, %{context: %{current_user: user}}) do
+    case Dojinlist.Albums.get_album(album_id) do
+      nil ->
+        {:ok,
+         %{
+           errors: [
+             DojinlistWeb.Errors.album_not_found()
+           ]
+         }}
+
+      album ->
+        Dojinlist.Payments.purchase_album_with_account(user, album, token)
+        |> case do
+          {:ok, _} ->
+            {:ok, %{}}
+
+          {:error, _} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_failed()
+               ]
+             }}
+        end
     end
   end
 
