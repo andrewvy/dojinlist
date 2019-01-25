@@ -51,7 +51,7 @@ config :ex_cldr,
 
 config :dojinlist,
   payment_adapter: Dojinlist.Payments.Stripe,
-  tax_adapter: Dojinlist.Tax.TaxjarAdapter
+  tax_adapter: Dojinlist.Tax.TestAdapter
 
 config :ex_money,
   open_exchange_rates_app_id: {:system, "OPEN_EXCHANGE_RATES_APP_ID"}

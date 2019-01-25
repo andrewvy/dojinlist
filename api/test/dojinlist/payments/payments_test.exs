@@ -47,4 +47,21 @@ defmodule Dojinlist.PaymentsTest do
 
     assert true == Dojinlist.Downloader.able_to_download_album?(email, album)
   end
+
+  test "Can purchase a free album" do
+    email = "test@test.com"
+
+    {:ok, album} =
+      Fixtures.album(%{
+        price: Money.zero(:jpy)
+      })
+
+    assert false == Dojinlist.Downloader.able_to_download_album?(email, album)
+
+    {:ok, transaction} = Payments.purchase_album_with_email(email, album, "tok_visa")
+
+    assert Money.equal?(transaction.charged_total, Money.zero(:jpy))
+
+    assert true == Dojinlist.Downloader.able_to_download_album?(email, album)
+  end
 end

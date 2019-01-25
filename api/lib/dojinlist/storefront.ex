@@ -17,6 +17,11 @@ defmodule Dojinlist.Storefront do
     |> Repo.update()
   end
 
+  def by_id(storefront_id) do
+    Storefront
+    |> Repo.get(storefront_id)
+  end
+
   def by_subdomain(subdomain) do
     Storefront
     |> where([s], s.subdomain == ^subdomain)
