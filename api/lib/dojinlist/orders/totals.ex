@@ -32,9 +32,13 @@ defmodule Dojinlist.Orders.Totals do
     }
   end
 
-  def calculate_tax_total(%__MODULE__{} = totals, %Address{} = _address) do
-    # @todo(vy): Calculate tax.
-    totals
+  def calculate_tax_total(%__MODULE__{} = totals, %Address{} = address, products) do
+    tax_total = Dojinlist.Tax.calculate_sales_tax(address, totals, products)
+
+    %{
+      totals
+      | tax_total: tax_total
+    }
   end
 
   def calculate_shipping_total(%__MODULE__{} = totals, %Address{} = _address) do

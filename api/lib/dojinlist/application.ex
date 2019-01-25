@@ -10,6 +10,9 @@ defmodule Dojinlist.Application do
 
     # List all child processes to be supervised
     children = [
+      {ConCache,
+       [name: :tax_cache, ttl_check_interval: :timer.seconds(1), global_ttl: :timer.hours(24)]},
+
       # Start the Ecto repository
       Dojinlist.Repo,
       # Start the endpoint when the application starts

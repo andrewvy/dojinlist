@@ -66,4 +66,4 @@ config :arc,
 
 config :ex_taxjar,
   api_key: System.get_env("TAXJAR_API_KEY"),
-  end_point: "https://api.sandbox.taxjar.com/v2"
+  end_point: "https://api.taxjar.com/v2"

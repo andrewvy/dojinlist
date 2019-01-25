@@ -66,7 +66,8 @@ defmodule Dojinlist.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:stripity_stripe, "~> 2.2"},
       {:sweet_xml, "~> 0.6"},
-      {:swoosh, "~> 0.20"}
+      {:swoosh, "~> 0.20"},
+      {:con_cache, "~> 0.13.0"}
     ]
   end
 

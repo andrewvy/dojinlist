@@ -4,14 +4,20 @@ defmodule Dojinlist.Tax.TaxjarAdapter do
   @digital_tax_code "31000"
 
   def calculate_sales_tax(address, totals, products) do
-    %ExTaxjar.Order{
+    order = %ExTaxjar.Order{
       to_country: address.country,
       to_state: address.state,
       to_zip: address.postal_code,
       shipping: to_decimal(totals.shipping_total),
       line_items: format_line_items(products)
     }
-    |> ExTaxjar.Taxes.tax()
+
+    ConCache.get_or_store(:tax_cache, order, fn ->
+      response = ExTaxjar.Taxes.tax(order) || %{}
+      amount_to_collect = response["amount_to_collect"] || 0.0
+
+      Money.from_float(amount_to_collect, totals.currency_code)
+    end)
   end
 
   def record_transaction(transaction, address, products) do
