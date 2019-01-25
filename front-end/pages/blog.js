@@ -1,3 +1,4 @@
+import React from 'react'
 import { withRouter } from 'next/router'
 import { Query } from 'react-apollo'
 import Head from 'next/head'

@@ -1,8 +1,9 @@
+import React from 'react'
 import Link from 'next/link'
 import { AuthConsumer } from '../../contexts/auth.js'
 import { MeConsumer } from '../../contexts/me.js'
 
-import Logo from '../../svgs/logo.js'
+import Logo from '../../svgs/brand/white_bg_fill_wordmark.svg'
 
 const Styles = () => (
   <style jsx>{`
@@ -15,6 +16,7 @@ const Styles = () => (
 
     .logo {
       margin-right: 24px;
+      max-width: 184px;
     }
 
     .logo,

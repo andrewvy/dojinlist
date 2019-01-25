@@ -33,7 +33,7 @@
   "devDependencies": {
     "babel-plugin-inline-react-svg": "^1.0.1",
     "babel-plugin-transform-define": "^1.3.0",
-    "next": "latest",
+    "next": "^7.0.2",
     "react-dom": "16.4.2",
     "react-dropzone": "^7.0.1"
   }

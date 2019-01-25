@@ -49,9 +49,11 @@ class MainApp extends App {
           <meta property='og:description' content='dojinlist is an international music marketplace and community for self-published creators.' />
           <meta property='og:url' content='https://dojinlist.co' />
 
-          <link rel="icon" type="image/png" sizes="16x16" href='/static/favicon-16x16.png' />
-          <link rel="icon" type="image/png" sizes="32x32" href='/static/favicon-32x32.png' />
-          <link rel="icon" type="image/png" sizes="64x64" href='/static/favicon-64x64.png' />
+          <link rel="icon" type="image/png" sizes="32x32" href='/static/favicon-32.png' />
+          <link rel="icon" type="image/png" sizes="64x64" href='/static/favicon-64.png' />
+          <link rel="icon" type="image/png" sizes="128x128" href='/static/favicon-128.png' />
+          <link rel="icon" type="image/png" sizes="256x256" href='/static/favicon-256.png' />
+
           <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet" />
 
           <script type="text/javascript">{`var _iub = _iub || []; _iub.csConfiguration = {"lang":"en","siteId":1445725,"cookiePolicyId":80104253, "banner":{ "textColor":"white","backgroundColor":"black" } }; `}</script>
