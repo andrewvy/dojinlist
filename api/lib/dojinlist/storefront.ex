@@ -27,4 +27,9 @@ defmodule Dojinlist.Storefront do
     |> where([s], s.subdomain == ^subdomain)
     |> Repo.one()
   end
+
+  def preload(storefront) do
+    storefront
+    |> Repo.preload([:creator])
+  end
 end

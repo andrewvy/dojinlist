@@ -8,6 +8,14 @@ defmodule Dojinlist.OAuth.Stripe do
     @stripe_client_id "ca_EGFzw5b4SW5uHxTZpcrPKhky5G9CD3j5"
   end
 
+  def get_stripe_account_for_user(user) do
+    user =
+      user
+      |> Repo.preload([:stripe_account])
+
+    user.stripe_account
+  end
+
   def authorize_url(user) do
     Stripe.Connect.OAuth.authorize_url(%{
       client_id: @stripe_client_id,

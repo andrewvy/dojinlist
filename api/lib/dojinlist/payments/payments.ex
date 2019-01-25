@@ -7,38 +7,46 @@ defmodule Dojinlist.Payments do
   }
 
   def purchase_album_with_email(email, album, token) do
-    transaction_result =
-      if free_album?(album) do
-        create_free_transaction(album.price.currency)
-      else
-        adapter_purchase(album, token)
+    if recipient_payable?(album) do
+      transaction_result =
+        if free_album?(album) do
+          create_free_transaction(album.price.currency)
+        else
+          adapter_purchase(album, token)
+        end
+
+      transaction_result
+      |> case do
+        {:ok, transaction} ->
+          record_purchased_album(%{user_email: email}, album, transaction)
+
+        error ->
+          error
       end
-
-    transaction_result
-    |> case do
-      {:ok, transaction} ->
-        record_purchased_album(%{user_email: email}, album, transaction)
-
-      error ->
-        error
+    else
+      {:error, "Album not configured to be purchasable."}
     end
   end
 
   def purchase_album_with_account(user, album, token) do
-    transaction_result =
-      if free_album?(album) do
-        create_free_transaction(album.price.currency)
-      else
-        adapter_purchase(album, token)
+    if recipient_payable?(album) do
+      transaction_result =
+        if free_album?(album) do
+          create_free_transaction(album.price.currency)
+        else
+          adapter_purchase(album, token)
+        end
+
+      transaction_result
+      |> case do
+        {:ok, transaction} ->
+          record_purchased_album(%{user_id: user.id}, album, transaction)
+
+        error ->
+          error
       end
-
-    transaction_result
-    |> case do
-      {:ok, transaction} ->
-        record_purchased_album(%{user_id: user.id}, album, transaction)
-
-      error ->
-        error
+    else
+      {:error, "Album not configured to be purchasable."}
     end
   end
 
@@ -80,6 +88,11 @@ defmodule Dojinlist.Payments do
     zero = Money.zero(currency_code)
 
     Money.equal?(zero, album.price)
+  end
+
+  def recipient_payable?(album) do
+    adapter = get_payment_adapter()
+    adapter.recipient_payable?(album)
   end
 
   # @todo(vy): Pass in address all the way into here for order total calcuation.

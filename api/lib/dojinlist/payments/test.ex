@@ -6,6 +6,10 @@ defmodule Dojinlist.Payments.Test do
   alias Dojinlist.Repo
   alias Dojinlist.Schemas.Transaction
 
+  def recipient_payable?(_album) do
+    true
+  end
+
   def perform_transaction(totals, _token) do
     %Transaction{}
     |> Transaction.changeset(%{

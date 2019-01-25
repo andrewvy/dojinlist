@@ -1,6 +1,29 @@
 defmodule Dojinlist.Payments.Stripe do
   alias Dojinlist.Repo
+  alias Dojinlist.Storefront
+  alias Dojinlist.OAuth
   alias Dojinlist.Schemas.Transaction
+
+  def recipient_payable?(album) do
+    # In order for a recipient (artist) to be paid, their user account needs
+    # to have a stripe account assigned.
+    case get_stripe_account_from_album(album) do
+      nil -> false
+      _ -> true
+    end
+  end
+
+  def get_stripe_account_from_album(album) do
+    with storefront <- Storefront.by_id(album.storefront_id) |> Repo.preload([:creator]),
+         false <- storefront == nil,
+         false <- storefront.creator == nil,
+         stripe_account <- OAuth.Stripe.get_stripe_account_for_user(storefront.creator),
+         false <- stripe_account == nil do
+      stripe_account
+    else
+      _ -> nil
+    end
+  end
 
   def perform_transaction(totals, token) do
     with {:ok, charge} <- create_charge(totals, token),
@@ -33,8 +56,7 @@ defmodule Dojinlist.Payments.Stripe do
 
   def create_charge(totals, token) do
     with {:ok, grand_total} <- Money.add(totals.sub_total, totals.tax_total) do
-      {currency, amount, _exponent, _fractional} =
-        Money.to_integer_exp(grand_total) |> IO.inspect()
+      {currency, amount, _exponent, _fractional} = Money.to_integer_exp(grand_total)
 
       Stripe.Charge.create(%{
         amount: amount,

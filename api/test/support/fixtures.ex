@@ -77,6 +77,30 @@ defmodule Dojinlist.Fixtures do
     |> Dojinlist.Storefront.create_storefront()
   end
 
+  def stripe_account(attrs \\ %{}) do
+    default_attrs = %{
+      user_id:
+        Map.get_lazy(attrs, :user_id, fn ->
+          {:ok, user} = user()
+          user.id
+        end),
+      access_token: "access_token",
+      scope: "all",
+      livemode: true,
+      refresh_token: "refresh_token",
+      stripe_user_id: "stripe_user_id",
+      stripe_publishable_key: "stripe_publishable_key"
+    }
+
+    attrs =
+      default_attrs
+      |> Map.merge(attrs)
+
+    %Dojinlist.Schemas.StripeAccount{}
+    |> Dojinlist.Schemas.StripeAccount.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def grant_all_permissions_to_user(user) do
     Dojinlist.Permissions.get_permissions()
     |> Enum.map(fn permission ->
