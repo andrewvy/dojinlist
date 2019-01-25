@@ -65,7 +65,7 @@ class Register extends React.Component {
           success &&
           <div className='container success xl:w-1/3 md:1/2 xs:w-5/6 flex content-center items-center flex-col bg-green-light rounded text-white font-bold'>
             <p>Successfully created an account.</p>
-            <Link href='/login'><a className='text-white hover:text-dark-blue'>Click here to login.</a></Link>
+            <Link href='/login'><a className='text-white hover:text-blue-darker'>Click here to login.</a></Link>
           </div>
         }
 

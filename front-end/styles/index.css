@@ -132,7 +132,7 @@ fieldset.has-error input {
 }
 
 input::placeholder {
-  @apply text-blue-grey;
+  @apply text-blue-lighter;
 
   left: 5px;
   padding: 16px 16px;
@@ -176,7 +176,7 @@ a {
 
 a:hover,
 a:focus {
-  @apply text-blue-darker;
+  @apply text-blue-light;
 }
 
 a.active {
@@ -184,7 +184,7 @@ a.active {
 }
 
 footer {
-  @apply bg-dark-blue;
+  @apply bg-blue-darker;
 
   width: 100%;
   height: 80px;
@@ -195,7 +195,10 @@ footer {
   clear: both;
   position: relative;
   height: 80px;
-  font-size: 12px;
+
+
+  font-weight: 600;
+  font-size: 16px;
 }
 
 footer a {

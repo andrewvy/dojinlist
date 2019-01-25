@@ -67,7 +67,7 @@ class IndexPage extends React.Component {
         </nav>
         <div className="container content">
           <p>
-            <em>early 2019 - vy</em>
+            <em>early 2019</em>
           </p>
           <AuthConsumer>
             {({isAuthed}) => {
