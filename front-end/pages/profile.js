@@ -19,14 +19,14 @@ const ProfilePage = () => (
           )
         } else {
           return (
-            <>
+            <div className='limit-screen mx-auto'>
               <UserDetails user={me} />
               <ProfileNavigation />
               <div className='container'>
                 <label>Avatar</label>
                 <AvatarUploader />
               </div>
-            </>
+            </div>
           )
         }
       }}

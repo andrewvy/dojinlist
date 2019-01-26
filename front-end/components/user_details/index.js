@@ -40,9 +40,6 @@ const UserDetails = (props) => (
         <div className='user-username text-grey-dark'>
           {props.user && props.user.username}
         </div>
-        <div className='user-role text-grey-orange'>
-          Supporter
-        </div>
       </div>
     </div>
     <Styles />

@@ -1,8 +1,8 @@
 import Footer from '../components/footer'
 
-export default ({ children }) => (
+export default ({ children, className }) => (
   <>
-    <div className='page limit-screen mx-auto'>
+    <div className={`page mx-auto ${className}`}>
       { children }
     </div>
     <Footer />

@@ -7,7 +7,7 @@ import Spinner from '../components/spinner';
 
 import Page from '../layouts/main.js';
 
-import Logo from '../svgs/brand/white_bg_fill_wordmark.svg';
+import Logo from '../svgs/brand/blue_bg_fill_wordmark.svg';
 
 const Styles = () => (
   <style jsx="true">
@@ -27,6 +27,10 @@ const Styles = () => (
       .navigation {
         padding-top: 20px;
         animation: 0.5s ease-out 0s 1 slideIn;
+      }
+
+      .content {
+        color: white;
       }
 
       @keyframes slideIn {
@@ -59,7 +63,7 @@ const Styles = () => (
 class IndexPage extends React.Component {
   render() {
     return (
-      <Page>
+      <Page className='bg-blue-darker'>
         <nav className="navigation">
           <section className="container">
             <Logo className="logo" />
