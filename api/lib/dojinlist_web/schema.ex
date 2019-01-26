@@ -41,12 +41,6 @@ defmodule DojinlistWeb.Schema do
       resolve(&Resolvers.Album.all/2)
     end
 
-    connection field(:search_albums, node_type: :lite_album) do
-      arg(:suggestion, non_null(:string))
-
-      resolve(&Resolvers.Album.suggest/2)
-    end
-
     field :album, :album do
       arg(:id, non_null(:id))
 

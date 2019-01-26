@@ -53,10 +53,4 @@ release :dojinlist do
       :runtime_tools
     ]
   )
-
-  set(
-    commands: [
-      build_elasticsearch_indexes: "rel/commands/build_elasticsearch_indexes.sh"
-    ]
-  )
 end

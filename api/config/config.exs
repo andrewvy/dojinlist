@@ -25,14 +25,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :dojinlist, Dojinlist.ElasticsearchCluster,
-  url: "http://localhost:9200",
-  username: "elastic",
-  password: "changeme",
-  api: Elasticsearch.API.HTTP,
-  json_library: Jason,
-  default_opts: [recv_timeout: 20000]
-
 config :arc,
   storage: Arc.Storage.S3,
   bucket: "dojinlist-uploads"

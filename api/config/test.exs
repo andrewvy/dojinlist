@@ -21,8 +21,6 @@ config :dojinlist, Dojinlist.Repo,
 
 config :argon2_elixir, t_cost: 2, m_cost: 8
 
-config :dojinlist, Dojinlist.ElasticsearchCluster, api: Dojinlist.ElasticsearchMock
-
 config :dojinlist,
   payment_adapter: Dojinlist.Payments.Test,
   tax_adapter: Dojinlist.Tax.TestAdapter

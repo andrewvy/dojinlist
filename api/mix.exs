@@ -44,7 +44,6 @@ defmodule Dojinlist.MixProject do
       {:ecto, "~> 3.0", override: true},
       {:ecto_sql, "~> 3.0"},
       {:edeliver, ">= 1.6.0"},
-      {:elasticsearch, "~> 0.6.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:ex_taxjar, "~> 0.5.0"},

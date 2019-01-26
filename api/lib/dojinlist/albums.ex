@@ -86,12 +86,6 @@ defmodule Dojinlist.Albums do
           |> Schemas.Album.preload()
           |> Repo.one()
 
-        Elasticsearch.put_document(
-          Dojinlist.ElasticsearchCluster,
-          loaded_album,
-          "albums"
-        )
-
         Dojinlist.EditHistory.new_album_edit(
           loaded_album.id,
           loaded_album.creator_user_id,
@@ -151,12 +145,6 @@ defmodule Dojinlist.Albums do
           |> where([o], o.id == ^album.id)
           |> Schemas.Album.preload()
           |> Repo.one()
-
-        Elasticsearch.put_document(
-          Dojinlist.ElasticsearchCluster,
-          loaded_album,
-          "albums"
-        )
 
         Dojinlist.EditHistory.new_album_edit(
           loaded_album.id,

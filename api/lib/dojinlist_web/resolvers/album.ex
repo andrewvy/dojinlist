@@ -1,25 +1,6 @@
 defmodule DojinlistWeb.Resolvers.Album do
   alias Dojinlist.Albums
 
-  def suggest(%{suggestion: suggestion} = params, _) do
-    Dojinlist.AlbumSearch.with_title_suggest(suggestion)
-    |> case do
-      {:ok, search} ->
-        docs =
-          search["suggest"]["name_suggest"]
-          |> Enum.map(fn doc ->
-            doc["_source"]
-          end)
-          |> Enum.reject(&is_nil/1)
-
-        docs
-        |> Absinthe.Relay.Connection.from_list(params)
-
-      _ ->
-        {:error, "Could not search albums at this time."}
-    end
-  end
-
   def all(params, _) do
     Dojinlist.Schemas.Album
     |> Albums.build_query(params)
