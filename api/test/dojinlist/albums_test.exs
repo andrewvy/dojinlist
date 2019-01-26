@@ -71,23 +71,6 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 = Enum.count(updated_album.genres)
   end
 
-  test "Edit history is created for album submission/edits", %{storefront: storefront} do
-    {:ok, user} = Fixtures.user()
-
-    {:ok, album} =
-      Albums.create_album(%{
-        title: "Test",
-        creator_user_id: user.id,
-        storefront_id: storefront.id
-      })
-
-    Albums.update_album(album, %{title: "New Name"}, user.id)
-
-    loaded_album = album |> Repo.preload([:edit_history])
-
-    assert 2 == Enum.count(loaded_album.edit_history)
-  end
-
   test "Can add external album links", %{storefront: storefront} do
     {:ok, album} =
       Albums.create_album(%{

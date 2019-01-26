@@ -17,7 +17,6 @@ defmodule Dojinlist.Schemas.Album do
     many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
 
     has_many :ratings, Dojinlist.Schemas.UserRating
-    has_many :edit_history, Dojinlist.Schemas.AlbumEditHistory
     has_many :tracks, Dojinlist.Schemas.Track
     has_many :external_links, Dojinlist.Schemas.ExternalAlbumLink, on_replace: :delete
 

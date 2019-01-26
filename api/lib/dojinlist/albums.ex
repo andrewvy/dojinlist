@@ -86,12 +86,6 @@ defmodule Dojinlist.Albums do
           |> Schemas.Album.preload()
           |> Repo.one()
 
-        Dojinlist.EditHistory.new_album_edit(
-          loaded_album.id,
-          loaded_album.creator_user_id,
-          "submitted_album"
-        )
-
         {:ok, loaded_album}
 
       {:error, _field, changeset, _} ->
@@ -145,12 +139,6 @@ defmodule Dojinlist.Albums do
           |> where([o], o.id == ^album.id)
           |> Schemas.Album.preload()
           |> Repo.one()
-
-        Dojinlist.EditHistory.new_album_edit(
-          loaded_album.id,
-          edited_user_id || loaded_album.creator_user_id,
-          "edit_album"
-        )
 
         {:ok, loaded_album}
 
