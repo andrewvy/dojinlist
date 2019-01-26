@@ -25,8 +25,10 @@ defmodule Dojinlist.Payments.Stripe do
     end
   end
 
-  def perform_transaction(totals, token) do
-    with {:ok, charge} <- create_charge(totals, token),
+  def perform_transaction(album, totals, token) do
+    stripe_account = get_stripe_account_from_album(album)
+
+    with {:ok, charge} <- create_charge(totals, token, stripe_account.stripe_user_id),
          {:ok, transaction} <- create_transaction_from_charge(totals, charge) do
       {:ok, transaction}
     else
@@ -54,14 +56,19 @@ defmodule Dojinlist.Payments.Stripe do
     |> Repo.insert()
   end
 
-  def create_charge(totals, token) do
+  def create_charge(totals, token, destination_account_id) do
     with {:ok, grand_total} <- Money.add(totals.sub_total, totals.tax_total) do
-      {currency, amount, _exponent, _fractional} = Money.to_integer_exp(grand_total)
+      {currency, amount, _exp, _frac} = Money.to_integer_exp(grand_total)
+      {_, cut_amount, _exp, _frac} = Money.to_integer_exp(totals.cut_total)
 
       Stripe.Charge.create(%{
         amount: amount,
         currency: to_string(currency),
-        source: token
+        source: token,
+        destination: %{
+          account: destination_account_id,
+          amount: cut_amount
+        }
       })
     else
       _ ->

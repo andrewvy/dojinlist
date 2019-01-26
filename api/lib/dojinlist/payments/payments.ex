@@ -101,7 +101,7 @@ defmodule Dojinlist.Payments do
 
     totals = Dojinlist.Orders.calculate_totals_for_album(%Dojinlist.Address{}, album)
 
-    adapter.perform_transaction(totals, token)
+    adapter.perform_transaction(album, totals, token)
   end
 
   def get_payment_adapter() do

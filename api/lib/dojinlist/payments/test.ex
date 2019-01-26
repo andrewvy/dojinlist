@@ -10,7 +10,7 @@ defmodule Dojinlist.Payments.Test do
     true
   end
 
-  def perform_transaction(totals, _token) do
+  def perform_transaction(_album, totals, _token) do
     %Transaction{}
     |> Transaction.changeset(%{
       transaction_id: random_id(),
