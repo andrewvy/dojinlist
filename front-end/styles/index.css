@@ -138,8 +138,7 @@ input::placeholder {
   padding: 16px 16px;
 }
 
-input[type=submit],
-.button {
+input[type=submit] {
   @apply bg-blue-darker text-grey-lighter;
 
   height: 40px;
@@ -150,9 +149,7 @@ input[type=submit],
 }
 
 input[type=submit]:hover,
-input[type=submit]:focus,
-.button:hover,
-.button:focus {
+input[type=submit]:focus {
   @apply bg-blue-dark;
 }
 

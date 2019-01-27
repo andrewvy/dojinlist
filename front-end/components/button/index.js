@@ -1,40 +1,43 @@
-import Spinner from '../spinner'
+import React from 'react'
 
-const Button = (props) => {
-  const {
-    children,
-    isLoading,
-    className,
-    onClick,
-    type
-  } = props
+import DownloadIcon from '../../svgs/icons/icon-download.svg'
+import LinkIcon from '../../svgs/icons/icon-link.svg'
+import PlusIcon from '../../svgs/icons/icon-plus.svg'
+import SearchIcon from '../../svgs/icons/icon-search.svg'
+
+import './index.css'
+
+const ButtonIcon = (icon) => {
+  let IconComponent = () => { return null };
+
+  switch(icon) {
+    case 'download':
+      IconComponent = DownloadIcon
+      break
+    case 'link':
+      IconComponent = LinkIcon
+      break
+    case 'search':
+      IconComponent = SearchIcon
+      break
+    case 'plus':
+      IconComponent = PlusIcon
+      break
+  }
+
+  return IconComponent
+}
+
+const Button = ({text, icon, type, onClick }) => {
+  const IconComponent = ButtonIcon(icon)
 
   return (
-    <button className={`button button-primary ${className}`} onClick={onClick} type={type}>
-      {
-        isLoading &&
-        <div className='spinner'>
-          <Spinner color='grey-lighter' size='small'/>
-        </div>
-      }
-      {!isLoading && children}
-      <style jsx>{`
-        .button {
-          width: 100%;
-          margin: 4px 0;
-        }
-
-        .spinner {
-          position: relative;
-          top: 3px;
-        }
-      `}</style>
-    </button>
+    <div className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer`} onClick={onClick}>
+      {text}
+      <IconComponent fill='inherit' className='icon'/>
+    </div>
   )
 }
 
-Button.defaultProps = {
-  type: 'submit'
-}
 
 export default Button

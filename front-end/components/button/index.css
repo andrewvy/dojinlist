@@ -1,0 +1,51 @@
+.djn-button {
+  width: 140px;
+  height: 36px;
+  border-radius: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  color: white;
+  fill: white;
+
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.icon {
+  margin-left: 8px;
+  width: 12px;
+  height: 12px;
+}
+
+.djn-button-primary {
+  background-color: config('colors.red');
+}
+
+.djn-button-primary .icon {
+  opacity: 0.5;
+}
+
+.djn-button-primary:hover {
+  background-color: config('colors.blue');
+}
+
+.djn-button-primary:active {
+  background-color: config('colors.blue-dark');
+}
+
+.djn-button-translucent {
+  background-color: none;
+  border: 2px solid config('colors.blue');
+  color: config('colors.blue');
+  fill: config('colors.blue');
+}
+
+.djn-button-translucent:hover {
+  border: 2px solid config('colors.blue-dark');
+  color: config('colors.blue-dark');
+  fill: config('colors.blue-dark');
+}
