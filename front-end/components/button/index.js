@@ -28,11 +28,11 @@ const ButtonIcon = (icon) => {
   return IconComponent
 }
 
-const Button = ({text, icon, type, onClick }) => {
+const Button = ({text, icon, type, onClick, className}) => {
   const IconComponent = ButtonIcon(icon)
 
   return (
-    <div className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer`} onClick={onClick}>
+    <div className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer ${className}`} onClick={onClick}>
       {text}
       <IconComponent fill='inherit' className='icon'/>
     </div>

@@ -49,3 +49,15 @@
   color: config('colors.blue-dark');
   fill: config('colors.blue-dark');
 }
+
+.djn-button-translucent-dark {
+  background-color: none;
+  border: 2px solid config('colors.white');
+  color: config('colors.white');
+  fill: config('colors.white');
+}
+
+.djn-button-translucent-dark:hover {
+  border: none;
+  background-color: config('colors.blue');
+}
