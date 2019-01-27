@@ -23,7 +23,7 @@ const ButtonPage = (props) => {
         </div>
         <div className='my-8'>
           <div className={SubheaderStyles}>Translucent (Dark)</div>
-          <div className='bg-blue-darker p-4 flex'>
+          <div className='bg-blue-darker p-4 flex rounded'>
             <Button type='translucent-dark' text='Download' icon='download' onClick={Action('Download')}/>
             <Button className='mx-8' type='translucent-dark' text='Buy Album' onClick={Action('Buy Album')}/>
           </div>

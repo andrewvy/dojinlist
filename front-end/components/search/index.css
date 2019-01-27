@@ -1,0 +1,43 @@
+.djn-search {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 50px;
+  color: config('colors.grey');
+  display: flex;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.djn-search .icon {
+  fill: config('colors.grey');
+  fill-rule: evenodd;
+  margin-top: 2px;
+  margin-left: 16px;
+  width: 22px;
+  height: 32px;
+}
+
+.djn-search .input {
+  background-color: transparent !important;
+  height: 36px !important;
+  padding: 0;
+  margin: 0 0 0 8px;
+  color: config('colors.blue');
+}
+
+.djn-search input:focus {
+  border: none;
+}
+
+.djn-search:focus-within {
+  border: 1px solid config('colors.blue');
+  color: config('colors.blue');
+}
+
+.djn-search:focus-within .icon {
+  fill: config('colors.blue');
+}
+
+.djn-search input::placeholder {
+  color: config('colors.grey') !important;
+}
