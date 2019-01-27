@@ -1,8 +1,10 @@
 .djn-search {
   background: #FFFFFF;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.12);
+  border: 1px solid config('colors.grey-lighter');
   border-radius: 50px;
   color: config('colors.grey');
+  background-color: config('colors.grey-light');
   display: flex;
   height: 36px;
   box-sizing: border-box;
