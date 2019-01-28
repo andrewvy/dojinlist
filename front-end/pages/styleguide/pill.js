@@ -13,7 +13,7 @@ const PillPage = (props) => {
         <div className='my-8'>
           <div className={SubheaderStyles}>Blue</div>
           <Pill
-            lightColor='blue-light'
+            lightColor='blue-lighter'
             darkColor='blue'
             title='Notes'
             description='From the editors'
@@ -26,6 +26,15 @@ const PillPage = (props) => {
             darkColor='red'
             title='Recommended'
             description='Explore similar sounds'
+          />
+        </div>
+        <div className='my-8'>
+          <div className={SubheaderStyles}>Grey</div>
+          <Pill
+            lightColor='grey-light'
+            darkColor='grey'
+            title='New'
+            description='Recently released albums'
           />
         </div>
       </div>
