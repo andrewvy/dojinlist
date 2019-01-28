@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import Slider from './slider'
 
@@ -10,7 +10,9 @@ const SliderHandleStyles = <style jsx='true'>{`
     width: 16px;
     height: 16px;
     border-radius: 100%;
-    transition: transform 0.2s;
+    background: #FF6D6B;
+    opacity: 0;
+    transition: opacity 0.2s;
   }
 
   .djn-sliderHandle.horizontal {
@@ -23,6 +25,10 @@ const SliderHandleStyles = <style jsx='true'>{`
     left: 0px;
     margin-bottom: -8px;
     margin-left: -4px;
+  }
+
+  .djn-progressBar.is-hovered .djn-sliderHandle {
+    opacity: 1.0;
   }
 `}</style>
 
@@ -70,27 +76,51 @@ const SliderHandle = ({ direction, value, style }) => (
   />
 )
 
-// A composite progress bar component
-const ProgressBar = ({ isEnabled, direction, value, ...props }) => (
-  <Slider
-    isEnabled={isEnabled}
-    direction={direction}
-    onChange={() => {}}
-    style={{
-      width: direction === 'HORIZONTAL' ? 200 : 8,
-      height: direction === 'HORIZONTAL' ? 8 : 130,
-      borderRadius: 4,
-      background: '#593D46',
-      transition: direction === 'HORIZONTAL' ? 'width 0.1s' : 'height 0.1s',
-      cursor: isEnabled === true ? 'pointer' : 'default',
-    }}
-    {...props}
-  >
-    <SliderBar direction={direction} value={value} />
-    <SliderHandle direction={direction} value={value} />
-    {SliderHandleStyles}
-    {SliderBarStyles}
-  </Slider>
-)
+class ProgressBar extends Component {
+  state = {
+    hovered: false
+  }
+
+  handleIntentStart(intent) {
+    this.setState({
+      hovered: true
+    })
+  }
+
+  handleIntentEnd(intent) {
+    this.setState({
+      hovered: false
+    })
+  }
+
+  render() {
+    const { isEnabled, direction, value, ...props } = this.props
+    const { hovered } = this.state
+
+    return (
+      <Slider
+        isEnabled={isEnabled}
+        direction={direction}
+        onChange={() => {}}
+        onIntentStart={this.handleIntentStart.bind(this)}
+        onIntentEnd={this.handleIntentEnd.bind(this)}
+        style={{
+          width: direction === 'HORIZONTAL' ? '100%' : 8,
+          height: direction === 'HORIZONTAL' ? 8 : 130,
+          borderRadius: 4,
+          background: '#593D46',
+          transition: direction === 'HORIZONTAL' ? 'width 0.1s' : 'height 0.1s',
+          cursor: isEnabled === true ? 'pointer' : 'default',
+        }}
+        className={`djn-progressBar ${hovered ? 'is-hovered' : ''}`}
+      >
+        <SliderBar direction={direction} value={value} />
+        <SliderHandle direction={direction} value={value} />
+        {SliderHandleStyles}
+        {SliderBarStyles}
+      </Slider>
+    )
+  }
+}
 
 export default ProgressBar

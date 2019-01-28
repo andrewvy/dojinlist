@@ -1,7 +1,6 @@
 import React from 'react'
 
 import ProgressBar from '../../components/player/progressBar.js'
-import ProgressBarWithHover from '../../components/player/progressBarWithHover.js'
 
 import Page from '../../layouts/main.js'
 
@@ -20,12 +19,6 @@ const PlayerPage = (props) => {
             value={0.5}
             onChange={() => {}}
             onIntent={(intent) => console.log(intent)}
-          />
-        </div>
-        <div className='my-8'>
-          <div className={SubheaderStyles}>Blue</div>
-          <ProgressBarWithHover
-            duration={25}
           />
         </div>
       </div>
