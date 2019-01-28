@@ -3,10 +3,7 @@ import React from 'react'
 import Search from '../../components/search'
 import Page from '../../layouts/main.js'
 
-const Action = (name) => () => console.log(name)
-
-const HeaderStyles = 'uppercase text-grey font-mono'
-const SubheaderStyles = `${HeaderStyles} my-4`
+import { Action, HeaderStyles, SubheaderStyles } from '../../lib/styleguideUtils.js'
 
 const ButtonPage = (props) => {
   return (

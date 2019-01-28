@@ -3,8 +3,7 @@ import React from 'react'
 import Pill from '../../components/pill'
 import Page from '../../layouts/main.js'
 
-const HeaderStyles = 'uppercase text-grey font-mono'
-const SubheaderStyles = `${HeaderStyles} my-4`
+import { HeaderStyles, SubheaderStyles } from '../../lib/styleguideUtils.js'
 
 const PillPage = (props) => {
   return (
