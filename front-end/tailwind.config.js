@@ -49,7 +49,7 @@ let colors = {
   'black': '#22292f',
   'white': '#ffffff',
 
-  'grey-darkest': '#333333',
+  'grey-darkest': '#2F313D',
   'grey-darker': '#4F4F4F',
   'grey-dark': '#828282',
   'grey': '#858BA7',
@@ -162,6 +162,7 @@ module.exports = {
       'serif',
     ],
     'mono': [
+      'Roboto Mono',
       'Menlo',
       'Monaco',
       'Consolas',

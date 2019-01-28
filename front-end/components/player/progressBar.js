@@ -36,7 +36,6 @@ const SliderBarStyles = <style jsx='true'>{`
   .djn-sliderBar {
     position: absolute;
     background: #FF6D6B;
-    border-radius: 4px;
   }
 
   .djn-sliderBar.horizontal {
@@ -107,7 +106,6 @@ class ProgressBar extends Component {
         style={{
           width: direction === 'HORIZONTAL' ? '100%' : 8,
           height: direction === 'HORIZONTAL' ? 8 : 130,
-          borderRadius: 4,
           background: '#593D46',
           transition: direction === 'HORIZONTAL' ? 'width 0.1s' : 'height 0.1s',
           cursor: isEnabled === true ? 'pointer' : 'default',

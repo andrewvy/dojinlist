@@ -1,0 +1,61 @@
+.djn-player {
+  height: 92px;
+  background-color: config('colors.grey-darkest');
+}
+
+.djn-player .inner {
+  padding: 16px;
+  margin-top: 2px;
+  display: grid;
+  grid-template-columns: 7% 1% auto 12% 7% 12%;
+  grid-template-rows: auto;
+  justify-items: center;
+  align-items: center;
+}
+
+.djn-player .play-button {
+  align-self: end;
+  justify-self: start;
+}
+
+.djn-player .play-button .icon {
+  fill: config('colors.blue');
+}
+
+.djn-player .album-art {
+  background-color: config('colors.grey');
+  height: 48px;
+  width: 48px;
+  justify-self: end;
+  border-radius: 4px;
+}
+
+.djn-player .album-meta {
+  padding-left: 16px;
+  justify-self: start;
+  color: config('colors.white');
+}
+
+.djn-player .album-meta .track-name {
+  font-weight: bold;
+}
+
+.djn-player .timestamp {
+  color: config('colors.white');
+  font-weight: bold;
+  line-height: normal;
+  font-size: 12px;
+  text-align: center;
+}
+
+.djn-volumeSlider {
+  width: 140px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.djn-volumeSlider .icon {
+  margin-right: 8px;
+  fill: config('colors.red');
+}
