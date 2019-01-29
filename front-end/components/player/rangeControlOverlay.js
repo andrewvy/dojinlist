@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 /**
  * An invisible overlay that acts as a range mouse control
@@ -28,10 +28,11 @@ class RangeControlOverlay extends Component {
     this.endDrag();
   }
 
-  startDrag(evt) {
+  startDrag = (evt) => {
     this.setState({isDragging: true});
-    window.addEventListener('mousemove', this.triggerRangeChange.bind(this));
-    window.addEventListener('mouseup', this.endDrag.bind(this));
+
+    window.addEventListener('mousemove', this.triggerRangeChange);
+    window.addEventListener('mouseup', this.endDrag);
 
     this.toggleSelection('none');
 
@@ -39,12 +40,13 @@ class RangeControlOverlay extends Component {
     this.props.onChangeStart(startValue);
   }
 
-  endDrag(evt) {
+  endDrag = (evt) => {
     if (evt) {
       this.triggerRangeChange(evt);
     }
 
     this.setState({isDragging: false});
+
     window.removeEventListener('mousemove', this.triggerRangeChange);
     window.removeEventListener('mouseup', this.endDrag);
 
@@ -68,7 +70,7 @@ class RangeControlOverlay extends Component {
       : this.getHorizontalValue(mouseEvent.pageX);
   }
 
-  triggerRangeChange(mouseEvent) {
+  triggerRangeChange = (mouseEvent) => {
     this.props.onChange(this.getValueFromMouseEvent(mouseEvent));
   }
 
@@ -153,7 +155,7 @@ class RangeControlOverlay extends Component {
       <div
         className={className}
         style={style}
-        onMouseDown={this.startDrag.bind(this)}
+        onMouseDown={this.startDrag}
         onMouseEnter={this.handleIntentStart.bind(this)}
         onMouseMove={this.handleIntentMove.bind(this)}
         onMouseLeave={this.handleIntentEnd.bind(this)}

@@ -20,6 +20,15 @@
 
 .djn-player .play-button .icon {
   fill: config('colors.blue');
+  cursor: pointer;
+}
+
+.djn-player .play-button .icon:hover {
+  fill: config('colors.blue-dark');
+}
+
+.djn-player .play-button .icon:active {
+  fill: config('colors.blue-darker');
 }
 
 .djn-player .album-art {

@@ -76,6 +76,10 @@ const SliderHandle = ({ direction, value, style }) => (
 )
 
 class ProgressBar extends Component {
+  static defaultProps = {
+    onChange: () => {}
+  }
+
   state = {
     hovered: false
   }
@@ -100,7 +104,7 @@ class ProgressBar extends Component {
       <Slider
         isEnabled={isEnabled}
         direction={direction}
-        onChange={() => {}}
+        onChangeEnd={this.props.onChange}
         onIntentStart={this.handleIntentStart.bind(this)}
         onIntentEnd={this.handleIntentEnd.bind(this)}
         style={{
