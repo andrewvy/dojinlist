@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import Sound from 'react-sound'
+
 import Player from '../../components/player'
 import ProgressBar from '../../components/player/progressBar.js'
 
@@ -8,7 +10,9 @@ import Page from '../../layouts/main.js'
 import { HeaderStyles, SubheaderStyles } from '../../lib/styleguideUtils.js'
 
 const track = {
-  name: 'T'
+  name: 'T',
+  src: 'https://assets.dojinlist.co/uploads/a2002011001-e02-128k.ogg',
+  totalTime: 54 * 1000,
 }
 
 const album = {
@@ -19,14 +23,24 @@ const album = {
 class PlayerWrapper extends Component {
   state = {
     isPlaying: false,
-    currentTime: 30,
-    totalTime: 120,
+    currentTime: 0,
+    lastSeekTime: 0,
+    totalTime: 0,
     volume: 1,
   }
 
+  constructor(props) {
+    super(props)
+
+    this.state.totalTime = this.props.track.totalTime
+  }
+
   handleTogglePlay = (isPlaying) => {
+    const { currentTime } = this.state
+
     this.setState({
-      isPlaying
+      isPlaying,
+      lastSeekTime: currentTime
     })
   }
 
@@ -35,7 +49,7 @@ class PlayerWrapper extends Component {
     const newTime = percentage * totalTime
 
     this.setState({
-      currentTime: newTime
+      currentTime: newTime,
     })
   }
 
@@ -45,8 +59,27 @@ class PlayerWrapper extends Component {
     })
   }
 
+  handlePlaying = (audio) => {
+    this.setState({
+      currentTime: audio.position
+    })
+  }
+
+  handleLoad = (audio) => {
+    this.setState({
+      totalTime: audio.duration
+    })
+  }
+
+  handleFinishedPlaying = (audio) => {
+    this.setState({
+      isPlaying: false
+    })
+  }
+
   render() {
-    const { isPlaying, currentTime, totalTime, volume } = this.state
+    const { album, track } = this.props
+    const { isPlaying, currentTime, totalTime, volume, lastSeekTime } = this.state
 
     return (
       <div className='djn-playerWrapper'>
@@ -60,6 +93,15 @@ class PlayerWrapper extends Component {
           onTogglePlay={this.handleTogglePlay}
           onChange={this.handleChange}
           onVolumeChange={this.handleVolumeChange}
+        />
+        <Sound
+          url={track.src}
+          volume={volume * 100}
+          playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+          position={currentTime}
+          onPlaying={this.handlePlaying}
+          onLoad={this.handleLoad}
+          onFinishedPlaying={this.handleFinishedPlaying}
         />
       </div>
     )
@@ -84,6 +126,8 @@ const PlayerPage = (props) => {
         <div className='my-8'>
           <div className={SubheaderStyles}>Player</div>
           <PlayerWrapper
+            track={track}
+            album={album}
           />
         </div>
       </div>

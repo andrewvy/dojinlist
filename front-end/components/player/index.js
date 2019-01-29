@@ -81,7 +81,7 @@ class Player extends Component {
             />
           </div>
           <div className='timestamp font-mono'>
-            <FormattedTime numSeconds={currentTime} className='font-mono'/> / <FormattedTime numSeconds={totalTime} className='font-mono text-grey'/>
+            <FormattedTime numSeconds={currentTime / 1000} className='font-mono'/> / <FormattedTime numSeconds={totalTime / 1000} className='font-mono text-grey'/>
           </div>
           <Button type='translucent-dark' text='Buy Album'/>
         </div>

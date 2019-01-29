@@ -27,6 +27,7 @@
     "react": "16.4.2",
     "react-apollo": "^2.2.4",
     "react-markdown": "^4.0.3",
+    "react-sound": "^1.2.0",
     "tailwindcss": "^0.7.3",
     "yup": "^0.26.6"
   },
