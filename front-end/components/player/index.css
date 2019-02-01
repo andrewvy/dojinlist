@@ -1,13 +1,15 @@
 .djn-player {
   height: 92px;
   background-color: config('colors.grey-darkest');
+  min-width: 800px;
+  overflow: hidden;
 }
 
 .djn-player .inner {
   padding: 16px;
   margin-top: 2px;
   display: grid;
-  grid-template-columns: 7% 1% auto 12% 7% 12%;
+  grid-template-columns: 100px 12px auto 140px 140px 140px;
   grid-template-rows: auto;
   justify-items: center;
   align-items: center;
