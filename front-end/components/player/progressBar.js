@@ -104,7 +104,7 @@ class ProgressBar extends Component {
       <Slider
         isEnabled={isEnabled}
         direction={direction}
-        onChangeEnd={this.props.onChange}
+        onChange={this.props.onChange}
         onIntentStart={this.handleIntentStart.bind(this)}
         onIntentEnd={this.handleIntentEnd.bind(this)}
         style={{

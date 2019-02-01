@@ -2,7 +2,6 @@
   height: 92px;
   background-color: config('colors.grey-darkest');
   min-width: 800px;
-  overflow: hidden;
 }
 
 .djn-player .inner {
