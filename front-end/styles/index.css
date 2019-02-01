@@ -180,30 +180,6 @@ a.active {
   @apply text-blue-dark;
 }
 
-footer {
-  @apply bg-blue-darker;
-
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  clear: both;
-  position: relative;
-  height: 80px;
-
-
-  font-weight: 600;
-  font-size: 16px;
-}
-
-footer a {
-  @apply text-grey-lighter;
-
-  padding: 8px;
-  text-decoration: none;
-}
-
 fieldset {
   @apply my-4;
 }
