@@ -1,0 +1,9 @@
+.djn-albumThumbnailGrid {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto;
+}
+
+.djn-albumThumbnailGrid .djn-albumThumbnail {
+  margin-bottom: 12px;
+}
