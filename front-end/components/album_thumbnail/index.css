@@ -1,0 +1,15 @@
+.djn-albumThumbnail .thumbnail {
+  border-radius: 12px;
+}
+
+.djn-albumThumbnail .album-meta {
+  color: config('colors.blue-dark');
+}
+
+.djn-albumThumbnail .album-name {
+  margin-top: 8px;
+}
+
+.djn-albumThumbnail .album-name {
+  font-weight: bold;
+}
