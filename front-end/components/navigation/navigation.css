@@ -1,0 +1,45 @@
+.djn-navigation {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.djn-navigation .logo {
+  margin-right: 24px;
+  max-width: 184px;
+}
+
+.djn-navigation .logo,
+.djn-navigation .user-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.djn-navigation .user-controls {
+  height: 100%;
+  align-self: flex-end;
+  margin-left: auto;
+  padding-top: 12px;
+}
+
+.djn-navigation .user-controls li {
+  padding: 0 12px;
+  text-decoration: none;
+  list-style: none;
+}
+
+.djn-navigation .user-controls a {
+  font-family: Noto Sans JP;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: config('colors.blue-dark');
+}
+
+.djn-navigation .user-controls a:hover {
+  color: config('colors.blue');
+}
