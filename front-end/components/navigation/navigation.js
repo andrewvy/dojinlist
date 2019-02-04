@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import { withRouter } from 'next/router'
+
 import { AuthConsumer } from '../../contexts/auth.js'
 import { MeConsumer } from '../../contexts/me.js'
 
@@ -12,7 +14,15 @@ const Styles = () => (
   `}</style>
 )
 
-const Navigation = () => (
+const NavLink = ({ router, href, text }) => (
+  <li className={router.pathname === href ? 'active' : ''}>
+    <Link href={href}>
+      {text}
+    </Link>
+  </li>
+)
+
+const Navigation = ({router}) => (
   <AuthConsumer>
     {({isAuthed}) => (
       <MeConsumer>
@@ -27,10 +37,8 @@ const Navigation = () => (
                 </Link>
               </div>
               <div className='user-controls'>
-                <li className='active'><Link href='/'>Discover</Link></li>
-                <li><Link href='/'>Artists</Link></li>
-                <li><Link href='/'>Album</Link></li>
-                <li><Link href='/logout'><a>Logout</a></Link></li>
+                <NavLink router={router} href='/' text='Discover' />
+                <NavLink router={router} href='/logout' text='Logout' />
               </div>
             </div>
             <Styles />
@@ -41,4 +49,4 @@ const Navigation = () => (
   </AuthConsumer>
 )
 
-export default Navigation
+export default withRouter(Navigation)
