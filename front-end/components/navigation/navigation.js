@@ -17,19 +17,21 @@ const Navigation = () => (
     {({isAuthed}) => (
       <MeConsumer>
         {({}) => (
-          <nav className='djn-navigation limit-screen mx-auto'>
-            <div className='logo'>
-              <Link href='/'>
-                <a>
-                  <Logo />
-                </a>
-              </Link>
-            </div>
-            <div className='user-controls'>
-              <li><Link href='/'>Discover</Link></li>
-              <li><Link href='/'>Artists</Link></li>
-              <li><Link href='/'>Album</Link></li>
-              <li><Link href='/logout'><a>Logout</a></Link></li>
+          <nav className='djn-navigation'>
+            <div className='djn-navigation-inner limit-screen mx-auto'>
+              <div className='logo'>
+                <Link href='/'>
+                  <a>
+                    <Logo />
+                  </a>
+                </Link>
+              </div>
+              <div className='user-controls'>
+                <li className='active'><Link href='/'>Discover</Link></li>
+                <li><Link href='/'>Artists</Link></li>
+                <li><Link href='/'>Album</Link></li>
+                <li><Link href='/logout'><a>Logout</a></Link></li>
+              </div>
             </div>
             <Styles />
           </nav>

@@ -5,9 +5,11 @@ import {Query} from 'react-apollo';
 import {AuthConsumer} from '../contexts/auth.js';
 import Spinner from '../components/spinner';
 
+import withNavigation from '../components/navigation';
+
 import Page from '../layouts/main.js';
 
-import Logo from '../svgs/brand/blue_bg_fill_wordmark.svg';
+import Logo from '../svgs/brand/white_bg_fill_wordmark.svg';
 
 const Styles = () => (
   <style jsx="true">
@@ -63,16 +65,8 @@ const Styles = () => (
 class IndexPage extends React.Component {
   render() {
     return (
-      <Page className='bg-blue-darker'>
-        <nav className="navigation">
-          <section className="container">
-            <Logo className="logo" />
-          </section>
-        </nav>
+      <Page className='bg-white'>
         <div className="container content">
-          <p>
-            <em>early 2019</em>
-          </p>
           <AuthConsumer>
             {({isAuthed}) => {
               if (isAuthed) {
@@ -96,4 +90,4 @@ class IndexPage extends React.Component {
   }
 }
 
-export default IndexPage;
+export default withNavigation(IndexPage);
