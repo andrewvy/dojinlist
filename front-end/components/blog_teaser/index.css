@@ -1,0 +1,47 @@
+.djn-blogTeaser {
+  max-width: 400px;
+}
+
+.djn-blogTeaser .title,
+.djn-blogTeaser .date {
+  @apply font-bold;
+}
+
+.djn-blogTeaser .title,
+.djn-blogTeaser .date,
+.djn-blogTeaser .summary {
+  @apply text-blue-darker;
+}
+
+.djn-blogTeaser .title {
+  @apply text-4xl;
+}
+
+.djn-blogTeaser .date {
+  @apply font-mono uppercase;
+
+  margin-top: 8px;
+}
+
+.djn-blogTeaser .summary {
+  @apply font-light;
+
+  margin-top: 12px;
+  line-height: 33px;
+}
+
+.djn-blogTeaser .read-more {
+  @apply font-bold uppercase;
+
+  margin-top: 8px;
+}
+
+.djn-blogTeaser .read-more a {
+  @apply text-blue-darker;
+
+  text-decoration: none;
+}
+
+.djn-blogTeaser .read-more a:hover {
+  @apply text-blue subpixel-antialiased;
+}
