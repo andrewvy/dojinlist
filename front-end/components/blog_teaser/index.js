@@ -5,17 +5,24 @@ import './index.css'
 
 const BlogTeaser = ({ post }) => (
   <div className='djn-blogTeaser'>
-    <div className='title'>
-      {post.title}
+    <div className='left'>
+      <img src={post.cover_image} className='cover-image'/>
     </div>
-    <div className='date'>
-      September 23, 2019
-    </div>
-    <div className='summary'>
-      {post.summary}
-    </div>
-    <div className='read-more'>
-      <Link href={`/blog/${post.slug}`}>READ MORE →</Link>
+    <div className='right'>
+      <div className='title'>
+        {post.title}
+      </div>
+      <div className='date'>
+        {post.date}
+      </div>
+      <div className='summary'>
+        <p>
+          {post.summary}
+        </p>
+      </div>
+      <div className='read-more'>
+        <Link href={`/blog/${post.slug}`}>READ MORE →</Link>
+      </div>
     </div>
   </div>
 )

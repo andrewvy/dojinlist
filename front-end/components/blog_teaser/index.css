@@ -1,5 +1,20 @@
 .djn-blogTeaser {
-  max-width: 400px;
+  display: flex;
+  padding: 16px 0;
+}
+
+.djn-blogTeaser .left {
+  flex: 0.5;
+}
+
+.djn-blogTeaser .right {
+  padding-left: 16px;
+  flex: 1;
+}
+
+.djn-blogTeaser .cover-image {
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .djn-blogTeaser .title,
@@ -10,7 +25,7 @@
 .djn-blogTeaser .title,
 .djn-blogTeaser .date,
 .djn-blogTeaser .summary {
-  @apply text-blue-darker;
+  @apply text-blue-darker text-left;
 }
 
 .djn-blogTeaser .title {
@@ -26,8 +41,10 @@
 .djn-blogTeaser .summary {
   @apply font-light;
 
+  font-size: 16px;
   margin-top: 12px;
   line-height: 33px;
+  white-space: pre-line;
 }
 
 .djn-blogTeaser .read-more {

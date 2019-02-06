@@ -6,35 +6,16 @@ import {AuthConsumer} from '../contexts/auth.js';
 import Spinner from '../components/spinner';
 
 import withNavigation from '../components/navigation';
+import Pill from '../components/pill'
+import BlogTeaser from '../components/blog_teaser'
 
 import Page from '../layouts/main.js';
-
 import Logo from '../svgs/brand/white_bg_fill_wordmark.svg';
+import HelloWorldPost from '../posts/hello-world.js'
 
 const Styles = () => (
   <style jsx="true">
     {`
-      body {
-        margin: 0;
-        text-align: center;
-      }
-
-      .page {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-
-      .navigation {
-        padding-top: 20px;
-        animation: 0.5s ease-out 0s 1 slideIn;
-      }
-
-      .content {
-        color: white;
-      }
-
       @keyframes slideIn {
         0% {
           opacity: 0;
@@ -66,23 +47,15 @@ class IndexPage extends React.Component {
   render() {
     return (
       <Page className='bg-white'>
-        <div className="container content">
-          <AuthConsumer>
-            {({isAuthed}) => {
-              if (isAuthed) {
-                return (
-                  <p>
-                    <span>Logged in? </span>
-                    <Link href="/profile">
-                      <a>Go to your profile.</a>
-                    </Link>
-                  </p>
-                );
-              } else {
-                return '';
-              }
-            }}
-          </AuthConsumer>
+        <div className="container content limit-screen my-8 w-2/3">
+          <Pill
+            lightColor='red-light'
+            darkColor='red'
+            title='Blog'
+            description='From the developers'
+          />
+          <BlogTeaser post={HelloWorldPost}
+          />
         </div>
         <Styles />
       </Page>

@@ -1,0 +1,26 @@
+.djn-blogPostHeader {
+  text-align: center;
+  padding-bottom: 32px;
+}
+
+.djn-blogPostHeader .blog-title {
+  @apply text-blue-dark font-bold;
+}
+
+.djn-blogPostHeader .cover-image {
+  object-fit: cover;
+  max-height: 600px;
+}
+
+.djn-blogPostHeader .blog-content {
+  @apply text-black;
+
+  font-weight: 200;
+  line-height: 1.5;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.djn-blogPostHeader .blog-content strong {
+  font-weight: 600;
+}
