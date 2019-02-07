@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import Link from 'next/link';
 import {Query} from 'react-apollo';
 
 import {AuthConsumer} from '../contexts/auth.js';
-import Spinner from '../components/spinner';
 
+import Spinner from '../components/spinner';
 import withNavigation from '../components/navigation';
 import Pill from '../components/pill'
 import BlogTeaser from '../components/blog_teaser'
 
 import Page from '../layouts/main.js';
-import Logo from '../svgs/brand/white_bg_fill_wordmark.svg';
+
 import HelloWorldPost from '../posts/hello-world.js'
 
 const Styles = () => (
@@ -43,18 +43,26 @@ const Styles = () => (
   </style>
 );
 
-class IndexPage extends React.Component {
+class IndexPage extends PureComponent {
   render() {
     return (
       <Page className='bg-white'>
         <div className="container content limit-screen my-8 w-2/3">
+          <div className='main font-bold text-4xl text-center my-8'>
+            A marketplace to discover and buy dōjin music.
+          </div>
           <Pill
             lightColor='red-light'
             darkColor='red'
             title='Blog'
             description='From the developers'
           />
-          <BlogTeaser post={HelloWorldPost}
+          <BlogTeaser post={HelloWorldPost} />
+          <Pill
+            lightColor='blue-lighter'
+            darkColor='blue'
+            title='Recent'
+            description='New albums added'
           />
         </div>
         <Styles />
