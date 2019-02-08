@@ -13,12 +13,15 @@ const blog_post = {
   id: 'QmxvZ1Bvc3Q6Mw==',
   title: 'Hello World',
   slug: 'hello-world',
-  cover_image: 'https://s3.amazonaws.com/dojinlist-uploads/uploads/blog/hello-world.jpg',
-  summary: "Hey, welcome to our little corner of the internet.\n\nI'm the sole founder, vy, and I'm here to tell you a little about our dojinlist.co project.\n\ndojinlist.co is a community site built around creating a place around the growing international audience of doujin music lovers. From the very start, we love these artists and wish to support them in every way possible.",
-  date: 'November 20th, 2018
+  cover_image:
+    'https://s3.amazonaws.com/dojinlist-uploads/uploads/blog/hello-world.jpg',
+  summary:
+    "Hey, welcome to our little corner of the internet.\n\nI'm the sole founder, vy, and I'm here to tell you a little about our dojinlist.co project.\n\ndojinlist.co is a community site built around creating a place around the growing international audience of doujin music lovers. From the very start, we love these artists and wish to support them in every way possible.",
+  date: 'November 20th, 2018',
   author: {
     username: 'andrewvy',
-    avatar: 'https://localhost:4001/uploads/avatars/thumb_cwxNqljjycIerYUk1rPj3.png',
+    avatar:
+      'https://localhost:4001/uploads/avatars/thumb_cwxNqljjycIerYUk1rPj3.png',
   },
 };
 
