@@ -6,6 +6,8 @@ const app = next({dev: dev});
 const handler = app.getRequestHandler();
 const port = process.env.PORT || 3000;
 
+const config = require('./env-config.js');
+
 const express = require('express');
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -13,24 +15,13 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 app.prepare().then(() => {
   const server = express();
 
-  if (dev) {
-    // Make HMR work
-    server.use(
-      '/_next',
-      proxy((pathname, req) => Boolean(req.subdomains.length), {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      }),
-    );
-  }
-
   server
     .use('*', function(req, res, next) {
       const parsedUrl = parse(req.originalUrl, true);
       const subdomains = req.subdomains;
       const {pathname, query} = parsedUrl;
 
-      if (subdomains.length) {
+      if (subdomains.length && !pathname.startsWith('/_next')) {
         const normalizedPath = pathname === '/' ? '' : pathname;
         const subdomainPath = '/storefront' + normalizedPath;
 
