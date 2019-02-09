@@ -28,6 +28,7 @@
     "react-apollo": "^2.2.4",
     "react-markdown": "^4.0.3",
     "react-sound": "^1.2.0",
+    "react-stripe-elements": "^2.0.3",
     "tailwindcss": "^0.7.3",
     "yup": "^0.26.6"
   },

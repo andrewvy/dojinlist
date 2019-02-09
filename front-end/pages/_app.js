@@ -2,6 +2,7 @@ import React from 'react';
 import App, {Container} from 'next/app';
 import Head from 'next/head';
 import {ApolloProvider} from 'react-apollo';
+import {StripeProvider} from 'react-stripe-elements';
 
 import withApollo from '../lib/withApollo';
 import {AuthProvider} from '../contexts/auth.js';
@@ -25,6 +26,11 @@ fathom('trackPageview');
 `;
 
 class MainApp extends App {
+  constructor() {
+    super();
+    this.state = {stripe: null};
+  }
+
   static async getInitialProps({Component, router, ctx}) {
     let pageProps = {};
 
@@ -33,6 +39,10 @@ class MainApp extends App {
     }
 
     return {pageProps};
+  }
+
+  componentDidMount() {
+    this.setState({stripe: window.Stripe(STRIPE_API_KEY)})
   }
 
   render() {
@@ -92,6 +102,7 @@ class MainApp extends App {
           />
 
           <script type="text/javascript">{`var _iub = _iub || []; _iub.csConfiguration = {"lang":"en","siteId":1445725,"cookiePolicyId":80104253, "banner":{ "textColor":"white","backgroundColor":"black" } }; `}</script>
+          <script src="https://js.stripe.com/v3/"></script>
 
           {TRACKING_ENABLED && (
             <>
@@ -105,13 +116,15 @@ class MainApp extends App {
             </>
           )}
         </Head>
-        <ApolloProvider client={apolloClient}>
-          <AuthProvider>
-            <MeProvider>
-              <Component {...pageProps} />
-            </MeProvider>
-          </AuthProvider>
-        </ApolloProvider>
+        <StripeProvider stripe={this.state.stripe}>
+          <ApolloProvider client={apolloClient}>
+            <AuthProvider>
+              <MeProvider>
+                <Component {...pageProps} />
+              </MeProvider>
+            </AuthProvider>
+          </ApolloProvider>
+        </StripeProvider>
       </Container>
     );
   }

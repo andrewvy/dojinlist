@@ -2,9 +2,24 @@ import Link from 'next/link'
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
 
+import withNavigation from '../../components/navigation'
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 
 import Page from '../../layouts/main.js'
+
+import {Elements} from 'react-stripe-elements';
+import {CardElement} from 'react-stripe-elements';
+
+const Checkout = () => (
+  <Elements>
+    <form onSubmit={() => {}}>
+      <label>
+        Card details
+          <CardElement style={{base: {fontSize: '18px'}}} />
+      </label>
+    </form>
+  </Elements>
+)
 
 class HomePage extends PureComponent {
   static async getInitialProps({ query }) {
@@ -25,6 +40,13 @@ class HomePage extends PureComponent {
                   <div>
                     <p>Album Slug: {album_slug}</p>
                     <p>Album Title: {data.album.title}</p>
+                    {
+                      data.album.tracks.length > 0 &&
+                      <ul>
+                        {data.album.tracks.map((track, i) => <li key={i}>{track.title}</li>)}
+                      </ul>
+                    }
+                    <Checkout />
                     <Link href={`/storefront?subdomain=${subdomain}`} as='/'>Storefront</Link>
                   </div>
                 }
@@ -37,4 +59,4 @@ class HomePage extends PureComponent {
   }
 }
 
-export default HomePage
+export default withNavigation(HomePage)
