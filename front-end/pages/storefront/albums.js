@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
 
@@ -11,9 +12,7 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { album_slug } = this.props.query
-
-    console.log(this.props.query)
+    const { album_slug, subdomain } = this.props.query
 
     return (
       <Page>
@@ -26,6 +25,7 @@ class HomePage extends PureComponent {
                   <div>
                     <p>Album Slug: {album_slug}</p>
                     <p>Album Title: {data.album.title}</p>
+                    <Link href={`/storefront?subdomain=${subdomain}`} as='/'>Storefront</Link>
                   </div>
                 }
               </div>

@@ -28,8 +28,6 @@ const conditionallyRenderStorefront = function(req, res, next, params) {
       ...req.query
     };
 
-    console.log(subdomainPath)
-
     app.render(req, res, subdomainPath, subdomainQuery);
   } else {
     next();
