@@ -42,10 +42,9 @@ defmodule DojinlistWeb.Schema do
     end
 
     field :album, :album do
-      arg(:id, non_null(:id))
+      arg(:slug, non_null(:string))
 
-      middleware(Absinthe.Relay.Node.ParseIDs, id: :album)
-      resolve(&Resolvers.Album.by_id/2)
+      resolve(&Resolvers.Album.by_slug/2)
     end
 
     field :me, :me do

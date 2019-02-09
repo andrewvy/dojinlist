@@ -112,7 +112,7 @@ defmodule Dojinlist.Albums do
     end)
   end
 
-  def update_album(album, attrs, edited_user_id \\ nil) do
+  def update_album(album, attrs) do
     artist_ids =
       List.wrap(attrs[:artist_ids]) |> Enum.map(&Utility.parse_integer/1) |> Enum.dedup()
 
@@ -150,6 +150,12 @@ defmodule Dojinlist.Albums do
   def get_album(id) do
     Schemas.Album
     |> Repo.get(id)
+    |> Repo.preload([:tracks])
+  end
+
+  def get_album_by_slug(slug) do
+    Schemas.Album
+    |> Repo.get_by(slug: slug)
     |> Repo.preload([:tracks])
   end
 end

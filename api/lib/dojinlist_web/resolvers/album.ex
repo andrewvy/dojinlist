@@ -7,11 +7,11 @@ defmodule DojinlistWeb.Resolvers.Album do
     |> Absinthe.Relay.Connection.from_query(&Dojinlist.Repo.all/1, params)
   end
 
-  def by_id(%{id: id}, _) do
-    case Albums.get_album(id) do
+  def by_slug(%{slug: slug}, _) do
+    case Albums.get_album_by_slug(slug) do
       nil ->
         # @TODO(vy): i18n
-        {:error, "Could not find album with that id"}
+        {:error, "Could not find album with that slug"}
 
       album ->
         {:ok, album}

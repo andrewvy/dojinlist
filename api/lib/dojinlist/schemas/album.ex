@@ -5,24 +5,25 @@ defmodule Dojinlist.Schemas.Album do
   import Ecto.Changeset
 
   schema "albums" do
-    field :uuid, Ecto.UUID, autogenerate: true
+    field(:uuid, Ecto.UUID, autogenerate: true)
 
-    field :title, :string
-    field :description, :string
-    field :cover_art, :string
-    field :release_datetime, :utc_datetime
-    field :price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0)
+    field(:title, :string)
+    field(:description, :string)
+    field(:cover_art, :string)
+    field(:release_datetime, :utc_datetime)
+    field(:price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0))
+    field(:slug, :string)
 
-    many_to_many :artists, Dojinlist.Schemas.Artist, join_through: "albums_artists"
-    many_to_many :genres, Dojinlist.Schemas.Genre, join_through: "albums_genres"
+    many_to_many(:artists, Dojinlist.Schemas.Artist, join_through: "albums_artists")
+    many_to_many(:genres, Dojinlist.Schemas.Genre, join_through: "albums_genres")
 
-    has_many :ratings, Dojinlist.Schemas.UserRating
-    has_many :tracks, Dojinlist.Schemas.Track
-    has_many :external_links, Dojinlist.Schemas.ExternalAlbumLink, on_replace: :delete
+    has_many(:ratings, Dojinlist.Schemas.UserRating)
+    has_many(:tracks, Dojinlist.Schemas.Track)
+    has_many(:external_links, Dojinlist.Schemas.ExternalAlbumLink, on_replace: :delete)
 
-    belongs_to :creator_user, Dojinlist.Schemas.User
-    belongs_to :event, Dojinlist.Schemas.Event
-    belongs_to :storefront, Dojinlist.Schemas.Storefront
+    belongs_to(:creator_user, Dojinlist.Schemas.User)
+    belongs_to(:event, Dojinlist.Schemas.Event)
+    belongs_to(:storefront, Dojinlist.Schemas.Storefront)
 
     timestamps(type: :utc_datetime)
   end
@@ -42,9 +43,12 @@ defmodule Dojinlist.Schemas.Album do
       :price,
       :release_datetime,
       :storefront_id,
-      :title
+      :title,
+      :slug
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
-    |> validate_required([:title, :storefront_id])
+    |> validate_required([:title, :storefront_id, :slug])
+    |> validate_format(:slug, ~r/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    |> unique_constraint(:slug)
   end
 end

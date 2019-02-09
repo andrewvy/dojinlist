@@ -19,6 +19,7 @@ defmodule Dojinlist.AlbumsTest do
     assert {:ok, album} =
              Albums.create_album(%{
                title: "02 EP",
+               slug: "02-ep",
                sample_url: "https://02-ep.local/sample.mp3",
                purchase_url: "https://02-ep.local",
                storefront_id: storefront.id
@@ -31,6 +32,7 @@ defmodule Dojinlist.AlbumsTest do
     assert {:ok, album} =
              Albums.create_album(%{
                title: "02 EP",
+               slug: "02-ep",
                sample_url: "https://02-ep.local/sample.mp3",
                storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
@@ -46,6 +48,7 @@ defmodule Dojinlist.AlbumsTest do
     assert {:ok, album} =
              Albums.create_album(%{
                title: "02 EP",
+               slug: "02-ep",
                storefront_id: storefront.id,
                purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
@@ -62,6 +65,7 @@ defmodule Dojinlist.AlbumsTest do
     assert {:ok, updated_album} =
              Albums.update_album(album, %{
                title: "Test",
+               slug: "test",
                artist_ids: [artist.id],
                genre_ids: [genre.id]
              })
@@ -75,6 +79,7 @@ defmodule Dojinlist.AlbumsTest do
     {:ok, album} =
       Albums.create_album(%{
         title: "External Album Link",
+        slug: "external-album-link",
         storefront_id: storefront.id,
         external_links: [
           %{
@@ -93,6 +98,7 @@ defmodule Dojinlist.AlbumsTest do
     {:ok, album} =
       Albums.create_album(%{
         title: "External Album Link",
+        slug: "external-album-link",
         storefront_id: storefront.id,
         external_links: [
           %{

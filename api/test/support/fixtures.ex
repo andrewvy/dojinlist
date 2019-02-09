@@ -21,6 +21,7 @@ defmodule Dojinlist.Fixtures do
     default_attrs = %{
       title: Faker.Lorem.sentence(),
       price: Money.from_integer(800, :usd),
+      slug: Faker.Internet.slug(Faker.Lorem.words(2..5), ["-"]),
       storefront_id:
         Map.get_lazy(attrs, :storefront_id, fn ->
           {:ok, storefront} = storefront()

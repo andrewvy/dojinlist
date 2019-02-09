@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
 
-import FetchStorefrontQuery from '../queries/storefront/storefront.js'
+import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 
-import Page from '../layouts/main.js'
+import Page from '../../layouts/main.js'
 
 class HomePage extends PureComponent {
   static async getInitialProps({ query }) {
@@ -11,21 +11,22 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { subdomain } = this.props.query
+    const { album_slug } = this.props.query
+
+    console.log(this.props.query)
 
     return (
       <Page>
         <div className='container'>
-          <Query query={FetchStorefrontQuery} variables={{subdomain}}>
+          <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
             {({data, loading}) => (
               <div>
-                {loading && <div>Loading</div>}
                 {
                   !loading && data &&
-                    <div>
-                      <p>Display Name: {data.storefront.display_name}</p>
-                      <p>Description: {data.storefront.description}</p>
-                    </div>
+                  <div>
+                    <p>Album Slug: {album_slug}</p>
+                    <p>Album Title: {data.album.title}</p>
+                  </div>
                 }
               </div>
             )}

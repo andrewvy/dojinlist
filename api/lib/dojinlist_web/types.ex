@@ -190,6 +190,7 @@ defmodule DojinlistWeb.Types do
 
   input_object :album_input do
     field(:title, non_null(:string))
+    field(:slug, non_null(:string))
     field(:artist_ids, list_of(:id))
     field(:genre_ids, list_of(:id))
     field(:storefront_id, non_null(:id))

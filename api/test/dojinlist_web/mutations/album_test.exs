@@ -20,7 +20,8 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     variables = %{
       album: %{
         title: "GraphQL Album Test",
-        storefront_id: storefront_id
+        storefront_id: storefront_id,
+        slug: "graphql-album-test"
       }
     }
 
@@ -53,6 +54,7 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     variables = %{
       album: %{
         title: "GraphQL Album Test",
+        slug: "graphql-album-test",
         storefront_id: storefront_id,
         external_links: [
           %{
