@@ -1,9 +1,16 @@
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
 
+import withNavigation from '../components/navigation'
+
 import FetchStorefrontQuery from '../queries/storefront/storefront.js'
+import FetchAlbumsByStorefrontId from '../queries/albums/by_storefront_id.js'
+
+import AlbumThumbnailGrid from '../components/album_thumbnail_grid'
 
 import Page from '../layouts/main.js'
+
+const transformAlbums = (edge) => (edge.node)
 
 class HomePage extends PureComponent {
   static async getInitialProps({ query }) {
@@ -17,7 +24,7 @@ class HomePage extends PureComponent {
       <Page>
         <div className='container'>
           <Query query={FetchStorefrontQuery} variables={{subdomain}}>
-            {({data, loading}) => (
+            {({data, loading, error}) => (
               <div>
                 {loading && <div>Loading</div>}
                 {
@@ -25,6 +32,20 @@ class HomePage extends PureComponent {
                     <div>
                       <p>Display Name: {data.storefront.display_name}</p>
                       <p>Description: {data.storefront.description}</p>
+                      <Query query={FetchAlbumsByStorefrontId} variables={{storefrontId: data.storefront.id, first: 10}}>
+                        {({data, loading, error}) => (
+                          <div className='albums'>
+                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)} />
+                          </div>
+                        )}
+                      </Query>
+                    </div>
+                }
+
+                {
+                  error &&
+                    <div>
+                    Error
                     </div>
                 }
               </div>
@@ -36,4 +57,4 @@ class HomePage extends PureComponent {
   }
 }
 
-export default HomePage
+export default withNavigation(HomePage)

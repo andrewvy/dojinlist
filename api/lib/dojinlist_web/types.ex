@@ -21,6 +21,7 @@ defmodule DojinlistWeb.Types do
   node object(:album) do
     field(:uuid, :string)
     field(:title, :string)
+    field(:slug, :string)
     field(:release_datetime, :datetime)
     field(:event, :event, resolve: dataloader(Dojinlist.Source))
 

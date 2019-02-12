@@ -33,8 +33,9 @@
 }
 
 .djn-blogTeaser .date {
-  @apply font-mono uppercase;
+  @apply font-mono uppercase text-xs;
 
+  padding-left: 2px;
   margin-top: 8px;
 }
 

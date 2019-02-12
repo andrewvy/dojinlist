@@ -16,24 +16,8 @@ import HelloWorldPost from '../posts/hello-world.js'
 const Styles = () => (
   <style jsx="true">
     {`
-      @keyframes slideIn {
-        0% {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0px);
-        }
-      }
-
       .logo {
         width: 200px;
-      }
-
-      .content {
-        animation: 0.5s ease-out 0s 1 slideIn;
-        padding-top: 20px;
       }
 
       .content em {
@@ -47,23 +31,27 @@ class IndexPage extends PureComponent {
   render() {
     return (
       <Page className='bg-white'>
-        <div className="container content limit-screen my-8 w-2/3">
-          <div className='main font-bold text-4xl text-center my-8'>
-            A marketplace to discover and buy dōjin music.
+        <div className="container content">
+          <div className='main text-center py-40 bg-blue text-white'>
+            <div className='font-bold text-4xl'>A marketplace to discover and buy dōjin music.</div>
+            <div className='font-light my-8'>Find your favourite artists and music genres.</div>
           </div>
-          <Pill
-            lightColor='red-light'
-            darkColor='red'
-            title='Blog'
-            description='From the developers'
-          />
-          <BlogTeaser post={HelloWorldPost} />
-          <Pill
-            lightColor='blue-lighter'
-            darkColor='blue'
-            title='Recent'
-            description='New albums added'
-          />
+
+          <div className='container limit-screen w-2/3 my-8'>
+            <Pill
+              lightColor='red-light'
+              darkColor='red'
+              title='Blog'
+              description='From the developers'
+            />
+            <BlogTeaser post={HelloWorldPost} />
+            <Pill
+              lightColor='blue-lighter'
+              darkColor='blue'
+              title='Recent'
+              description='New albums added'
+            />
+          </div>
         </div>
         <Styles />
       </Page>

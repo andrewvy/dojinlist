@@ -7,9 +7,9 @@ import AlbumThumbnail from '../../components/album_thumbnail/'
 import AlbumThumbnailGrid from '../../components/album_thumbnail_grid'
 
 const album = {
-  artist_name: 'Tycho',
-  name: 'ボーナス・トラック',
-  cover_image_url: 'https://s3.amazonaws.com/dojinlist-uploads/uploads/original_HV8kNla_gg8YoSVvZbEV3.png'
+  artistName: 'Tycho',
+  title: 'ボーナス・トラック',
+  coverArtUrl: 'https://s3.amazonaws.com/dojinlist-uploads/uploads/original_HV8kNla_gg8YoSVvZbEV3.png'
 }
 
 const albums = [
