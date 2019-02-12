@@ -5,29 +5,30 @@ import { Query } from 'react-apollo'
 import withNavigation from '../../components/navigation'
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 
+import CheckoutModal from '../../components/checkout_modal'
+
+import Button from '../../components/button'
+
 import Page from '../../layouts/main.js'
 
-import {Elements} from 'react-stripe-elements';
-import {CardElement} from 'react-stripe-elements';
-
-const Checkout = () => (
-  <Elements>
-    <form onSubmit={() => {}}>
-      <label>
-        Card details
-          <CardElement style={{base: {fontSize: '18px'}}} />
-      </label>
-    </form>
-  </Elements>
-)
-
 class HomePage extends PureComponent {
+  state = {
+    openCheckoutModal: false
+  }
+
   static async getInitialProps({ query }) {
     return { query }
   }
 
+  toggleCheckoutModal = (bool) => {
+    this.setState({
+      openCheckoutModal: bool
+    })
+  }
+
   render() {
     const { album_slug, subdomain } = this.props.query
+    const { openCheckoutModal } = this.state
 
     return (
       <Page>
@@ -46,7 +47,11 @@ class HomePage extends PureComponent {
                         {data.album.tracks.map((track, i) => <li key={i}>{track.title}</li>)}
                       </ul>
                     }
-                    <Checkout />
+                    <Button type='primary' text='Buy Album' icon='plus' onClick={() => this.toggleCheckoutModal(true)}/>
+                    {
+                      openCheckoutModal &&
+                      <CheckoutModal />
+                    }
                     <Link href={`/storefront?subdomain=${subdomain}`} as='/'>Storefront</Link>
                   </div>
                 }

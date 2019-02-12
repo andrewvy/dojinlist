@@ -4,7 +4,7 @@
 }
 
 .djn-navigation-inner {
-  height: 80px;
+  height: 60px;
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
@@ -12,7 +12,7 @@
 
 .djn-navigation .logo {
   margin-right: 24px;
-  max-width: 184px;
+  max-width: 140px;
 }
 
 .djn-navigation .logo,
@@ -29,7 +29,7 @@
 }
 
 .djn-navigation .user-controls li {
-  padding: 32px 0;
+  padding: 20px 0;
   margin: 0 12px;
   height: 100%;
   text-decoration: none;
