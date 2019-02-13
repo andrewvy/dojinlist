@@ -5,15 +5,37 @@ import { CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement
 import Button from '../button'
 
 class CheckoutModal extends PureComponent {
+  static defaultProps = {
+    onCreateToken: () => {}
+  }
+
+  state = {
+    email: ''
+  }
+
   onSubmit = (ev) => {
+    const { email } = this.state
+    const { onCreateToken } = this.props
+
     ev.preventDefault()
 
     this.props.stripe.createToken({name: 'Test'}).then(({token}) => {
-      console.log('Token Received:', token)
+      onCreateToken({
+        token,
+        email,
+      })
     });
   }
 
+  onChange = (field) => (ev) => {
+    this.setState({
+      [field]: ev.target.value
+    })
+  }
+
   render() {
+    const { email } = this.state
+
     return (
       <div className='djn-checkoutModal container limit-screen w-2/3'>
           <form onSubmit={this.onSubmit}>
@@ -34,8 +56,12 @@ class CheckoutModal extends PureComponent {
               <label htmlFor='postal-code'>Postal Code</label>
               <PostalCodeElement id='postal-code'/>
             </fieldset>
+            <fieldset>
+              <label htmlFor='email'>Email Address</label>
+              <input type='email' placeholder='Email' required onChange={this.onChange('email')} value={email} />
+            </fieldset>
 
-            <Button type='translucent' text='Purchase' onClick={() => {}} />
+            <Button type='translucent' text='Purchase'/>
           </form>
       </div>
     )
