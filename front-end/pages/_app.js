@@ -7,6 +7,7 @@ import {StripeProvider} from 'react-stripe-elements';
 import withApollo from '../lib/withApollo';
 import {AuthProvider} from '../contexts/auth.js';
 import {MeProvider} from '../contexts/me.js';
+import {PlayerProvider} from '../contexts/player.js';
 
 import '../styles/index.css';
 import '../styles/form.css';
@@ -118,11 +119,13 @@ class MainApp extends App {
         </Head>
         <StripeProvider stripe={this.state.stripe}>
           <ApolloProvider client={apolloClient}>
-            <AuthProvider>
-              <MeProvider>
-                <Component {...pageProps} />
-              </MeProvider>
-            </AuthProvider>
+            <PlayerProvider>
+              <AuthProvider>
+                <MeProvider>
+                  <Component {...pageProps} />
+                </MeProvider>
+              </AuthProvider>
+            </PlayerProvider>
           </ApolloProvider>
         </StripeProvider>
       </Container>
