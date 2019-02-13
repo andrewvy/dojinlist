@@ -10,6 +10,7 @@ query FetchAlbumBySlug($slug: String!) {
     coverArtUrl
     coverArtThumbUrl
     tracks {
+      id
       title
       playLength
     }

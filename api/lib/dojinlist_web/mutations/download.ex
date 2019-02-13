@@ -27,8 +27,6 @@ defmodule DojinlistWeb.Mutations.Download do
         ]
       )
 
-      middleware(DojinlistWeb.Middlewares.Authorization)
-
       resolve(&generate_track_download_url/2)
     end
   end

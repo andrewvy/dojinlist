@@ -43,7 +43,9 @@ class MainApp extends App {
   }
 
   componentDidMount() {
-    this.setState({stripe: window.Stripe(STRIPE_API_KEY)})
+    this.setState({
+      stripe: window.Stripe(STRIPE_API_KEY)
+    })
   }
 
   render() {

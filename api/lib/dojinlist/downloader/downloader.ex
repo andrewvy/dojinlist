@@ -36,6 +36,10 @@ defmodule Dojinlist.Downloader do
 
   def able_to_download_track?(user, track, encoding \\ nil)
 
+  def able_to_download_track?(nil, track, encoding) do
+    Enum.member?(@whitelisted_encodings, encoding)
+  end
+
   def able_to_download_track?(%User{} = user, track, encoding) do
     purchased_album =
       PurchasedAlbum

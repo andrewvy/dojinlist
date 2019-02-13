@@ -5,6 +5,7 @@ query FetchAlbumsByStorefrontId($storefrontId: ID!, $first: Int!) {
   albums(storefrontId: $storefrontId, first: $first) {
     edges {
       node {
+        id
         uuid
         title
         slug
@@ -12,6 +13,7 @@ query FetchAlbumsByStorefrontId($storefrontId: ID!, $first: Int!) {
         coverArtUrl
         coverArtThumbUrl
         tracks {
+          id
           title
           playLength
         }
