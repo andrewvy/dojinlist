@@ -7,7 +7,6 @@ import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 import PurchaseAlbumMutation from '../../mutations/checkout/checkout_album.js'
 import DownloadTrackMutation from '../../mutations/download/download_track.js'
 
-import CheckoutModal from '../../components/checkout_modal'
 import Button from '../../components/button'
 import Spinner from '../../components/spinner'
 import Player from '../../components/player/wrapper.js'
@@ -16,35 +15,11 @@ import Page from '../../layouts/main.js'
 
 class HomePage extends PureComponent {
   state = {
-    openCheckoutModal: false,
-    purchasedAlbum: false,
     currentTrack: {},
   }
 
   static async getInitialProps({ query }) {
     return { query }
-  }
-
-  toggleCheckoutModal = (bool) => {
-    this.setState({
-      openCheckoutModal: bool
-    })
-  }
-
-  handleCreateToken = (album, purchaseAlbum) => ({token, email}) => {
-    purchaseAlbum({
-      variables: {
-        token: token.id,
-        albumId: album.id,
-        userEmail: email
-      }
-    }).then(({ data }) => {
-      if (!data.checkoutAlbum.errors) {
-        this.setState({
-          purchasedAlbum: true
-        })
-      }
-    })
   }
 
   streamTrack = (downloadTrack, track) => {
@@ -67,7 +42,7 @@ class HomePage extends PureComponent {
 
   render() {
     const { album_slug, subdomain } = this.props.query
-    const { openCheckoutModal, purchasedAlbum, currentTrack } = this.state
+    const { currentTrack } = this.state
 
     return (
       <Page>
@@ -101,34 +76,12 @@ class HomePage extends PureComponent {
 
                     <Player track={currentTrack} album={{}} />
 
-                    {
-                      !purchasedAlbum &&
-                      <Button type='primary' text='Buy Album' icon='plus' onClick={() => this.toggleCheckoutModal(true)}/>
-                    }
-
-                    {
-                      purchasedAlbum &&
-                      <Button type='translucent' text='Download' icon='download' onClick={() => {}}/>
-                    }
-
-                    <Mutation mutation={PurchaseAlbumMutation}>
-                      {(purchaseAlbum, { data: mutationData, loading, error }) => (
-                        <>
-                          {
-                            loading &&
-                            <Spinner color='blue' />
-                          }
-
-                          {
-                            openCheckoutModal &&
-                            !loading &&
-                            !mutationData &&
-                            <CheckoutModal onCreateToken={this.handleCreateToken(data.album, purchaseAlbum)}/>
-                          }
-                        </>
-                      )} 
-                    </Mutation>
-                    <Link href={`/storefront?subdomain=${subdomain}`} as='/'>Storefront</Link>
+                    <Link
+                      href={`/storefront/checkout?subdomain=${subdomain}&album_slug=${album_slug}`}
+                      as={`/albums/${album_slug}/checkout`}
+                    >
+                      <Button type='primary' text='Buy Album' icon='plus'/>
+                    </Link>
                   </div>
                 }
               </div>

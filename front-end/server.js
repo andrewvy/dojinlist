@@ -38,6 +38,16 @@ app.prepare().then(() => {
   const server = express();
 
   server
+    .get('/albums/:album_slug/checkout', function(req, res, next) {
+      req.query = {
+        album_slug: req.params.album_slug,
+        ...req.query
+      }
+
+      req.originalUrl = '/checkout'
+
+      next()
+    })
     .get('/albums/:album_slug', function(req, res, next) {
       req.query = {
         album_slug: req.params.album_slug,
