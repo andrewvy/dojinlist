@@ -4,13 +4,13 @@ defmodule Dojinlist.Schemas.Storefront do
   import Ecto.Changeset
 
   schema "storefronts" do
-    field :description, :string
-    field :display_name, :string
-    field :location, :string
-    field :subdomain, :string
+    field(:description, :string)
+    field(:display_name, :string)
+    field(:location, :string)
+    field(:slug, :string)
 
-    belongs_to :creator, Dojinlist.Schemas.User
-    has_many :albums, Dojinlist.Schemas.Album
+    belongs_to(:creator, Dojinlist.Schemas.User)
+    has_many(:albums, Dojinlist.Schemas.Album)
 
     timestamps(type: :utc_datetime)
   end
@@ -22,18 +22,18 @@ defmodule Dojinlist.Schemas.Storefront do
       :description,
       :display_name,
       :location,
-      :subdomain
+      :slug
     ])
-    |> validate_subdomain()
-    |> validate_required([:creator_id, :subdomain])
-    |> unique_constraint(:subdomain)
+    |> validate_slug()
+    |> validate_required([:creator_id, :slug])
+    |> unique_constraint(:slug)
   end
 
-  def validate_subdomain(changeset) do
-    subdomain = get_change(changeset, :subdomain)
+  def validate_slug(changeset) do
+    slug = get_change(changeset, :slug)
 
-    if Dojinlist.Subdomain.blacklisted?(subdomain) do
-      add_error(changeset, :subdomain, "Invalid subdomain")
+    if Dojinlist.Blacklist.blacklisted?(slug) do
+      add_error(changeset, :slug, "Invalid slug")
     else
       changeset
     end

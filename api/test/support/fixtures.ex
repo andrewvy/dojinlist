@@ -66,7 +66,7 @@ defmodule Dojinlist.Fixtures do
 
   def storefront(attrs \\ %{}) do
     default_attrs = %{
-      subdomain: Map.get_lazy(attrs, :subdomain, fn -> random_string() |> String.downcase() end),
+      slug: Map.get_lazy(attrs, :slug, fn -> random_string() |> String.downcase() end),
       creator_id:
         Map.get_lazy(attrs, :creator_id, fn ->
           {:ok, user} = user()

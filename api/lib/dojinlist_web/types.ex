@@ -132,7 +132,7 @@ defmodule DojinlistWeb.Types do
     field(:description, :string)
     field(:display_name, :string)
     field(:location, :string)
-    field(:subdomain, :string)
+    field(:slug, :string)
   end
 
   object :me do
@@ -213,7 +213,7 @@ defmodule DojinlistWeb.Types do
   end
 
   input_object :storefront_input do
-    field(:subdomain, non_null(:string))
+    field(:slug, non_null(:string))
     field(:description, :string)
     field(:display_name, :string)
     field(:location, :string)

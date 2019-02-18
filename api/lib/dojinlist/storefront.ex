@@ -22,9 +22,9 @@ defmodule Dojinlist.Storefront do
     |> Repo.get(storefront_id)
   end
 
-  def by_subdomain(subdomain) do
+  def by_slug(slug) do
     Storefront
-    |> where([s], s.subdomain == ^subdomain)
+    |> where([s], s.slug == ^slug)
     |> Repo.one()
   end
 

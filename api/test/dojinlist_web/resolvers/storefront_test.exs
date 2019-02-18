@@ -4,15 +4,15 @@ defmodule DojinlistWeb.Resolvers.StorefrontTest do
   alias Dojinlist.Fixtures
 
   @query """
-    query StorefrontBySubdomain($subdomain: String!) {
-      storefront(subdomain: $subdomain) {
+    query StorefrontBySlug($slug: String!) {
+      storefront(slug: $slug) {
         id
       }
     }
   """
 
-  test "Can search for a storefront by subdomain" do
-    {:ok, storefront} = Fixtures.storefront(%{subdomain: "test-alpha"})
+  test "Can search for a storefront by slug" do
+    {:ok, storefront} = Fixtures.storefront(%{slug: "test-alpha"})
 
     conn =
       build_conn()
@@ -20,7 +20,7 @@ defmodule DojinlistWeb.Resolvers.StorefrontTest do
 
     response =
       conn
-      |> execute_graphql(@query, %{subdomain: "test-alpha"})
+      |> execute_graphql(@query, %{slug: "test-alpha"})
 
     storefront_id =
       Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '../../routes.js'
 import React, { PureComponent } from 'react'
 import { Query, Mutation } from 'react-apollo'
 
@@ -30,7 +30,7 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const { album_slug, subdomain } = this.props.query
+    const { album_slug, storefront_slug } = this.props.query
 
     return (
       <Page>
@@ -41,8 +41,8 @@ class CheckoutPage extends PureComponent {
                 {(purchaseAlbum, { data: mutationData, loading, error }) => (
                   <>
                     <Link
-                      href={`/storefront/albums?subdomain=${subdomain}&album_slug=${album_slug}`}
-                      as={`/albums/${album_slug}`}
+                      route='album'
+                      params={{storefront_slug, album_slug}}
                     >
                       Back to album
                     </Link>

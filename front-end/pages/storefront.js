@@ -18,12 +18,12 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { subdomain } = this.props.query
+    const { storefront_slug } = this.props.query
 
     return (
       <Page>
         <div className='container'>
-          <Query query={FetchStorefrontQuery} variables={{subdomain}}>
+          <Query query={FetchStorefrontQuery} variables={{slug: storefront_slug}}>
             {({data, loading, error}) => (
               <div>
                 {loading && <div>Loading</div>}
@@ -35,7 +35,7 @@ class HomePage extends PureComponent {
                       <Query query={FetchAlbumsByStorefrontId} variables={{storefrontId: data.storefront.id, first: 10}}>
                         {({data, loading, error}) => (
                           <div className='albums'>
-                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)} subdomain={subdomain} />
+                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)}/>
                           </div>
                         )}
                       </Query>

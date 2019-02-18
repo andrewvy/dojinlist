@@ -3,7 +3,7 @@ import AlbumThumbnail from '../album_thumbnail'
 
 import './index.css'
 
-const AlbumThumbnailGrid = ({ albums, subdomain }) => {
+const AlbumThumbnailGrid = ({ albums }) => {
   return (
     <div className='djn-albumThumbnailGrid'>
       {
@@ -11,7 +11,6 @@ const AlbumThumbnailGrid = ({ albums, subdomain }) => {
           <AlbumThumbnail
             key={album.id}
             album={album}
-            subdomain={subdomain}
           />
         ))
       }

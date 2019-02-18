@@ -17,7 +17,7 @@ defmodule DojinlistWeb.Mutations.StorefrontTest do
 
     variables = %{
       storefront: %{
-        subdomain: "bitplane",
+        slug: "bitplane",
         displayName: "Bitplane",
         description: """
         Making music.

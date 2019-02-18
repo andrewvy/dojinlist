@@ -1,12 +1,12 @@
 import gql from 'graphql-tag'
 
 export default gql`
-query FetchStorefront($subdomain: String!) {
-  storefront(subdomain: $subdomain) {
+query FetchStorefront($slug: String!) {
+  storefront(slug: $slug) {
     id
     description
     display_name
-    subdomain
+    slug
     location
   }
 }

@@ -5,11 +5,11 @@ defmodule Dojinlist.StorefrontTest do
     Storefront
   }
 
-  test "Cannot create a storefront with a blacklisted subdomain" do
+  test "Cannot create a storefront with a blacklisted slug" do
     {:ok, user} = Dojinlist.Fixtures.user()
 
     attrs = %{
-      subdomain: "api",
+      slug: "api",
       creator_id: user.id
     }
 
