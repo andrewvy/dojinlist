@@ -1,10 +1,11 @@
 import React from 'react'
+import Player from '../components/player/wrapper'
 
 const PlayerContext = React.createContext()
 
 class PlayerProvider extends React.Component {
   state = {
-    currentTrack: null,
+    currentTrack: {},
     currentUrl: null,
     isPlaying: false,
     volume: 1,
@@ -42,6 +43,8 @@ class PlayerProvider extends React.Component {
   }
 
   render() {
+    const { currentTrack } = this.state
+
     const value = {
       setTrack: this.setTrack,
       setPlaying: this.setPlaying,
@@ -54,6 +57,7 @@ class PlayerProvider extends React.Component {
         value={value}
       >
         {this.props.children}
+        <Player track={currentTrack} album={{}} />
       </PlayerContext.Provider>
     )
   }
