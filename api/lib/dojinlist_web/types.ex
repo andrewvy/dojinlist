@@ -39,6 +39,8 @@ defmodule DojinlistWeb.Types do
       end)
     end
 
+    field(:storefront, :storefront, resolve: dataloader(Dojinlist.Source))
+
     field(:genres, list_of(:genre), resolve: dataloader(Dojinlist.Source))
     field(:artists, list_of(:artist), resolve: dataloader(Dojinlist.Source))
     field(:tracks, list_of(:track), resolve: dataloader(Dojinlist.Source))
