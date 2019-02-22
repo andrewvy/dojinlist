@@ -5,11 +5,24 @@ import { Action, HeaderStyles, SubheaderStyles } from '../../lib/styleguideUtils
 
 import AlbumThumbnail from '../../components/album_thumbnail/'
 import AlbumThumbnailGrid from '../../components/album_thumbnail_grid'
+import AlbumTracklist from '../../components/album_tracklist'
 
 const album = {
   artistName: 'Tycho',
   title: 'ボーナス・トラック',
-  coverArtUrl: 'https://s3.amazonaws.com/dojinlist-uploads/uploads/original_HV8kNla_gg8YoSVvZbEV3.png'
+  coverArtUrl: 'https://s3.amazonaws.com/dojinlist-uploads/uploads/original_HV8kNla_gg8YoSVvZbEV3.png',
+  tracks: [
+    {
+      id: 1,
+      title: 'Intro',
+      playLength: 330
+    },
+    {
+      id: 2,
+      title: 'Bonus Track',
+      playLength: 330
+    },
+  ]
 }
 
 const albums = [
@@ -44,6 +57,13 @@ const ButtonPage = (props) => {
 
           <AlbumThumbnailGrid
             albums={albums}
+          />
+        </div>
+        <div className='my-8'>
+          <div className={SubheaderStyles}>Album Tracklist</div>
+
+          <AlbumTracklist
+            album={album}
           />
         </div>
       </div>

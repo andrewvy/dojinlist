@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Button from '../button'
 
 import ProgressBar from './progressBar.js'
-import FormattedTime from './formattedTime.js'
+import FormattedTime from '../../lib/formattedTime.js'
 
 import IconPlay from '../../svgs/icons/icon-play.svg'
 import IconPause from '../../svgs/icons/icon-pause.svg'

@@ -1,0 +1,36 @@
+.djn-albumTracklist {
+}
+
+.djn-albumTracklist .tracks {
+  margin: 0;
+  padding: 0;
+}
+
+.djn-albumTracklist .track {
+  display: flex;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid config('colors.blue-lighter');
+}
+
+.djn-albumTracklist .track-index {
+  @apply font-mono text-grey;
+
+  font-weight: 500;
+  font-size: 16px;
+  text-align: left;
+  padding-right: 16px;
+}
+
+.djn-albumTracklist .track-title {
+  @apply font-bold text-blue-dark;
+
+  flex: 1;
+  line-height: 15px;
+}
+
+.djn-albumTracklist .track-playlength {
+  @apply font-mono text-grey;
+
+  font-weight: 500;
+}
