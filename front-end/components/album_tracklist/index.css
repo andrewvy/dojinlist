@@ -8,9 +8,17 @@
 
 .djn-albumTracklist .track {
   display: flex;
-  padding-bottom: 8px;
+  cursor: pointer;
+
+  margin-bottom: 4px;
+  padding: 8px;
 
   border-bottom: 1px solid config('colors.blue-lighter');
+}
+
+.djn-albumTracklist .track:hover {
+  background-color: config('colors.blue-lighter');
+  border-radius: 8px;
 }
 
 .djn-albumTracklist .track-index {

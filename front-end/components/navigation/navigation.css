@@ -15,6 +15,10 @@
   max-width: 140px;
 }
 
+.djn-navigation .logo a {
+  width: 140px;
+}
+
 .djn-navigation .logo,
 .djn-navigation .user-controls {
   display: flex;

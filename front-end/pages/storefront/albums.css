@@ -1,0 +1,32 @@
+.djn-storefrontAlbumsPage {
+  padding: 32px;
+}
+
+.djn-storefrontAlbumsPage .album {
+  margin-top: 16px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.djn-storefrontAlbumsPage .album-right {
+  margin-left: 16px;
+  flex: 1;
+}
+
+.djn-storefrontAlbumsPage .album-title {
+  @apply text-blue-dark;
+
+  font-weight: 900;
+  line-height: 33px;
+  font-size: 28px;
+}
+
+.djn-storefrontAlbumsPage .album-header {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.djn-storefrontAlbumsPage .album-purchaseBtn {
+  float: right;
+}

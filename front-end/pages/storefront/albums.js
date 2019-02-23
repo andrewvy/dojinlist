@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react'
 import { Query, Mutation } from 'react-apollo'
 
 import withNavigation from '../../components/navigation'
+import AlbumTracklist from '../../components/album_tracklist'
+
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 import PurchaseAlbumMutation from '../../mutations/checkout/checkout_album.js'
 import DownloadTrackMutation from '../../mutations/download/download_track.js'
@@ -13,6 +15,8 @@ import Button from '../../components/button'
 import Spinner from '../../components/spinner'
 
 import Page from '../../layouts/main.js'
+
+import './albums.css'
 
 class HomePage extends PureComponent {
   state = {
@@ -47,40 +51,35 @@ class HomePage extends PureComponent {
       <PlayerConsumer>
         {({setTrack: setPlayerTrack}) => (
           <Page>
-            <div className='container'>
+            <div className='container djn-storefrontAlbumsPage'>
               <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
                 {({data, loading}) => (
                   <div>
                     {
                       !loading && data &&
                       <div>
-                        <p>Album Slug: {album_slug}</p>
-                        <p>Album Title: {data.album.title}</p>
-
-                        <Mutation mutation={DownloadTrackMutation}>
-                          {(downloadTrack, { data: mutationData, loading, error }) => (
-                            <div>
-                              {
-                                data.album.tracks.length > 0 &&
-                                <ul>
-                                  {data.album.tracks.map((track, i) => (
-                                    <li key={track.id}>
-                                      <span>{track.title}</span>
-                                      <Button type='primary' text='Stream' onClick={() => { this.streamTrack(downloadTrack, track, setPlayerTrack) }} />
-                                    </li>
-                                  ))}
-                                </ul>
-                              }
+                        <div className='album'>
+                          <div className='album-coverArtUrl'>
+                            <img src={data.album.coverArtUrl} />
+                          </div>
+                          <div className='album-right'>
+                            <div className='album-header'>
+                              <span className='album-title'>{data.album.title}</span>
+                              <Link
+                                route='album_checkout'
+                                params={{storefront_slug, album_slug}}
+                              >
+                                <Button type='primary' text='Buy Album' icon='plus' className='album-purchaseBtn'/>
+                              </Link>
                             </div>
-                          )}
-                        </Mutation>
 
-                        <Link
-                          route='album_checkout'
-                          params={{storefront_slug, album_slug}}
-                        >
-                          <Button type='primary' text='Buy Album' icon='plus'/>
-                        </Link>
+                            <Mutation mutation={DownloadTrackMutation}>
+                              {(downloadTrack, { data: mutationData, loading, error }) => (
+                                <AlbumTracklist album={data.album} onTrackClick={(track) => { this.streamTrack(downloadTrack, track, setPlayerTrack) } }/>
+                              )}
+                            </Mutation>
+                          </div>
+                        </div>
                       </div>
                     }
                   </div>
