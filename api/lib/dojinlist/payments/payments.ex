@@ -6,47 +6,57 @@ defmodule Dojinlist.Payments do
     Transaction
   }
 
+  import Ecto.Query
+
   def purchase_album_with_email(email, album, token) do
     if recipient_payable?(album) do
-      transaction_result =
-        if free_album?(album) do
-          create_free_transaction(album.price.currency)
-        else
-          adapter_purchase(album, token)
+      if not email_already_purchased_album?(email, album) do
+        transaction_result =
+          if free_album?(album) do
+            create_free_transaction(album.price.currency)
+          else
+            adapter_purchase(album, token)
+          end
+
+        transaction_result
+        |> case do
+          {:ok, transaction} ->
+            record_purchased_album(%{user_email: email}, album, transaction)
+
+          error ->
+            error
         end
-
-      transaction_result
-      |> case do
-        {:ok, transaction} ->
-          record_purchased_album(%{user_email: email}, album, transaction)
-
-        error ->
-          error
+      else
+        {:error, {:already_purchased, "Album already purchased"}}
       end
     else
-      {:error, "Album not configured to be purchasable."}
+      {:error, {:not_configured, "Album not configured to be purchasable."}}
     end
   end
 
   def purchase_album_with_account(user, album, token) do
     if recipient_payable?(album) do
-      transaction_result =
-        if free_album?(album) do
-          create_free_transaction(album.price.currency)
-        else
-          adapter_purchase(album, token)
+      if not account_already_purchased_album?(user, album) do
+        transaction_result =
+          if free_album?(album) do
+            create_free_transaction(album.price.currency)
+          else
+            adapter_purchase(album, token)
+          end
+
+        transaction_result
+        |> case do
+          {:ok, transaction} ->
+            record_purchased_album(%{user_id: user.id}, album, transaction)
+
+          error ->
+            error
         end
-
-      transaction_result
-      |> case do
-        {:ok, transaction} ->
-          record_purchased_album(%{user_id: user.id}, album, transaction)
-
-        error ->
-          error
+      else
+        {:error, {:already_purchased, "Album already purchased"}}
       end
     else
-      {:error, "Album not configured to be purchasable."}
+      {:error, {:not_configured, "Album not configured to be purchasable."}}
     end
   end
 
@@ -93,6 +103,26 @@ defmodule Dojinlist.Payments do
   def recipient_payable?(album) do
     adapter = get_payment_adapter()
     adapter.recipient_payable?(album)
+  end
+
+  def account_already_purchased_album?(user, album) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^album.id)
+      |> where([a], a.user_id == ^user.id)
+      |> Repo.one()
+
+    purchased_album !== nil
+  end
+
+  def email_already_purchased_album?(email, album) do
+    purchased_album =
+      PurchasedAlbum
+      |> where([a], a.album_id == ^album.id)
+      |> where([a], a.user_email == ^email)
+      |> Repo.one()
+
+    purchased_album !== nil
   end
 
   # @todo(vy): Pass in address all the way into here for order total calcuation.

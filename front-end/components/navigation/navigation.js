@@ -38,7 +38,12 @@ const Navigation = ({router}) => (
               </div>
               <div className='user-controls'>
                 <NavLink router={router} href='/' text='Discover' />
-                <NavLink router={router} href='/logout' text='Logout' />
+                {
+                  isAuthed ?
+                    <NavLink router={router} href='/logout' text='Logout' />
+                  :
+                    <NavLink router={router} href='/login' text='Login' />
+                }
               </div>
             </div>
             <Styles />

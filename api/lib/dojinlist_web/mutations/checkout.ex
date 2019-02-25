@@ -66,6 +66,22 @@ defmodule DojinlistWeb.Mutations.Checkout do
           {:ok, _} ->
             {:ok, %{}}
 
+          {:error, {:already_purchased, _}} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_already_purchased()
+               ]
+             }}
+
+          {:error, {:not_configured, _}} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_not_configured()
+               ]
+             }}
+
           {:error, _} ->
             {:ok,
              %{
@@ -92,6 +108,22 @@ defmodule DojinlistWeb.Mutations.Checkout do
         |> case do
           {:ok, _} ->
             {:ok, %{}}
+
+          {:error, {:already_purchased, _}} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_already_purchased()
+               ]
+             }}
+
+          {:error, {:not_configured, _}} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.checkout_not_configured()
+               ]
+             }}
 
           {:error, _} ->
             {:ok,

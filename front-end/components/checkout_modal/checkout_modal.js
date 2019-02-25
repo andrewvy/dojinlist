@@ -34,6 +34,7 @@ class CheckoutModal extends PureComponent {
   }
 
   render() {
+    const { isAuthed } = this.props
     const { email } = this.state
 
     return (
@@ -56,10 +57,14 @@ class CheckoutModal extends PureComponent {
               <label htmlFor='postal-code'>Postal Code</label>
               <PostalCodeElement id='postal-code'/>
             </fieldset>
-            <fieldset>
-              <label htmlFor='email'>Email Address</label>
-              <input type='email' placeholder='Email' required onChange={this.onChange('email')} value={email} />
-            </fieldset>
+
+            {
+              !isAuthed &&
+              <fieldset>
+                <label htmlFor='email'>Email Address</label>
+                <input type='email' placeholder='Email' required onChange={this.onChange('email')} value={email} />
+              </fieldset>
+            }
 
             <Button type='translucent' text='Purchase'/>
           </form>

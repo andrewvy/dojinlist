@@ -14,25 +14,11 @@ defmodule Dojinlist.Downloader do
     "mp3-128"
   ]
 
-  def able_to_download_album?(%User{} = user, album) do
-    purchased_album =
-      PurchasedAlbum
-      |> where([a], a.album_id == ^album.id)
-      |> where([a], a.user_id == ^user.id)
-      |> Repo.one()
+  def able_to_download_album?(%User{} = user, album),
+    do: Dojinlist.Payments.account_already_purchased_album?(user, album)
 
-    purchased_album !== nil
-  end
-
-  def able_to_download_album?(user_email, album) do
-    purchased_album =
-      PurchasedAlbum
-      |> where([a], a.album_id == ^album.id)
-      |> where([a], a.user_email == ^user_email)
-      |> Repo.one()
-
-    purchased_album !== nil
-  end
+  def able_to_download_album?(user_email, album),
+    do: Dojinlist.Payments.email_already_purchased_album?(user_email, album)
 
   def able_to_download_track?(user, track, encoding \\ nil)
 
