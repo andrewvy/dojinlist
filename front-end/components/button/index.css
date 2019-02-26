@@ -61,3 +61,12 @@
   border: none;
   background-color: config('colors.blue');
 }
+
+.djn-button-none {
+  border: none;
+  color: config('colors.blue');
+}
+
+.djn-button-none:hover {
+  color: config('colors.blue-dark');
+}

@@ -97,6 +97,7 @@ class CheckoutPage extends PureComponent {
                         {
                           !checkoutSuccessful &&
                           !loading &&
+                          !mutationData &&
                           <CheckoutModal onCreateToken={this.handleCreateToken(data.album, purchaseAlbum, isAuthed)} isAuthed={isAuthed}/>
                         }
                       </>

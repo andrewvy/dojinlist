@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { injectStripe } from 'react-stripe-elements'
-import { CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement } from 'react-stripe-elements'
+
+import EmailPage from './pages/01_email.js'
+import PaymentPage from './pages/02_payment.js'
 
 import Button from '../button'
 
@@ -9,65 +11,92 @@ class CheckoutModal extends PureComponent {
     onCreateToken: () => {}
   }
 
+  pages = [
+    EmailPage,
+    PaymentPage
+  ]
+
   state = {
-    email: ''
+    currentPageIndex: 0,
+    formData: {
+      email: ''
+    }
   }
 
   onSubmit = (ev) => {
-    const { email } = this.state
+    const { formData } = this.state
     const { onCreateToken } = this.props
 
     ev.preventDefault()
 
-    this.props.stripe.createToken({name: 'Test'}).then(({token}) => {
-      onCreateToken({
-        token,
-        email,
-      })
+    this.props.stripe.createToken({name: 'Test'}).then((response) => {
+      if (response.error) {
+      } else {
+        onCreateToken({
+          token: response.token,
+          email: formData.email,
+        })
+      }
     });
   }
 
   onChange = (field) => (ev) => {
+    const { formData } = this.state
+
     this.setState({
-      [field]: ev.target.value
+      formData: {
+        ...formData,
+        [field]: ev.target.value
+      }
     })
+  }
+
+  previousPage = () => {
+    const { currentPageIndex } = this.state
+
+    if (currentPageIndex > 0) {
+      this.setState({
+        currentPageIndex: currentPageIndex - 1
+      })
+    }
+  }
+
+  nextPage = () => {
+    const { currentPageIndex } = this.state
+
+    if (currentPageIndex < this.pages.length - 1) {
+      this.setState({
+        currentPageIndex: currentPageIndex + 1
+      })
+    }
   }
 
   render() {
     const { isAuthed } = this.props
-    const { email } = this.state
+    const { formData, currentPageIndex } = this.state
+    const Page = this.pages[currentPageIndex]
 
     return (
       <div className='djn-checkoutModal container limit-screen w-2/3'>
-          <form onSubmit={this.onSubmit}>
-            <div>Checkout</div>
-            <fieldset>
-              <label htmlFor='card-number'>Card Number</label>
-              <CardNumberElement id='card-number'/>
-            </fieldset>
-            <fieldset>
-              <label htmlFor='card-expiry'>Card Expiry</label>
-              <CardExpiryElement id='card-expiry'/>
-            </fieldset>
-            <fieldset>
-              <label htmlFor='card-cvc'>CVC</label>
-              <CardCVCElement id='card-cvc'/>
-            </fieldset>
-            <fieldset>
-              <label htmlFor='postal-code'>Postal Code</label>
-              <PostalCodeElement id='postal-code'/>
-            </fieldset>
+        <form onSubmit={this.onSubmit}>
+          <Page isAuthed={isAuthed} onChange={this.onChange} formData={formData} />
 
-            {
-              !isAuthed &&
-              <fieldset>
-                <label htmlFor='email'>Email Address</label>
-                <input type='email' placeholder='Email' required onChange={this.onChange('email')} value={email} />
-              </fieldset>
-            }
+          {
+            (currentPageIndex > 0) &&
+            <Button type='none' text='Previous' onClick={this.previousPage}/>
+          }
 
+          {
+            (currentPageIndex < this.pages.length - 1) &&
+            <Button type='none' text='Next' onClick={this.nextPage}/>
+          }
+
+
+          {
+            (currentPageIndex === this.pages.length - 1) &&
             <Button type='translucent' text='Purchase'/>
-          </form>
+          }
+        </form>
       </div>
     )
   }
