@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import { injectStripe } from 'react-stripe-elements'
 
-import EmailPage from './pages/01_email.js'
-import PaymentPage from './pages/02_payment.js'
+import { CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement } from 'react-stripe-elements'
 
 import Button from '../button'
 
@@ -10,11 +9,6 @@ class CheckoutModal extends PureComponent {
   static defaultProps = {
     onCreateToken: () => {}
   }
-
-  pages = [
-    EmailPage,
-    PaymentPage
-  ]
 
   state = {
     currentPageIndex: 0,
@@ -51,51 +45,70 @@ class CheckoutModal extends PureComponent {
     })
   }
 
-  previousPage = () => {
-    const { currentPageIndex } = this.state
-
-    if (currentPageIndex > 0) {
-      this.setState({
-        currentPageIndex: currentPageIndex - 1
-      })
-    }
-  }
-
-  nextPage = () => {
-    const { currentPageIndex } = this.state
-
-    if (currentPageIndex < this.pages.length - 1) {
-      this.setState({
-        currentPageIndex: currentPageIndex + 1
-      })
-    }
-  }
-
   render() {
     const { isAuthed } = this.props
-    const { formData, currentPageIndex } = this.state
-    const Page = this.pages[currentPageIndex]
+    const { formData } = this.state
 
     return (
-      <div className='djn-checkoutModal container limit-screen w-2/3'>
-        <form onSubmit={this.onSubmit}>
-          <Page isAuthed={isAuthed} onChange={this.onChange} formData={formData} />
+      <div className='djn-checkoutModal container limit-screen w-3/4'>
+        <form onSubmit={this.onSubmit} className='flex flex-row'>
+          <div className='w-full m-8 p-8 bg-white rounded shadow'>
+            <p className='font-bold text-blue-darker'>Payment Details</p>
+            <p className='text-grey'>
+              All payments are processed directly through Stripe, no card information is passed
+              to our servers. Once your purchase has been completed, you will be able to access a
+              download page with your purchased album.
+            </p>
 
-          {
-            (currentPageIndex > 0) &&
-            <Button type='none' text='Previous' onClick={this.previousPage}/>
-          }
+            <p className='font-bold text-blue-darker'>Contact Information</p>
 
-          {
-            (currentPageIndex < this.pages.length - 1) &&
-            <Button type='none' text='Next' onClick={this.nextPage}/>
-          }
+            {
+              isAuthed ?
+                <div>Your purchase will be associated with your account.</div>
+              :
+                <fieldset>
+                  <label htmlFor='email'>Email Address</label>
+                  <input type='email' placeholder='Email' required onChange={this.onChange('email')} value={formData.email} />
+                </fieldset>
+            }
 
+            <fieldset>
+              <label htmlFor='card-number'>Card Number</label>
+              <CardNumberElement id='card-number'/>
+            </fieldset>
+            <fieldset>
+              <label htmlFor='card-expiry'>Card Expiry</label>
+              <CardExpiryElement id='card-expiry'/>
+            </fieldset>
+            <fieldset>
+              <label htmlFor='card-cvc'>CVC</label>
+              <CardCVCElement id='card-cvc'/>
+            </fieldset>
+            <fieldset>
+              <label htmlFor='postal-code'>Postal Code</label>
+              <PostalCodeElement id='postal-code'/>
+            </fieldset>
+          </div>
 
-          {
-            (currentPageIndex === this.pages.length - 1) &&
-            <Button type='translucent' text='Purchase'/>
-          }
+          <div className='w-full m-8'>
+            <div className='p-8 bg-white shadow rounded'>
+              <p className='font-bold text-blue-darker'>Summary</p>
+              <div className='djn-lineItem my-4 flex flex-row'>
+                <div className='font-bold text-blue-darker w-full'>Subtotal</div>
+                <div className='font-bold text-blue-darker right w-full'>¥2500 JPY</div>
+              </div>
+              <div className='djn-lineItem my-4 flex flex-row'>
+                <div className='font-bold text-blue-darker w-full'>Tax</div>
+                <div className='font-bold text-blue-darker right w-full'>¥2500 JPY</div>
+              </div>
+              <div className='djn-lineItem my-4 flex flex-row'>
+                <div className='font-bold text-blue-darker w-full'>Grand Total</div>
+                <div className='font-bold text-blue-darker right w-full'>¥2500 JPY</div>
+              </div>
+            </div>
+            <Button type='primary' text='Purchase' className='w-full my-8'/>
+          </div>
+
         </form>
       </div>
     )

@@ -57,20 +57,13 @@ class CheckoutPage extends PureComponent {
     return (
       <AuthConsumer>
         {({isAuthed}) => (
-          <Page>
+          <Page className='bg-grey-lightest'>
             <div className='container py-20'>
               <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
                 {({data, loading}) => (
                   <Mutation mutation={PurchaseAlbumMutation}>
                     {(purchaseAlbum, { data: mutationData, loading, error }) => (
                       <>
-                        <Link
-                          route='album'
-                          params={{storefront_slug, album_slug}}
-                        >
-                          Back to album
-                        </Link>
-
                         {
                           loading &&
                           <Spinner color='blue' />
