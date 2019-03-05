@@ -14,6 +14,8 @@ import Spinner from '../../components/spinner'
 
 import Page from '../../layouts/main.js'
 
+import './checkout.css'
+
 class CheckoutPage extends PureComponent {
   state = {
     checkoutErrors: [],
@@ -24,16 +26,20 @@ class CheckoutPage extends PureComponent {
     return { query }
   }
 
-  handleCreateToken = (album, purchaseAlbum, isAuthed) => ({token, email}) => {
-    const variables = isAuthed ?
-      {
-        token: token.id,
-        albumId: album.id
-      } : {
-        token: token.id,
-        albumId: album.id,
-        userEmail: email
-      }
+  handleCreateToken = (album, purchaseAlbum, isAuthed) => ({
+    token,
+    email
+  }) => {
+    const variables = isAuthed
+      ? {
+          token: token.id,
+          albumId: album.id
+        }
+      : {
+          token: token.id,
+          albumId: album.id,
+          userEmail: email
+        }
 
     purchaseAlbum({
       variables
@@ -56,40 +62,64 @@ class CheckoutPage extends PureComponent {
 
     return (
       <AuthConsumer>
-        {({isAuthed}) => (
-          <Page className='bg-grey-lightest'>
+        {({ isAuthed }) => (
+          <Page className='bg-grey-lightest djn-checkoutPage'>
             <div className='container py-20'>
-              <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
-                {({data, loading}) => (
+              <Query
+                query={FetchAlbumBySlugQuery}
+                variables={{ slug: album_slug }}
+              >
+                {({ data, loading }) => (
                   <Mutation mutation={PurchaseAlbumMutation}>
-                    {(purchaseAlbum, { data: mutationData, loading, error }) => (
+                    {(
+                      purchaseAlbum,
+                      { data: mutationData, loading, error }
+                    ) => (
                       <>
-                        {
-                          loading &&
-                          <Spinner color='blue' />
-                        }
+                        {loading && <Spinner color='blue' />}
 
-                        {
-                          checkoutErrors &&
-                          Boolean(checkoutErrors.length) &&
+                        {checkoutErrors && Boolean(checkoutErrors.length) && (
                           <div className='error'>
-                            {checkoutErrors.map((error) => (
+                            {checkoutErrors.map(error => (
                               <p>{error.errorMessage}</p>
                             ))}
                           </div>
-                        }
+                        )}
 
-                        {
-                          checkoutSuccessful &&
-                          <CheckoutSuccess />
-                        }
+                        {checkoutSuccessful && (
+                          <div className='success-pane container limit-screen w-3/4'>
+                            <div className='album-coverArtUrl'>
+                              <img src={data.album.coverArtUrl} />
+                            </div>
+                            <div className='mx-8'>
+                              <CheckoutSuccess album={data.album} />
+                              <div className='download-format'>
+                                Choose your download format
+                                <select>
+                                  <option>MP3-V0</option>
+                                  <option>MP3-320K</option>
+                                  <option>MP3-128K</option>
+                                  <option>FLAC</option>
+                                  <option>AIFF</option>
+                                  <option>WAV</option>
+                                </select>
+                                <Button type='translucent' text='Download' icon='download' className='album-purchaseBtn' />
+                              </div>
+                            </div>
+                          </div>
+                        )}
 
-                        {
-                          !checkoutSuccessful &&
-                          !loading &&
-                          !mutationData &&
-                          <CheckoutModal onCreateToken={this.handleCreateToken(data.album, purchaseAlbum, isAuthed)} isAuthed={isAuthed} album={data.album}/>
-                        }
+                        {!checkoutSuccessful && !loading && !mutationData && (
+                          <CheckoutModal
+                            onCreateToken={this.handleCreateToken(
+                              data.album,
+                              purchaseAlbum,
+                              isAuthed
+                            )}
+                            isAuthed={isAuthed}
+                            album={data.album}
+                          />
+                        )}
                       </>
                     )}
                   </Mutation>

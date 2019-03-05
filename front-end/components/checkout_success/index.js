@@ -1,7 +1,7 @@
 import './index.css'
 
 const CheckoutSuccess = ({ album }) => (
-  <div className='djn-checkoutSuccess w-full m-8 p-8 bg-white rounded shadow'>
+  <div className='djn-checkoutSuccess w-full p-8 bg-white rounded shadow'>
     <h2 className='gradient'>Thank you for your purchase!</h2>
     <div className='album'>
       <div className='album-name'>{album.title}</div>
