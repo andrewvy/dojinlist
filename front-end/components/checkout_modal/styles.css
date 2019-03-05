@@ -1,0 +1,26 @@
+.djn-checkoutModal label {
+  margin-bottom: 4px;
+}
+
+.stripeElement {
+  @apply bg-grey-lightest;
+
+  border: 1px solid transparent;
+  box-shadow: none;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: .6rem 1.0rem;
+  width: 100%;
+}
+
+.stripeElement::placeholder {
+  @apply text-grey-dark;
+
+  opacity: 1;
+}
+
+.stripeElement:focus {
+  outline: 0;
+  border: 1px solid #2D9CDB;
+}

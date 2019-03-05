@@ -111,7 +111,7 @@ input[type=text],
 input[type=email],
 input[type=select],
 input[type=password] {
-  @apply bg-grey-lighter;
+  @apply bg-grey-lightest;
 
   border: 1px solid transparent;
   box-shadow: none;
@@ -132,14 +132,13 @@ fieldset.has-error input {
 }
 
 input::placeholder {
-  @apply text-blue-lighter;
+  @apply text-grey-dark;
 
-  left: 5px;
-  padding: 16px 16px;
+  opacity: 1;
 }
 
 input[type=submit] {
-  @apply bg-blue-darker text-grey-lighter;
+  @apply bg-blue-darker text-grey-dark;
 
   height: 40px;
   border: none;

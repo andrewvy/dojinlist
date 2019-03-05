@@ -8,6 +8,7 @@ import { AuthConsumer } from '../../contexts/auth'
 
 import withNavigation from '../../components/navigation'
 import CheckoutModal from '../../components/checkout_modal'
+import CheckoutSuccess from '../../components/checkout_success'
 import Button from '../../components/button'
 import Spinner from '../../components/spinner'
 
@@ -80,10 +81,7 @@ class CheckoutPage extends PureComponent {
 
                         {
                           checkoutSuccessful &&
-                          <div className='success'>
-                            <h2>Your purchase was successful!</h2>
-                            <p>We sent out a download link to your email, check it out!</p>
-                          </div>
+                          <CheckoutSuccess />
                         }
 
                         {

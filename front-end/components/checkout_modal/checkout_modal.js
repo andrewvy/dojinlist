@@ -7,6 +7,8 @@ import FetchTotalsForAlbum from '../../queries/checkout/calculate_totals_for_alb
 
 import Button from '../button'
 
+import './styles.css'
+
 class CheckoutModal extends PureComponent {
   static defaultProps = {
     onCreateToken: () => {}
@@ -78,19 +80,19 @@ class CheckoutModal extends PureComponent {
 
                 <fieldset>
                   <label htmlFor='card-number'>Card Number</label>
-                  <CardNumberElement id='card-number'/>
+                  <CardNumberElement id='card-number' className='stripeElement'/>
                 </fieldset>
                 <fieldset>
                   <label htmlFor='card-expiry'>Card Expiry</label>
-                  <CardExpiryElement id='card-expiry'/>
+                  <CardExpiryElement id='card-expiry' className='stripeElement'/>
                 </fieldset>
                 <fieldset>
                   <label htmlFor='card-cvc'>CVC</label>
-                  <CardCVCElement id='card-cvc'/>
+                  <CardCVCElement id='card-cvc' className='stripeElement'/>
                 </fieldset>
                 <fieldset>
                   <label htmlFor='postal-code'>Postal Code</label>
-                  <PostalCodeElement id='postal-code'/>
+                  <PostalCodeElement id='postal-code' className='stripeElement'/>
                 </fieldset>
               </div>
 
