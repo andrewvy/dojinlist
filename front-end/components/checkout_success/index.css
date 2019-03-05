@@ -1,0 +1,22 @@
+.djn-checkoutSuccess {
+  color: config('colors.blue-dark');
+  font-size: 14pt;
+}
+
+.djn-checkoutSuccess .gradient {
+  background: linear-gradient(0.25turn, #6a83ff, #cb416b);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #6046fe;
+  font-weight: 900;
+  padding-bottom: 4px;
+}
+
+.djn-checkoutSuccess .album {
+  padding-left: 8px;
+  border-left: 4px solid config('colors.red');
+}
+
+.djn-checkoutSuccess .orderId {
+  font-weight: 800;
+}
