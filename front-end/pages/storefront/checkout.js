@@ -1,4 +1,3 @@
-import { Link } from '../../routes.js'
 import React, { PureComponent } from 'react'
 import { Query, Mutation } from 'react-apollo'
 
@@ -91,7 +90,7 @@ class CheckoutPage extends PureComponent {
                           !checkoutSuccessful &&
                           !loading &&
                           !mutationData &&
-                          <CheckoutModal onCreateToken={this.handleCreateToken(data.album, purchaseAlbum, isAuthed)} isAuthed={isAuthed}/>
+                          <CheckoutModal onCreateToken={this.handleCreateToken(data.album, purchaseAlbum, isAuthed)} isAuthed={isAuthed} album={data.album}/>
                         }
                       </>
                     )}

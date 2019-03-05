@@ -94,6 +94,17 @@ defmodule DojinlistWeb.Schema do
 
       resolve(&Resolvers.OAuth.redirect_url/2)
     end
+
+    field :calculate_totals_for_album, :cart_totals_response do
+      arg(:album_id, non_null(:id))
+      arg(:country, :string)
+      arg(:state, :string)
+      arg(:postal_code, :string)
+
+      middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+
+      resolve(&Resolvers.Checkout.calculate_totals_for_album/2)
+    end
   end
 
   mutation do
