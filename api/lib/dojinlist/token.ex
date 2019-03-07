@@ -1,14 +1,17 @@
 defmodule Dojinlist.Token do
+  def base_config() do
+    Joken.Config.default_claims(default_exp: 24 * 60 * 60 * 7)
+  end
+
   def generate(extra_claims) do
-    token_config = Joken.Config.default_claims(default_exp: 24 * 60 * 60 * 7)
-    {:ok, claims} = Joken.generate_claims(token_config, extra_claims)
+    {:ok, claims} = Joken.generate_claims(base_config(), extra_claims)
     {:ok, jwt, _} = Joken.encode_and_sign(claims, signer())
 
     jwt
   end
 
   def verify(token) do
-    Joken.verify(token, signer())
+    Joken.verify_and_validate(base_config(), token, signer())
   end
 
   def signer do
