@@ -13,6 +13,7 @@ config :dojinlist, DojinlistWeb.Endpoint,
     certfile: "priv/cert/selfsigned.pem",
     keyfile: "priv/cert/selfsigned_key.pem"
   ],
+  url: [host: "dojinlist.local"],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

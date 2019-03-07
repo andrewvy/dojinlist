@@ -55,7 +55,7 @@ class CheckoutModal extends PureComponent {
 
     return (
       <Query query={FetchTotalsForAlbum} variables={{albumId: album.id}}>
-        {({data}) => (
+        {({data, loading}) => (
           <div className='djn-checkoutModal container limit-screen w-3/4'>
             <form onSubmit={this.onSubmit} className='flex flex-row'>
               <div className='w-full m-8 p-8 bg-white rounded shadow'>
@@ -99,39 +99,49 @@ class CheckoutModal extends PureComponent {
               <div className='w-full m-8'>
                 <div className='p-8 bg-white shadow rounded'>
                   <p className='font-bold text-blue-darker'>Summary</p>
-                  <div className='djn-lineItem my-4 flex flex-row'>
-                    <div className='font-bold text-blue-darker w-full'>Subtotal</div>
-                    <div className='font-bold text-blue-darker right w-full'>
-                      <span className='px-2'>
-                        {data && data.calculateTotalsForAlbum.cartTotals.subTotal.amount}
-                      </span>
-                      <span>
-                        {data && data.calculateTotalsForAlbum.cartTotals.subTotal.currency}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='djn-lineItem my-4 flex flex-row'>
-                    <div className='font-bold text-blue-darker w-full'>Tax</div>
-                    <div className='font-bold text-blue-darker right w-full'>
-                      <span className='px-2'>
-                        {data && data.calculateTotalsForAlbum.cartTotals.taxTotal.amount}
-                      </span>
-                      <span>
-                        {data && data.calculateTotalsForAlbum.cartTotals.subTotal.currency}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='djn-lineItem my-4 flex flex-row'>
-                    <div className='font-bold text-blue-darker w-full'>Grand Total</div>
-                    <div className='font-bold text-blue-darker right w-full'>
-                      <span className='px-2'>
-                        {data && data.calculateTotalsForAlbum.cartTotals.grandTotal.amount}
-                      </span>
-                      <span>
-                        {data && data.calculateTotalsForAlbum.cartTotals.grandTotal.currency}
-                      </span>
-                    </div>
-                  </div>
+
+                  {
+                    loading ?
+                      <div>Loading...</div>
+                      :
+                    (
+                      <>
+                        <div className='djn-lineItem my-4 flex flex-row'>
+                          <div className='font-bold text-blue-darker w-full'>Subtotal</div>
+                          <div className='font-bold text-blue-darker right w-full'>
+                            <span className='px-2'>
+                              {data && data.calculateTotalsForAlbum.cartTotals.subTotal.amount}
+                            </span>
+                            <span>
+                              {data && data.calculateTotalsForAlbum.cartTotals.subTotal.currency}
+                            </span>
+                          </div>
+                        </div>
+                        <div className='djn-lineItem my-4 flex flex-row'>
+                          <div className='font-bold text-blue-darker w-full'>Tax</div>
+                          <div className='font-bold text-blue-darker right w-full'>
+                            <span className='px-2'>
+                              {data && data.calculateTotalsForAlbum.cartTotals.taxTotal.amount}
+                            </span>
+                            <span>
+                              {data && data.calculateTotalsForAlbum.cartTotals.subTotal.currency}
+                            </span>
+                          </div>
+                        </div>
+                        <div className='djn-lineItem my-4 flex flex-row'>
+                          <div className='font-bold text-blue-darker w-full'>Grand Total</div>
+                          <div className='font-bold text-blue-darker right w-full'>
+                            <span className='px-2'>
+                              {data && data.calculateTotalsForAlbum.cartTotals.grandTotal.amount}
+                            </span>
+                            <span>
+                              {data && data.calculateTotalsForAlbum.cartTotals.grandTotal.currency}
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
                 <Button type='primary' text='Purchase' className='w-full my-8'/>
               </div>

@@ -25,7 +25,6 @@ defmodule DojinlistWeb.Mutations.Checkout do
 
       album ->
         Dojinlist.Payments.purchase_album_with_email(user_email, album, token)
-        |> IO.inspect()
         |> case do
           {:ok, transaction_id} ->
             {:ok,
