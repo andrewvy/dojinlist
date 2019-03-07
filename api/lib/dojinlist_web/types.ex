@@ -267,6 +267,7 @@ defmodule DojinlistWeb.Types do
   end
 
   object :checkout_response do
+    field(:transaction_id, :string)
     field(:errors, list_of(:error))
   end
 

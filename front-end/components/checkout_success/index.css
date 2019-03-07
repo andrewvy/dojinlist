@@ -18,6 +18,6 @@
   border-left: 4px solid config('colors.red');
 }
 
-.djn-checkoutSuccess .orderId {
+.djn-checkoutSuccess .transactionId {
   font-weight: 800;
 }

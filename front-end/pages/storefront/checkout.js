@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Query, Mutation } from 'react-apollo'
 
+import { Router } from '../../routes.js'
+
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 import PurchaseAlbumMutation from '../../mutations/checkout/checkout_album.js'
 
@@ -8,18 +10,14 @@ import { AuthConsumer } from '../../contexts/auth'
 
 import withNavigation from '../../components/navigation'
 import CheckoutModal from '../../components/checkout_modal'
-import CheckoutSuccess from '../../components/checkout_success'
 import Button from '../../components/button'
 import Spinner from '../../components/spinner'
 
 import Page from '../../layouts/main.js'
 
-import './checkout.css'
-
 class CheckoutPage extends PureComponent {
   state = {
-    checkoutErrors: [],
-    checkoutSuccessful: false
+    checkoutErrors: []
   }
 
   static async getInitialProps({ query }) {
@@ -30,6 +28,8 @@ class CheckoutPage extends PureComponent {
     token,
     email
   }) => {
+    const { album_slug, storefront_slug } = this.props.query
+
     const variables = isAuthed
       ? {
           token: token.id,
@@ -44,13 +44,17 @@ class CheckoutPage extends PureComponent {
     purchaseAlbum({
       variables
     }).then(({ data }) => {
-      if (data.checkoutAlbum.errors) {
+      const { transactionId, errors } = data.checkoutAlbum
+
+      if (errors) {
         this.setState({
           checkoutErrors: data.checkoutAlbum.errors
         })
       } else {
-        this.setState({
-          checkoutSuccessful: true
+        Router.pushRoute('album_checkout_success', {
+          album_slug,
+          storefront_slug,
+          transaction_id: transactionId
         })
       }
     })
@@ -58,7 +62,7 @@ class CheckoutPage extends PureComponent {
 
   render() {
     const { album_slug, storefront_slug } = this.props.query
-    const { checkoutSuccessful, checkoutErrors } = this.state
+    const { checkoutErrors } = this.state
 
     return (
       <AuthConsumer>
@@ -73,7 +77,7 @@ class CheckoutPage extends PureComponent {
                   <Mutation mutation={PurchaseAlbumMutation}>
                     {(
                       purchaseAlbum,
-                      { data: mutationData, loading, error }
+                      { data: checkoutData, loading, error }
                     ) => (
                       <>
                         {loading && <Spinner color='blue' />}
@@ -86,30 +90,7 @@ class CheckoutPage extends PureComponent {
                           </div>
                         )}
 
-                        {checkoutSuccessful && (
-                          <div className='success-pane container limit-screen w-3/4'>
-                            <div className='album-coverArtUrl'>
-                              <img src={data.album.coverArtUrl} />
-                            </div>
-                            <div className='mx-8'>
-                              <CheckoutSuccess album={data.album} />
-                              <div className='download-format'>
-                                Choose your download format
-                                <select>
-                                  <option>MP3-V0</option>
-                                  <option>MP3-320K</option>
-                                  <option>MP3-128K</option>
-                                  <option>FLAC</option>
-                                  <option>AIFF</option>
-                                  <option>WAV</option>
-                                </select>
-                                <Button type='translucent' text='Download' icon='download' className='album-purchaseBtn' />
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
-                        {!checkoutSuccessful && !loading && !mutationData && (
+                        {!loading && !checkoutData && (
                           <CheckoutModal
                             onCreateToken={this.handleCreateToken(
                               data.album,

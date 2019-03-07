@@ -1,6 +1,6 @@
 import './index.css'
 
-const CheckoutSuccess = ({ album }) => (
+const CheckoutSuccess = ({ album, transactionId }) => (
   <div className='djn-checkoutSuccess w-full p-8 bg-white rounded shadow'>
     <h2 className='gradient'>Thank you for your purchase!</h2>
     <div className='album'>
@@ -8,7 +8,7 @@ const CheckoutSuccess = ({ album }) => (
       <div className='album-artist'>{album.artistName}</div>
     </div>
     <p>
-      Order ID: <span className='orderId'>#A4EF00</span>
+      Transaction ID: <span className='transactionId'>#{transactionId}</span>
     </p>
     <p>
       Your purchase is now added to your music collection, and will always be

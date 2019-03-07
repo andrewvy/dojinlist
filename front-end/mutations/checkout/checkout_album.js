@@ -11,6 +11,7 @@ export default gql`
       token: $token,
       userEmail: $userEmail
     ) {
+      transactionId
       errors {
         errorCode
         errorMessage

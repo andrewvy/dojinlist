@@ -12,7 +12,7 @@ defmodule Dojinlist.Hashid do
   defp new() do
     Hashids.new(
       salt: "dojinlist api",
-      min_len: 2
+      min_len: 6
     )
   end
 end

@@ -1,0 +1,12 @@
+.djn-checkoutPageSuccess .success-pane {
+  display: flex;
+  padding: 32px;
+}
+
+.djn-checkoutPageSuccess .success-pane .album-coverArtUrl img {
+  border-radius: 5px;
+}
+
+.djn-checkoutPageSuccess .success-pane .download-format {
+  float: right;
+}

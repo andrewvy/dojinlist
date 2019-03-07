@@ -25,9 +25,13 @@ defmodule DojinlistWeb.Mutations.Checkout do
 
       album ->
         Dojinlist.Payments.purchase_album_with_email(user_email, album, token)
+        |> IO.inspect()
         |> case do
-          {:ok, _} ->
-            {:ok, %{}}
+          {:ok, transaction_id} ->
+            {:ok,
+             %{
+               transaction_id: Dojinlist.Hashid.encode(transaction_id.id)
+             }}
 
           {:error, {:already_purchased, _}} ->
             {:ok,
@@ -69,8 +73,11 @@ defmodule DojinlistWeb.Mutations.Checkout do
       album ->
         Dojinlist.Payments.purchase_album_with_account(user, album, token)
         |> case do
-          {:ok, _} ->
-            {:ok, %{}}
+          {:ok, transaction_id} ->
+            {:ok,
+             %{
+               transaction_id: Dojinlist.Hashid.encode(transaction_id.id)
+             }}
 
           {:error, {:already_purchased, _}} ->
             {:ok,
