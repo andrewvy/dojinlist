@@ -110,7 +110,7 @@ class Login extends React.Component {
                 </fieldset>
 
                 <div className='center'>
-                  <Button isLoading={isLoading} >Login</Button>
+                  <Button type='primary' isLoading={isLoading} text='Login' />
                 </div>
               </form>
             )}

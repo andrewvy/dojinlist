@@ -139,14 +139,14 @@ class Register extends React.Component {
                   <Field type='checkbox' name='agreeToTOS' className='ml-3 inline-block'/>
                 </fieldset>
 
-                <Button isLoading={isLoading} >Register</Button>
+                <Button type='primary' isLoading={isLoading} text='Register' />
               </form>
             )}
           />
         </div>
         <div className='login container xl:w-1/3 md:1/2 xs:w-5/6 text-right my-4'>
           <Link href='/login'>
-            Log In
+            Already have an account? Log In
           </Link>
         </div>
       </div>
