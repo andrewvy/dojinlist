@@ -1,6 +1,8 @@
 const routes = require('next-routes')
 
 module.exports = routes()
+  .add('terms', '/terms', 'terms')
+  .add('privacy', '/privacy', 'privacy')
   .add('styleguide_album', '/styleguide/album', 'styleguide/album')
   .add('styleguide_blog', '/styleguide/blog', 'styleguide/blog')
   .add('styleguide_button', '/styleguide/button', 'styleguide/button')

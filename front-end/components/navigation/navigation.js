@@ -17,7 +17,7 @@ const Styles = () => (
 const NavLink = ({ router, href, text }) => (
   <li className={router.pathname === href ? 'active' : ''}>
     <Link href={href}>
-      {text}
+      <span>{text}</span>
     </Link>
   </li>
 )

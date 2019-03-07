@@ -9,7 +9,7 @@ class PlayerWrapper extends Component {
     currentTime: 0,
     lastSeekTime: 0,
     totalTime: 0,
-    volume: 1,
+    volume: 1
   }
 
   constructor(props) {
@@ -18,7 +18,7 @@ class PlayerWrapper extends Component {
     this.state.totalTime = this.props.track.totalTime
   }
 
-  handleTogglePlay = (isPlaying) => {
+  handleTogglePlay = isPlaying => {
     const { currentTime } = this.state
 
     this.setState({
@@ -27,34 +27,34 @@ class PlayerWrapper extends Component {
     })
   }
 
-  handleChange = (percentage) => {
+  handleChange = percentage => {
     const { totalTime } = this.state
     const newTime = percentage * totalTime
 
     this.setState({
-      currentTime: newTime,
+      currentTime: newTime
     })
   }
 
-  handleVolumeChange = (volume) => {
+  handleVolumeChange = volume => {
     this.setState({
       volume
     })
   }
 
-  handlePlaying = (audio) => {
+  handlePlaying = audio => {
     this.setState({
       currentTime: audio.position
     })
   }
 
-  handleLoad = (audio) => {
+  handleLoad = audio => {
     this.setState({
       totalTime: audio.duration
     })
   }
 
-  handleFinishedPlaying = (audio) => {
+  handleFinishedPlaying = audio => {
     this.setState({
       isPlaying: false
     })
@@ -62,7 +62,13 @@ class PlayerWrapper extends Component {
 
   render() {
     const { album, track } = this.props
-    const { isPlaying, currentTime, totalTime, volume, lastSeekTime } = this.state
+    const {
+      isPlaying,
+      currentTime,
+      totalTime,
+      volume,
+      lastSeekTime
+    } = this.state
 
     return (
       <div className='djn-playerWrapper'>
@@ -77,15 +83,18 @@ class PlayerWrapper extends Component {
           onChange={this.handleChange}
           onVolumeChange={this.handleVolumeChange}
         />
-        <Sound
-          url={track.src}
-          volume={volume * 100}
-          playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
-          position={currentTime}
-          onPlaying={this.handlePlaying}
-          onLoad={this.handleLoad}
-          onFinishedPlaying={this.handleFinishedPlaying}
-        />
+
+        {track.src && (
+          <Sound
+            url={track.src}
+            volume={volume * 100}
+            playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+            position={currentTime}
+            onPlaying={this.handlePlaying}
+            onLoad={this.handleLoad}
+            onFinishedPlaying={this.handleFinishedPlaying}
+          />
+        )}
       </div>
     )
   }
