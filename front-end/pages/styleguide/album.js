@@ -6,6 +6,7 @@ import { Action, HeaderStyles, SubheaderStyles } from '../../lib/styleguideUtils
 import AlbumThumbnail from '../../components/album_thumbnail/'
 import AlbumThumbnailGrid from '../../components/album_thumbnail_grid'
 import AlbumTracklist from '../../components/album_tracklist'
+import AlbumCover from '../../components/album_cover'
 
 const album = {
   artistName: 'Tycho',
@@ -63,6 +64,13 @@ const ButtonPage = (props) => {
           <div className={SubheaderStyles}>Album Tracklist</div>
 
           <AlbumTracklist
+            album={album}
+          />
+        </div>
+        <div className='my-8'>
+          <div className={SubheaderStyles}>Album Cover</div>
+
+          <AlbumCover
             album={album}
           />
         </div>

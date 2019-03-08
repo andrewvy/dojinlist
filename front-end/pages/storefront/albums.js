@@ -13,6 +13,7 @@ import { PlayerConsumer } from '../../contexts/player'
 
 import Button from '../../components/button'
 import Spinner from '../../components/spinner'
+import AlbumCover from '../../components/album_cover'
 
 import Page from '../../layouts/main.js'
 
@@ -60,7 +61,7 @@ class HomePage extends PureComponent {
                       <div>
                         <div className='album'>
                           <div className='album-coverArtUrl'>
-                            <img src={data.album.coverArtUrl} />
+                            <AlbumCover album={data.album} />
                           </div>
                           <div className='album-right'>
                             <div className='album-header'>
