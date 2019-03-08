@@ -5,7 +5,7 @@ const PlayerContext = React.createContext()
 
 class PlayerProvider extends React.Component {
   state = {
-    currentTrack: {},
+    currentTrack: null,
     currentUrl: null,
     isPlaying: false,
     volume: 1,

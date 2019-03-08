@@ -13,7 +13,7 @@ import './index.css'
 
 class Player extends Component {
   static defaultProps = {
-    track: {},
+    track: null,
     album: {},
     isPlaying: false,
     currentTime: 0,
@@ -65,11 +65,17 @@ class Player extends Component {
           <div className='album-art'>
           </div>
           <div className='album-meta'>
-            <div className='track-name'>{track.name}</div>
-            <div className='album'>
-              <span className='artist-name'>{album.artist_name} - </span>
-              <span className='album-name'>{album.name}</span>
-            </div>
+            {track ? (
+              <>
+              <div className='track-name'>{track.name}</div>
+              <div className='album'>
+                <span className='artist-name'>{album.artist_name} - </span>
+                <span className='album-name'>{album.name}</span>
+              </div>
+              </>
+            ) : (
+              <div className='track-name'>Not playing anything</div>
+            )}
           </div>
           <div className='djn-volumeSlider'>
             <IconVolume className='icon'/>

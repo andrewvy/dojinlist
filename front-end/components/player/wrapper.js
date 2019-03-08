@@ -15,7 +15,9 @@ class PlayerWrapper extends Component {
   constructor(props) {
     super(props)
 
-    this.state.totalTime = this.props.track.totalTime
+    if (this.props.track) {
+      this.state.totalTime = this.props.track.totalTime
+    }
   }
 
   handleTogglePlay = isPlaying => {
@@ -84,7 +86,7 @@ class PlayerWrapper extends Component {
           onVolumeChange={this.handleVolumeChange}
         />
 
-        {track.src && (
+        {track && track.src && (
           <Sound
             url={track.src}
             volume={volume * 100}
