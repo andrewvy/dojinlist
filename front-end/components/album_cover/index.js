@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import './index.css'
+
 class AlbumCover extends Component {
   state = {
     active: false,
@@ -50,7 +52,7 @@ class AlbumCover extends Component {
 
   render() {
     const { album } = this.props
-    const { active, tiltX, tiltY} = this.state
+    const { active, tiltX, tiltY, angle } = this.state
 
 //    const angleX = 20 * (tiltX)
 //    const angleY = 20 * (tiltY * -1)
@@ -68,8 +70,20 @@ class AlbumCover extends Component {
       transition: '0.1s ease-out'
     }
 
+    const glareStyle = !active ? {
+      transform: 'rotate(180deg) translate(-50%, -50%)',
+    } : {
+      transform: `rotate(${angle}deg) translate(-50%, -50%)`,
+      opacity: '0.3'
+    }
+
     return (
-      <img src={album.coverArtUrl} className='djn-albumCover shadow rounded' onPointerEnter={this.onPointerEnter} onPointerLeave={this.onPointerLeave} onPointerMove={this.onPointerMove} style={style}/>
+      <div className='djn-albumCover' style={style}>
+        <div className='glare'>
+          <div className='glare-inner' style={glareStyle} />
+        </div>
+        <img src={album.coverArtUrl} className='shadow rounded' onPointerEnter={this.onPointerEnter} onPointerLeave={this.onPointerLeave} onPointerMove={this.onPointerMove}/>
+      </div>
     )
   }
 }
