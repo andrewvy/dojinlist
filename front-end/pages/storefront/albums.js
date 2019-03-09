@@ -20,10 +20,6 @@ import Page from '../../layouts/main.js'
 import './albums.css'
 
 class HomePage extends PureComponent {
-  state = {
-    currentTrack: {},
-  }
-
   static async getInitialProps({ query }) {
     return { query }
   }
@@ -38,19 +34,18 @@ class HomePage extends PureComponent {
 
     downloadTrack({ variables }).then((response) => {
       setTrack({
-          name: track.title,
-          src: response.data["generateTrackDownloadUrl"].url
+        ...track,
+        src: response.data["generateTrackDownloadUrl"].url
       })
     })
   }
 
   render() {
     const { album_slug, storefront_slug } = this.props.query
-    const { currentTrack } = this.state
 
     return (
       <PlayerConsumer>
-        {({setTrack: setPlayerTrack}) => (
+        {({setTrack: setPlayerTrack, currentTrack}) => (
           <Page>
             <div className='container djn-storefrontAlbumsPage'>
               <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
@@ -76,7 +71,7 @@ class HomePage extends PureComponent {
 
                             <Mutation mutation={DownloadTrackMutation}>
                               {(downloadTrack, { data: mutationData, loading, error }) => (
-                                <AlbumTracklist album={data.album} onTrackClick={(track) => { this.streamTrack(downloadTrack, track, setPlayerTrack) } }/>
+                                <AlbumTracklist album={data.album} onTrackClick={(track) => { this.streamTrack(downloadTrack, track, setPlayerTrack) } } currentTrack={currentTrack}/>
                               )}
                             </Mutation>
                           </div>

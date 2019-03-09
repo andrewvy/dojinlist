@@ -5,7 +5,6 @@ import Player from './index'
 
 class PlayerWrapper extends Component {
   state = {
-    isPlaying: false,
     currentTime: 0,
     lastSeekTime: 0,
     totalTime: 0,
@@ -22,9 +21,11 @@ class PlayerWrapper extends Component {
 
   handleTogglePlay = isPlaying => {
     const { currentTime } = this.state
+    const { setPlaying } = this.props
+
+    setPlaying(isPlaying)
 
     this.setState({
-      isPlaying,
       lastSeekTime: currentTime
     })
   }
@@ -57,15 +58,14 @@ class PlayerWrapper extends Component {
   }
 
   handleFinishedPlaying = audio => {
-    this.setState({
-      isPlaying: false
-    })
+    const { setPlaying } = this.props
+
+    setPlaying(false)
   }
 
   render() {
-    const { album, track } = this.props
+    const { album, track, isPlaying } = this.props
     const {
-      isPlaying,
       currentTime,
       totalTime,
       volume,

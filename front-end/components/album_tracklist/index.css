@@ -16,6 +16,18 @@
   border-bottom: 1px solid config('colors.blue-lighter');
 }
 
+.djn-albumTracklist .track.active {
+  background-color: config('colors.red');
+  color: config('colors.white');
+  border-radius: 8px;
+}
+
+.djn-albumTracklist .track.active .track-index,
+.djn-albumTracklist .track.active .track-playlength,
+.djn-albumTracklist .track.active .track-title {
+  color: config('colors.white');
+}
+
 .djn-albumTracklist .track:hover {
   background-color: config('colors.blue-lighter');
   border-radius: 8px;

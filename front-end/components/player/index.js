@@ -67,7 +67,7 @@ class Player extends Component {
           <div className='album-meta'>
             {track ? (
               <>
-              <div className='track-name'>{track.name}</div>
+              <div className='track-name'>{track.title}</div>
               <div className='album'>
                 <span className='artist-name'>{album.artist_name} - </span>
                 <span className='album-name'>{album.name}</span>

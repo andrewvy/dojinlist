@@ -6,7 +6,6 @@ const PlayerContext = React.createContext()
 class PlayerProvider extends React.Component {
   state = {
     currentTrack: null,
-    currentUrl: null,
     isPlaying: false,
     volume: 1,
     showEmbed: false,
@@ -14,22 +13,22 @@ class PlayerProvider extends React.Component {
 
   setTrack = (track) => {
     const url = track.sample_url
+    const currentUrl = this.state.currentTrack && this.state.currentTrack.sample_url
 
-    if (url === this.state.currentUrl) {
+    if (url === currentUrl) {
       this.setState({
         isPlaying: !this.state.isPlaying
       })
     } else {
       this.setState({
         currentTrack: track,
-        currentUrl: url,
         isPlaying: true
       })
     }
   }
 
   setPlaying = (playing) => {
-    if (!this.state.currentUrl) return
+    if (!this.state.currentTrack) return
 
     this.setState({
       isPlaying: playing
@@ -43,7 +42,7 @@ class PlayerProvider extends React.Component {
   }
 
   render() {
-    const { currentTrack } = this.state
+    const { currentTrack, isPlaying } = this.state
 
     const value = {
       setTrack: this.setTrack,
@@ -57,7 +56,7 @@ class PlayerProvider extends React.Component {
         value={value}
       >
         {this.props.children}
-        <Player track={currentTrack} album={{}} />
+        <Player track={currentTrack} album={{}} setPlaying={this.setPlaying} isPlaying={isPlaying} />
       </PlayerContext.Provider>
     )
   }
