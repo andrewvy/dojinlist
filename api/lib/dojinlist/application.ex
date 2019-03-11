@@ -17,9 +17,29 @@ defmodule Dojinlist.Application do
       Dojinlist.Repo,
       # Start the endpoint when the application starts
       DojinlistWeb.Endpoint,
-      Dojinlist.Ratings.Store
-      # Starts a worker by calling: Dojinlist.Worker.start_link(arg)
-      # {Dojinlist.Worker, arg},
+      Dojinlist.Ratings.Store,
+
+      # {Transcoder.Worker, arg},
+      Supervisor.child_spec(
+        {Dojinlist.Transcoder.Producer,
+         {"transcoder_jobs_successful", [name: :transcoder_successful_producer]}},
+        id: :transcoder_successful_producer
+      ),
+      Supervisor.child_spec(
+        {Dojinlist.Transcoder.Consumer,
+         {"transcoder_jobs_successful", [:transcoder_successful_producer]}},
+        id: :transcoder_successful_consumer
+      ),
+      Supervisor.child_spec(
+        {Dojinlist.Transcoder.Producer,
+         {"transcoder_jobs_failed", [name: :transcoder_failed_producer]}},
+        id: :transcoder_failed_producer
+      ),
+      Supervisor.child_spec(
+        {Dojinlist.Transcoder.Consumer,
+         {"transcoder_jobs_failed", [:transcoder_failed_producer]}},
+        id: :transcoder_failed_consumer
+      )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

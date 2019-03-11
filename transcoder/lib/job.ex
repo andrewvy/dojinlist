@@ -17,8 +17,7 @@ defmodule Transcoder.Job do
     :comment,
     :album,
     :track,
-    :album_artist
-
+    :album_artist,
     :hash
   ]
 

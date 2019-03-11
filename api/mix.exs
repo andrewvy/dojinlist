@@ -51,6 +51,7 @@ defmodule Dojinlist.MixProject do
       {:ex_money, "~> 3.1"},
       {:faker, "~> 0.11.0", only: :test},
       {:gen_smtp, "~> 0.13.0"},
+      {:gen_stage, "~> 0.14"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.6"},
       {:hashids, "~> 2.0"},
