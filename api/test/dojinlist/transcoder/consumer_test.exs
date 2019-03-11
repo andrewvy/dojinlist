@@ -4,6 +4,7 @@ defmodule Dojinlist.Transcoder.ConsumerTest do
   alias Dojinlist.Transcoder.Consumer
 
   alias Dojinlist.{
+    Albums,
     Hashid,
     Fixtures,
     Tracks
@@ -76,5 +77,51 @@ defmodule Dojinlist.Transcoder.ConsumerTest do
     track = Tracks.get_by_id(track.id)
 
     assert track.status === "transcoded_failure"
+  end
+
+  test "Completing all tracks from an album marks it as completed" do
+    {:ok, album} = Fixtures.album()
+    {:ok, track_1} = Fixtures.track(%{album_id: album.id, transcoder_hash: "track_1"})
+    {:ok, track_2} = Fixtures.track(%{album_id: album.id, transcoder_hash: "track_2"})
+
+    assert album.status === "pending"
+
+    track_uuid = Hashid.encode(track_1.id)
+
+    body =
+      @payload
+      |> Map.merge(%{
+        "track_uuid" => track_uuid,
+        "hash" => "track_1"
+      })
+      |> Jason.encode!()
+
+    %{
+      body: body,
+      message_id: "1234"
+    }
+    |> Consumer.process_message()
+
+    album = Albums.get_album(album.id)
+    assert album.status === "pending"
+
+    track_uuid = Hashid.encode(track_2.id)
+
+    body =
+      @payload
+      |> Map.merge(%{
+        "track_uuid" => track_uuid,
+        "hash" => "track_2"
+      })
+      |> Jason.encode!()
+
+    %{
+      body: body,
+      message_id: "1234"
+    }
+    |> Consumer.process_message()
+
+    album = Albums.get_album(album.id)
+    assert album.status === "completed"
   end
 end

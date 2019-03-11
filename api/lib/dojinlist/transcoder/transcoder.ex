@@ -24,8 +24,11 @@ defmodule Dojinlist.Transcoder do
     Albums,
     Hashid,
     Storefront,
-    Tracks
+    Tracks,
+    Repo
   }
+
+  import Ecto.Query
 
   def submit_track_for_transcoding(%Track{} = track) do
     album = Albums.get_album(track.album_id)
@@ -37,6 +40,12 @@ defmodule Dojinlist.Transcoder do
     |> submit_transcoder_job()
     |> case do
       {:ok, _} ->
+        if album.status !== "submitted" do
+          Albums.update_album(album, %{
+            status: "submitted"
+          })
+        end
+
         Tracks.update_track(track, %{
           status: "submitted",
           transcoder_hash: job[:hash]
@@ -51,8 +60,14 @@ defmodule Dojinlist.Transcoder do
   end
 
   def mark_track_as_failed(%Track{} = track, payload) do
+    album = Albums.get_album(track.album_id)
+
     if track.transcoder_hash == payload["hash"] do
       Tracks.update_track(track, %{
+        status: "transcoded_failure"
+      })
+
+      Albums.update_album(album, %{
         status: "transcoded_failure"
       })
     else
@@ -60,11 +75,24 @@ defmodule Dojinlist.Transcoder do
     end
   end
 
+  @doc """
+  Given a track and SQS payload, marks the track `completed` if the hash matches the currently saved hash.
+
+  If all tracks in an album are completed, the album is also marked as `completed`.
+  """
   def mark_track_as_completed(%Track{} = track, payload) do
     if track.transcoder_hash == payload["hash"] do
       Tracks.update_track(track, %{
         status: "completed"
       })
+
+      if all_tracks_are_completed?(track.album_id) do
+        album = Albums.get_album(track.album_id)
+
+        Albums.update_album(album, %{
+          status: "completed"
+        })
+      end
     else
       {:error, "Transcoder hash did not match, ignoring."}
     end
@@ -112,5 +140,13 @@ defmodule Dojinlist.Transcoder do
 
     :crypto.hash(:sha256, json)
     |> Base.encode16()
+  end
+
+  defp all_tracks_are_completed?(album_id) do
+    Track
+    |> where([t], t.album_id == ^album_id)
+    |> select([t], t.status)
+    |> Repo.all()
+    |> Enum.all?(&(&1 === "completed"))
   end
 end
