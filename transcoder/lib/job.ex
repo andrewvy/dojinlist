@@ -18,6 +18,8 @@ defmodule Transcoder.Job do
     :album,
     :track,
     :album_artist
+
+    :hash
   ]
 
   @doc """
@@ -43,7 +45,8 @@ defmodule Transcoder.Job do
       comment: params["comment"],
       album: params["album"],
       track: params["track"],
-      album_artist: params["album_artist"]
+      album_artist: params["album_artist"],
+      hash: params["hash"]
     }
 
     if Vex.valid?(job,
@@ -55,7 +58,8 @@ defmodule Transcoder.Job do
          title: [presence: true],
          track: [presence: true],
          artist: [presence: true],
-         album_artist: [presence: true]
+         album_artist: [presence: true],
+         hash: [presence: true]
        ) do
       {:ok, struct(__MODULE__, job)}
     else

@@ -7,7 +7,7 @@ defmodule Dojinlist.Schemas.Track do
     "pending",
     "submitted",
     "transcoded_failure",
-    "transcoded_success"
+    "completed"
   ]
 
   schema "tracks" do
@@ -16,6 +16,7 @@ defmodule Dojinlist.Schemas.Track do
     field(:source_file, :string)
     field(:status, :string, default: "pending")
     field(:position, :integer, default: 0)
+    field(:transcoder_hash, :string, default: "")
 
     belongs_to(:album, Dojinlist.Schemas.Album)
   end
@@ -28,7 +29,8 @@ defmodule Dojinlist.Schemas.Track do
       :album_id,
       :source_file,
       :status,
-      :position
+      :position,
+      :transcoder_hash
     ])
     |> validate_inclusion(:status, @track_statuses)
     |> validate_required([:title, :position])
