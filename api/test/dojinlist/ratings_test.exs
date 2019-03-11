@@ -1,5 +1,5 @@
 defmodule Dojinlist.RatingsTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.{
     Ratings,

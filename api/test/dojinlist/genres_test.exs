@@ -1,5 +1,5 @@
 defmodule Dojinlist.GenresTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.Genres
 

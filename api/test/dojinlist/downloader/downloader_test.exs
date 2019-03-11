@@ -1,5 +1,5 @@
 defmodule Dojinlist.DownloaderTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.Fixtures
   alias Dojinlist.Downloader

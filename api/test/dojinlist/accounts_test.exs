@@ -1,5 +1,5 @@
 defmodule Dojinlist.AccountsTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.Accounts
 

@@ -1,5 +1,5 @@
 defmodule Dojinlist.StorefrontTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.{
     Storefront

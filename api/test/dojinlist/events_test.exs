@@ -1,5 +1,5 @@
 defmodule Dojinlist.EventsTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   test "Can insert events" do
     assert {:ok, event} = Dojinlist.Fixtures.event()

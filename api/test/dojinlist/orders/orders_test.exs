@@ -1,5 +1,5 @@
 defmodule Dojinlist.OrdersTest do
-  use Dojinlist.DataCase
+  use Dojinlist.DataCase, async: true
 
   alias Dojinlist.Orders.Totals
 
