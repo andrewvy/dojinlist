@@ -122,7 +122,7 @@ defmodule Transcoder.Job do
     if Enum.all?(results, fn {status, _} -> status == :ok end) do
       {:ok, job}
     else
-      Enum.find(results, fn {status, _} -> status == :error end)
+      {:error, job, results}
     end
   end
 end

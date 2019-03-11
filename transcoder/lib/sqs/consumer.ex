@@ -55,6 +55,11 @@ defmodule Transcoder.SQS.Consumer do
           Logger.info("message_id=#{message.message_id} elapsed_time=#{job.elapsed_time}ms")
           emit_successful_job(job)
 
+        {:error, job, results} ->
+          emit_failed_job(job, results)
+          Logger.info("message_id=#{message.message_id} error='Transcoder Error'")
+          :error
+
         _ ->
           Logger.info("message_id=#{message.message_id} error='Transcoder Error'")
           :error
@@ -66,6 +71,30 @@ defmodule Transcoder.SQS.Consumer do
         Logger.info("message_id=#{message.message_id} error='Invalid job format.'")
         {:ok, message}
     end
+  end
+
+  defp emit_failed_job(job, results) do
+    errors =
+      results
+      |> Enum.filter(fn {status, _} -> status === :error end)
+
+    message = %{
+      input_bucket: job.input_bucket,
+      input_filepath: job.input_filepath,
+      output_bucket: job.output_bucket,
+      album_uuid: job.album_uuid,
+      track_uuid: job.track_uuid,
+      hash: job.hash,
+      errors:
+        Enum.map(errors, fn {_status, error_message} ->
+          error_message
+        end)
+    }
+
+    json = Jason.encode!(message)
+
+    SQS.send_message("transcoder_jobs_failed", json)
+    |> ExAws.request()
   end
 
   defp emit_successful_job(job) do

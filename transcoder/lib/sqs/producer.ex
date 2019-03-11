@@ -60,7 +60,7 @@ defmodule Transcoder.SQS.Producer do
         :ok
 
       num_messages_received == 0 ->
-        Process.send_after(self(), :get_messages, 200)
+        Process.send_after(self(), :get_messages, 500)
 
       true ->
         Process.send(self(), :get_messages, [])
