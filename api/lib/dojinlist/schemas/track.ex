@@ -3,11 +3,20 @@ defmodule Dojinlist.Schemas.Track do
 
   import Ecto.Changeset
 
-  schema "tracks" do
-    field :title, :string
-    field :play_length, :integer
+  @track_statuses [
+    "pending",
+    "submitted",
+    "transcoded_failure",
+    "transcoded_success"
+  ]
 
-    belongs_to :album, Dojinlist.Schemas.Album
+  schema "tracks" do
+    field(:title, :string)
+    field(:play_length, :integer)
+    field(:source_file, :string)
+    field(:status, :string, default: "pending")
+
+    belongs_to(:album, Dojinlist.Schemas.Album)
   end
 
   def changeset(track, attrs) do
@@ -15,8 +24,11 @@ defmodule Dojinlist.Schemas.Track do
     |> cast(attrs, [
       :title,
       :play_length,
-      :album_id
+      :album_id,
+      :source_file,
+      :status
     ])
+    |> validate_inclusion(:status, @track_statuses)
     |> validate_required([:title])
   end
 end

@@ -8,6 +8,7 @@ use Mix.Config
 # with webpack to recompile .js and .css sources.
 config :dojinlist, DojinlistWeb.Endpoint,
   https: [
+    ip: {0, 0, 0, 0},
     port: 4001,
     cipher_suite: :strong,
     certfile: "priv/cert/selfsigned.pem",

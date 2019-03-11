@@ -8,6 +8,7 @@ query FetchAlbumsByStorefrontId($storefrontId: ID!, $first: Int!) {
         id
         uuid
         title
+        description
         slug
         releaseDatetime
         coverArtUrl
