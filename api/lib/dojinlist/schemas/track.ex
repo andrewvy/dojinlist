@@ -15,6 +15,7 @@ defmodule Dojinlist.Schemas.Track do
     field(:play_length, :integer)
     field(:source_file, :string)
     field(:status, :string, default: "pending")
+    field(:position, :integer, default: 0)
 
     belongs_to(:album, Dojinlist.Schemas.Album)
   end
@@ -26,9 +27,10 @@ defmodule Dojinlist.Schemas.Track do
       :play_length,
       :album_id,
       :source_file,
-      :status
+      :status,
+      :position
     ])
     |> validate_inclusion(:status, @track_statuses)
-    |> validate_required([:title])
+    |> validate_required([:title, :position])
   end
 end
