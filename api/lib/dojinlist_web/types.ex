@@ -211,6 +211,13 @@ defmodule DojinlistWeb.Types do
 
   input_object :track_input do
     field(:title, non_null(:string))
+    field(:source_file, :upload)
+    field(:position, :integer)
+    field(:play_length, :integer)
+  end
+
+  input_object :track_update_input do
+    field(:title, non_null(:string))
     field(:play_length, :integer)
   end
 

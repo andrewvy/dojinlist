@@ -38,6 +38,7 @@ defmodule Dojinlist.Fixtures do
     default_attrs = %{
       title: Faker.Lorem.sentence(),
       play_length: 120,
+      source_file: Faker.File.file_name(:audio),
       album_id:
         Map.get_lazy(attrs, :album_id, fn ->
           {:ok, album} = album()
