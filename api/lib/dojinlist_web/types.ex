@@ -108,6 +108,7 @@ defmodule DojinlistWeb.Types do
     field(:title, :string)
     field(:play_length, :integer)
     field(:album, :album, resolve: dataloader(Dojinlist.Source))
+    field(:position, :integer)
   end
 
   node object(:external_album_link) do
@@ -219,6 +220,7 @@ defmodule DojinlistWeb.Types do
   input_object :track_update_input do
     field(:title, non_null(:string))
     field(:play_length, :integer)
+    field(:position, :integer)
   end
 
   input_object :storefront_input do

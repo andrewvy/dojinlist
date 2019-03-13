@@ -16,7 +16,8 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     """
 
     {:ok, user} = Fixtures.user()
-    {:ok, album} = Fixtures.album()
+    {:ok, storefront} = Fixtures.storefront(%{creator_id: user.id})
+    {:ok, album} = Fixtures.album(%{storefront_id: storefront.id})
 
     album_id = Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
 
@@ -39,5 +40,43 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     assert track = Tracks.get_by_id(track_id.id)
     assert track.album_id === album.id
     assert track.title === "Test"
+  end
+
+  test "Can update a track" do
+    query = """
+    mutation UpdateTrack($trackId: ID!, $track: TrackUpdateInput!) {
+      updateTrack(trackId: $trackId, track: $track) {
+        id
+        title
+        position
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+    {:ok, storefront} = Fixtures.storefront(%{creator_id: user.id})
+    {:ok, album} = Fixtures.album(%{storefront_id: storefront.id})
+    {:ok, track} = Fixtures.track(%{album_id: album.id})
+
+    track_id = Absinthe.Relay.Node.to_global_id(:track, track.id, DojinlistWeb.Schema)
+
+    variables = %{
+      trackId: track_id,
+      track: %{
+        title: "Test Update",
+        position: 5
+      }
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{
+             "data" => %{
+               "updateTrack" => %{"title" => "Test Update", "position" => 5, "id" => track_id}
+             }
+           } == response
   end
 end

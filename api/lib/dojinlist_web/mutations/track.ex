@@ -13,6 +13,7 @@ defmodule DojinlistWeb.Mutations.Track do
 
       middleware(DojinlistWeb.Middlewares.Authorization)
       middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+      middleware(DojinlistWeb.Middlewares.StorefrontAuthorized, album_id: :album)
 
       resolve(&create_track/2)
     end
@@ -22,8 +23,8 @@ defmodule DojinlistWeb.Mutations.Track do
       arg(:track, non_null(:track_update_input))
 
       middleware(DojinlistWeb.Middlewares.Authorization)
-      middleware(DojinlistWeb.Middlewares.Permission, permission: "verify_albums")
       middleware(Absinthe.Relay.Node.ParseIDs, track_id: :track)
+      middleware(DojinlistWeb.Middlewares.StorefrontAuthorized, track_id: :track)
 
       resolve(&update_track/2)
     end
