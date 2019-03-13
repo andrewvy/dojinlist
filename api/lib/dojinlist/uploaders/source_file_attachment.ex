@@ -1,10 +1,13 @@
 defmodule Dojinlist.SourceFileAttachment do
   use Arc.Definition
 
+  @extension_whitelist ~w(.wav .aiff .flac)
   @versions [:original]
 
-  def validate({_file, _}) do
-    true
+  def validate({file, _}) do
+    file_extension = file.file_name |> Path.extname() |> String.downcase()
+
+    Enum.member?(@extension_whitelist, file_extension) && valid_audio_stream?(file.path)
   end
 
   def filename(version, {file, _}) do
@@ -18,4 +21,59 @@ defmodule Dojinlist.SourceFileAttachment do
   end
 
   def bucket, do: "dojinlist-raw-media"
+
+  def valid_audio_stream?(file_path) do
+    {output, status} =
+      System.cmd("ffprobe", [
+        "-v",
+        "quiet",
+        "-print_format",
+        "json",
+        "-show_format",
+        "-show_streams",
+        file_path
+      ])
+
+    if status == 0 do
+      output
+      |> String.trim()
+      |> Jason.decode()
+      |> case do
+        {:ok, json} ->
+          json
+          |> Map.get("streams", [])
+          |> only_audio_streams()
+          |> valid_sample_rates?()
+
+        _ ->
+          false
+      end
+    else
+      false
+    end
+  end
+
+  defp only_audio_streams(streams) do
+    streams
+    |> Enum.filter(fn stream -> stream["codec_type"] === "audio" end)
+  end
+
+  defp valid_sample_rates?(streams) do
+    streams
+    |> Enum.any?(fn stream ->
+      valid_sample_rate?(stream)
+    end)
+  end
+
+  defp valid_sample_rate?(stream) do
+    stream["sample_rate"]
+    |> Integer.parse()
+    |> case do
+      :error ->
+        false
+
+      {sample_rate, _} ->
+        sample_rate >= 44100
+    end
+  end
 end
