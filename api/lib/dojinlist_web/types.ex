@@ -25,6 +25,14 @@ defmodule DojinlistWeb.Types do
     field(:release_datetime, :datetime)
     field(:event, :event, resolve: dataloader(Dojinlist.Source))
 
+    field :purchasable, :boolean do
+      resolve(fn album, _, _ ->
+        {:ok, Dojinlist.Payments.recipient_payable?(album)}
+      end)
+    end
+
+    field(:purchased, :boolean, resolve: &Resolvers.Album.already_purchased?/3)
+
     field :cover_art_url, :string do
       resolve(fn album, _, _ ->
         url = Dojinlist.ImageAttachment.url(album.cover_art, :standard)

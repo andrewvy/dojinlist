@@ -17,4 +17,12 @@ defmodule DojinlistWeb.Resolvers.Album do
         {:ok, album}
     end
   end
+
+  def already_purchased?(album, _, %{context: %{current_user: current_user}}) do
+    {:ok, Dojinlist.Payments.account_already_purchased_album?(current_user, album)}
+  end
+
+  def already_purchased?(_, _, _) do
+    {:ok, false}
+  end
 end
