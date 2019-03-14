@@ -4,21 +4,24 @@ defmodule Dojinlist.Schemas.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :uuid, Ecto.UUID, autogenerate: true
-    field :username, :string
-    field :password, :string
-    field :email, :string
-    field :avatar, :string
+    field(:uuid, Ecto.UUID, autogenerate: true)
+    field(:username, :string)
+    field(:password, :string)
+    field(:email, :string)
+    field(:avatar, :string)
 
-    field :confirmation_token, :string
-    field :confirmed_at, :utc_datetime
-    field :confirmation_sent_at, :utc_datetime
+    field(:confirmation_token, :string)
+    field(:confirmed_at, :utc_datetime)
+    field(:confirmation_sent_at, :utc_datetime)
 
-    many_to_many :permissions, Dojinlist.Schemas.Permission, join_through: "users_permissions"
+    many_to_many(:permissions, Dojinlist.Schemas.Permission, join_through: "users_permissions")
 
-    has_one :stripe_account, Dojinlist.Schemas.StripeAccount
-    has_many :ratings, Dojinlist.Schemas.UserRating
-    has_many :albums, through: [:ratings, :album]
+    has_one(:stripe_account, Dojinlist.Schemas.StripeAccount)
+
+    has_many(:ratings, Dojinlist.Schemas.UserRating)
+    has_many(:albums, through: [:ratings, :album])
+
+    has_many(:storefronts, Dojinlist.Schemas.Storefront, foreign_key: :creator_id)
 
     timestamps(type: :utc_datetime)
   end

@@ -171,6 +171,8 @@ defmodule DojinlistWeb.Types do
     connection field(:ratings, node_type: :rating) do
       resolve(&Resolvers.Rating.get_ratings_by_user/2)
     end
+
+    field(:storefronts, list_of(:storefront), resolve: dataloader(Dojinlist.Source))
   end
 
   object :user do
