@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from '../../routes.js'
 import { withRouter } from 'next/router'
 
 import { AuthConsumer } from '../../contexts/auth.js'
 import { MeConsumer } from '../../contexts/me.js'
+
+import UserDropdown from './user_dropdown'
 
 import './navigation.css'
 
@@ -17,46 +19,52 @@ const NavLink = ({ router, href, text }) => (
   </li>
 )
 
-const Navigation = ({ router }) => (
-  <AuthConsumer>
-    {({ isAuthed }) => (
-      <MeConsumer>
-        {({}) => (
-          <nav className='djn-navigation'>
-            <div className='djn-navigation-inner limit-screen mx-auto'>
-              <div className='logo'>
-                <Link href='/'>
-                  <a>
-                    <Logo />
-                  </a>
-                </Link>
-              </div>
-              <div className='user-controls'>
-                <NavLink router={router} href='/' text='Discover' />
+const Navigation = ({ router }) => {
+  const [shouldShowMenu, toggleMenu] = useState(false)
 
-                {isAuthed && (
-                  <NavLink
-                    key='logout'
-                    router={router}
-                    href='/logout'
-                    text='Logout'
-                  />
-                )}
-                {!isAuthed && (
-                  <NavLink
-                    key='login'
-                    router={router}
-                    href='/login'
-                    text='Login'
-                  />
-                )}
+  return (
+    <AuthConsumer>
+      {({ isAuthed }) => (
+        <MeConsumer>
+          {({ me }) => (
+            <nav className='djn-navigation'>
+              <div className='djn-navigation-inner limit-screen mx-auto'>
+                <div className='logo'>
+                  <Link href='/'>
+                    <a>
+                      <Logo />
+                    </a>
+                  </Link>
+                </div>
+                <div className='user-controls'>
+                  <NavLink router={router} href='/' text='Discover' />
+
+                  {!isAuthed && (
+                    <NavLink router={router} href='/login' text='Login' />
+                  )}
+
+                  {isAuthed && me && (
+                    <nav
+                      className='user-avatar'
+                      aria-label='View profile and more'
+                      aria-haspopup='menu'
+                      onMouseEnter={() => toggleMenu(true)}
+                      onMouseLeave={() => toggleMenu(false)}
+                    >
+                      <div>
+                        <img src={me.avatar} />
+                        {shouldShowMenu && <UserDropdown />}
+                      </div>
+                    </nav>
+                  )}
+                </div>
               </div>
-            </div>
-          </nav>
-        )}
-      </MeConsumer>
-    )}
-  </AuthConsumer>
-)
+            </nav>
+          )}
+        </MeConsumer>
+      )}
+    </AuthConsumer>
+  )
+}
 
 export default withRouter(Navigation)

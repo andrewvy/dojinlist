@@ -7,11 +7,6 @@ import { AuthConsumer } from '../contexts/auth.js'
 const MeContext = React.createContext()
 
 class MeProvider extends React.Component {
-  state = {
-    isLoading: false,
-    me: null
-  }
-
   render() {
     return (
       <Query query={MeQuery} ssr={false} errorPolicy='ignore'>

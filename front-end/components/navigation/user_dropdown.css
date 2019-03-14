@@ -1,0 +1,33 @@
+.djn-userDropdown {
+  margin: 0;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  position: relative;
+  background-color: config('colors.white');
+  margin-top: 8px;
+  top: 100%;
+  right: 200%;
+  width: 180px;
+  text-align: left;
+}
+
+.djn-userDropdown .menu-item {
+  margin: 0;
+  padding: 16px;
+}
+
+.djn-userDropdown .menu-item:hover {
+  background-color: config('colors.grey-lighter');
+}
+
+.djn-userDropdown .menu-item a {
+  font-size: 14px;
+  color: config('colors.black') !important;
+  text-transform: none !important;
+}
+
+.djn-userDropdown .menu-item a:hover {
+  color: config('colors.black') !important;
+}

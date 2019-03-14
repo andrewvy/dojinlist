@@ -58,3 +58,9 @@
 .djn-navigation .user-controls a:hover {
   color: config('colors.blue');
 }
+
+.djn-navigation .user-avatar {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}

@@ -31,7 +31,7 @@ const Styles = () => (
 )
 
 const UserDetails = (props) => (
-  <div className='user-details bg-grey-lighter'>
+  <div className='user-details'>
     <div className='container'>
       <div className='user-avatar'>
         <img src={props.user && props.user.avatar} />
