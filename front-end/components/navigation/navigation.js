@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import { Link } from '../../routes.js'
 import { withRouter } from 'next/router'
 
 import { AuthConsumer } from '../../contexts/auth.js'
@@ -9,22 +9,17 @@ import './navigation.css'
 
 import Logo from '../../svgs/brand/white_bg_fill_wordmark.svg'
 
-const Styles = () => (
-  <style jsx>{`
-  `}</style>
-)
-
 const NavLink = ({ router, href, text }) => (
   <li className={router.pathname === href ? 'active' : ''}>
     <Link href={href}>
-      <span>{text}</span>
+      <a>{text}</a>
     </Link>
   </li>
 )
 
-const Navigation = ({router}) => (
+const Navigation = ({ router }) => (
   <AuthConsumer>
-    {({isAuthed}) => (
+    {({ isAuthed }) => (
       <MeConsumer>
         {({}) => (
           <nav className='djn-navigation'>
@@ -38,15 +33,25 @@ const Navigation = ({router}) => (
               </div>
               <div className='user-controls'>
                 <NavLink router={router} href='/' text='Discover' />
-                {
-                  isAuthed ?
-                    <NavLink router={router} href='/logout' text='Logout' />
-                  :
-                    <NavLink router={router} href='/login' text='Login' />
-                }
+
+                {isAuthed && (
+                  <NavLink
+                    key='logout'
+                    router={router}
+                    href='/logout'
+                    text='Logout'
+                  />
+                )}
+                {!isAuthed && (
+                  <NavLink
+                    key='login'
+                    router={router}
+                    href='/login'
+                    text='Login'
+                  />
+                )}
               </div>
             </div>
-            <Styles />
           </nav>
         )}
       </MeConsumer>

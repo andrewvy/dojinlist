@@ -7,6 +7,11 @@ query Me {
     username
     email
     avatar
+    storefronts {
+      description
+      displayName
+      location
+      slug
+    }
   }
-}
-`
+}`

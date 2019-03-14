@@ -38,6 +38,7 @@
   height: 100%;
   text-decoration: none;
   list-style: none;
+  cursor: pointer;
 }
 
 .djn-navigation .user-controls li.active {
