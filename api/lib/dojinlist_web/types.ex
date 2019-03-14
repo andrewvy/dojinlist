@@ -278,6 +278,11 @@ defmodule DojinlistWeb.Types do
     field(:grand_total, :money)
   end
 
+  object :track_response do
+    field(:track, :track)
+    field(:errors, list_of(:error))
+  end
+
   object :cart_totals_response do
     field(:cart_totals, non_null(:cart_totals))
     field(:errors, list_of(:error))

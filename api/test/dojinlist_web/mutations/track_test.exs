@@ -10,7 +10,9 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     query = """
     mutation CreateTrack($albumId: ID!, $track: TrackInput!) {
       createTrack(albumId: $albumId, track: $track) {
-        id
+        track {
+          id
+        }
       }
     }
     """
@@ -34,7 +36,15 @@ defmodule DojinlistWeb.Mutations.TrackTest do
       |> Fixtures.login_as(user)
       |> execute_graphql(query, variables)
 
-    assert %{"data" => %{"createTrack" => %{"id" => track_id}}} = response
+    assert %{
+             "data" => %{
+               "createTrack" => %{
+                 "track" => %{
+                   "id" => track_id
+                 }
+               }
+             }
+           } = response
 
     assert {:ok, track_id} = Absinthe.Relay.Node.from_global_id(track_id, DojinlistWeb.Schema)
     assert track = Tracks.get_by_id(track_id.id)
@@ -46,9 +56,11 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     query = """
     mutation UpdateTrack($trackId: ID!, $track: TrackUpdateInput!) {
       updateTrack(trackId: $trackId, track: $track) {
-        id
-        title
-        position
+        track {
+          id
+          title
+          position
+        }
       }
     }
     """
@@ -75,7 +87,13 @@ defmodule DojinlistWeb.Mutations.TrackTest do
 
     assert %{
              "data" => %{
-               "updateTrack" => %{"title" => "Test Update", "position" => 5, "id" => track_id}
+               "updateTrack" => %{
+                 "track" => %{
+                   "title" => "Test Update",
+                   "position" => 5,
+                   "id" => track_id
+                 }
+               }
              }
            } == response
   end

@@ -7,7 +7,7 @@ defmodule DojinlistWeb.Mutations.Track do
   }
 
   object :track_mutations do
-    field :create_track, type: :track do
+    field :create_track, type: :track_response do
       arg(:album_id, non_null(:id))
       arg(:track, non_null(:track_input))
 
@@ -18,7 +18,7 @@ defmodule DojinlistWeb.Mutations.Track do
       resolve(&create_track/2)
     end
 
-    field :update_track, type: :track do
+    field :update_track, type: :track_response do
       arg(:track_id, non_null(:id))
       arg(:track, non_null(:track_update_input))
 
@@ -37,12 +37,25 @@ defmodule DojinlistWeb.Mutations.Track do
         {:error, "Could not find an album with that id"}
 
       album ->
-        with {:ok, source_file} <- handle_source_file(track_attrs[:source_file]),
+        with {:upload, {:ok, source_file}} <-
+               {:upload, handle_source_file(track_attrs[:source_file])},
              track_attrs = Map.put(track_attrs, :source_file, source_file),
              {:ok, track} <- Tracks.create_track(album.id, track_attrs) do
-          {:ok, track}
+          {:ok, %{track: track}}
         else
-          error -> error
+          {:upload, _} ->
+            %{
+              errors: [
+                DojinlistWeb.Errors.track_audio_unsupported()
+              ]
+            }
+
+          _error ->
+            %{
+              errors: [
+                DojinlistWeb.Errors.create_track_failed()
+              ]
+            }
         end
     end
   end
@@ -57,7 +70,17 @@ defmodule DojinlistWeb.Mutations.Track do
           attrs
           |> Map.get(:track, %{})
 
-        Tracks.update_track(track, updated_attrs)
+        case Tracks.update_track(track, updated_attrs) do
+          {:ok, track} ->
+            {:ok, %{track: track}}
+
+          _ ->
+            %{
+              errors: [
+                DojinlistWeb.Errors.update_track_failed()
+              ]
+            }
+        end
     end
   end
 
