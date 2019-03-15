@@ -28,7 +28,7 @@ const Navigation = ({ router }) => {
         <MeConsumer>
           {({ me }) => (
             <nav className='djn-navigation'>
-              <div className='djn-navigation-inner limit-screen mx-auto'>
+              <div className='djn-navigation-inner mx-auto px-8'>
                 <div className='logo'>
                   <Link href='/'>
                     <a>
@@ -48,11 +48,13 @@ const Navigation = ({ router }) => {
                       className='user-avatar'
                       aria-label='View profile and more'
                       aria-haspopup='menu'
+                      tabindex={0}
+                      onFocus={() => toggleMenu(true)}
                       onMouseEnter={() => toggleMenu(true)}
                       onMouseLeave={() => toggleMenu(false)}
                     >
                       <div>
-                        <img src={me.avatar} />
+                        <img className='user-avatar-image' src={me.avatar} />
                         {shouldShowMenu && <UserDropdown />}
                       </div>
                     </nav>

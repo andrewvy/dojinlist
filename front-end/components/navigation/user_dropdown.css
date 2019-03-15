@@ -24,10 +24,10 @@
 
 .djn-userDropdown .menu-item a {
   font-size: 14px;
-  color: config('colors.black') !important;
+  color: config('colors.blue-dark') !important;
   text-transform: none !important;
 }
 
 .djn-userDropdown .menu-item a:hover {
-  color: config('colors.black') !important;
+  color: config('colors.blue-dark') !important;
 }

@@ -64,3 +64,8 @@
   height: 50px;
   cursor: pointer;
 }
+
+.djn-navigation .user-avatar-image {
+  border: 1px solid rgba(31, 40, 87, .10);
+  border-radius: 8px;
+}

@@ -8,6 +8,7 @@ query Me {
     email
     avatar
     storefronts {
+      id
       description
       displayName
       location
