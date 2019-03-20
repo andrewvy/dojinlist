@@ -15,7 +15,6 @@
 
 .djn-userDropdown .menu-item {
   margin: 0;
-  padding: 16px;
 }
 
 .djn-userDropdown .menu-item:hover {
@@ -24,6 +23,8 @@
 
 .djn-userDropdown .menu-item a {
   font-size: 14px;
+  padding: 16px;
+  display: block;
   color: config('colors.blue-dark') !important;
   text-transform: none !important;
 }

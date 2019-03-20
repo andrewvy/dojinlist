@@ -173,6 +173,8 @@ defmodule DojinlistWeb.Types do
     end
 
     field(:storefronts, list_of(:storefront), resolve: dataloader(Dojinlist.Source))
+
+    field(:stripe_account, :stripe_account, resolve: dataloader(Dojinlist.Source))
   end
 
   object :user do
@@ -298,5 +300,9 @@ defmodule DojinlistWeb.Types do
   object :money do
     field(:amount, non_null(:string))
     field(:currency, non_null(:string))
+  end
+
+  object :stripe_account do
+    field(:stripe_user_id, :string)
   end
 end

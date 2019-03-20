@@ -109,7 +109,6 @@ label {
 
 input[type=text],
 input[type=email],
-input[type=select],
 input[type=password] {
   @apply bg-grey-lightest;
 
@@ -205,4 +204,8 @@ input {
 
 .limit-screen {
   max-width: 80%;
+}
+
+.transition {
+  transition: all .25s;
 }

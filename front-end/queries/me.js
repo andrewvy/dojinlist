@@ -14,5 +14,8 @@ query Me {
       location
       slug
     }
+    stripeAccount {
+      stripeUserId
+    }
   }
 }`
