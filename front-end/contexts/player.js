@@ -56,7 +56,6 @@ class PlayerProvider extends React.Component {
         value={value}
       >
         {this.props.children}
-        <Player track={currentTrack} album={{}} setPlaying={this.setPlaying} isPlaying={isPlaying} />
       </PlayerContext.Provider>
     )
   }

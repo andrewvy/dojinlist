@@ -1,77 +1,54 @@
 .djn-footer {
-  background-color: config('colors.blue-dark');
+  background-color: config('colors.blue-darker');
   color: config('colors.white');
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  height: 300px;
 }
 
-.djn-footer .upper {
+.djn-footer .navigation {
   display: flex;
   flex-direction: row;
-  padding: 46px;
-}
-
-.djn-footer .lower {
-  padding: 16px;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  background-color: config('colors.blue-darker');
-  font-size: 12px;
-  flex-direction: column;
-}
-
-.djn-footer .left {
-  flex-grow: 1;
-}
-
-.djn-footer .description {
-  max-width: 550px;
-  text-align: left;
-  line-height: 33px;
-  margin: 0;
-}
-
-.djn-footer .right {
-  display: flex;
-  flex-direction: row;
-}
-
-.djn-footer .col-1,
-.djn-footer .col-2 {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 0 16px;
+  margin: 24px 0;
 }
 
 .djn-footer .link {
-  min-width: 120px;
-  text-align: left;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-
-  font-family: Noto Sans JP;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  letter-spacing: 0.04em;
+  text-decoration: none;
+  list-style: none;
+  cursor: pointer;
+  margin: 8px;
 }
 
 .djn-footer .link a {
-  color: config('colors.white');
-  text-decoration: none;
-}
+  font-family: Noto Sans JP;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 
-.djn-footer .link a:hover {
-  color: config('colors.blue');
+  color: config('colors.white');
 }
 
 .djn-footer .logo {
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.djn-footer .logo svg {
+  align-self: center;
   width: 98px;
   height: 92px;
-  margin: 0 48px;
+}
+
+.djn-footer .right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 80px;
 }
 
 .djn-footer .social {
@@ -81,4 +58,9 @@
 .djn-footer .social svg {
   width: 24px;
   height: 24px;
+  margin: 24px 0;
+}
+
+.djn-footer .copyright {
+  font-size: 14px;
 }
