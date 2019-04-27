@@ -41,17 +41,27 @@
   cursor: pointer;
 }
 
-.djn-navigation .user-controls li.active {
-  border-bottom: 6px config('colors.red') solid;
+.djn-navigation .user-controls li.active:after {
+  display: block;
+  width: 50%;
+  margin: 10px auto 0 auto;
+  content: '';
+  border-bottom: 2px config('colors.red') solid;
 }
 
 .djn-navigation .user-controls a {
   font-family: Noto Sans JP;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 14px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 
+  color: config('colors.grey');
+}
+
+.djn-navigation .user-controls li.active a {
+  font-weight: 800;
   color: config('colors.blue-dark');
 }
 

@@ -28,7 +28,7 @@ const Navigation = ({ router }) => {
         <MeConsumer>
           {({ me }) => (
             <nav className='djn-navigation'>
-              <div className='djn-navigation-inner mx-auto px-8'>
+              <div className='djn-navigation-inner mx-auto px-32'>
                 <div className='logo'>
                   <Link href='/'>
                     <a>
