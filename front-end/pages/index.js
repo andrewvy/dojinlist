@@ -13,6 +13,8 @@ import Page from '../layouts/main.js';
 
 import HelloWorldPost from '../posts/hello-world.js'
 
+import './index.css'
+
 const Styles = () => (
   <style jsx="true">
     {`
@@ -32,12 +34,12 @@ class IndexPage extends PureComponent {
     return (
       <Page className='bg-white'>
         <div className="container content">
-          <div className='main text-center py-40 bg-blue text-white'>
+          <div className='djn-hero main text-center py-40 text-blue-dark'>
             <div className='font-bold text-4xl'>A marketplace to discover and buy dōjin music.</div>
             <div className='font-light my-8'>Find your favourite artists and music genres.</div>
           </div>
 
-          <div className='container limit-screen w-2/3 my-8'>
+          <div className='container bg-white limit-screen w-2/3 my-8'>
             <Pill
               lightColor='red-light'
               darkColor='red'
