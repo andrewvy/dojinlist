@@ -144,6 +144,20 @@ defmodule DojinlistWeb.Types do
     field(:display_name, :string)
     field(:location, :string)
     field(:slug, :string)
+
+    field :avatar_image, :string do
+      resolve(fn storefront, _, _ ->
+        url = Dojinlist.AvatarAttachment.url(storefront.avatar_image, :thumb)
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
+      end)
+    end
+
+    field :banner_image, :string do
+      resolve(fn storefront, _, _ ->
+        url = Dojinlist.BannerAttachment.url(storefront.banner_image, :thumb)
+        {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
+      end)
+    end
   end
 
   object :me do

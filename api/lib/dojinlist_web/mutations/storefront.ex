@@ -9,6 +9,17 @@ defmodule DojinlistWeb.Mutations.Storefront do
 
       resolve(&create_storefront/2)
     end
+
+    field :upload_avatar, type: :storefront do
+      arg(:avatar, non_null(:upload))
+      arg(:storefront_id, non_null(:id))
+
+      middleware(DojinlistWeb.Middlewares.Authorization)
+      middleware(Absinthe.Relay.Node.ParseIDs, storefront_id: :storefront)
+      middleware(DojinlistWeb.Middlewares.StorefrontAuthorized, storefront_id: :storefront)
+
+      resolve(&upload_avatar/2)
+    end
   end
 
   def create_storefront(%{storefront: storefront_attrs}, %{context: %{current_user: user}}) do
@@ -23,5 +34,20 @@ defmodule DojinlistWeb.Mutations.Storefront do
       # @TODO(vy): i18n
       {:error, _} -> {:error, "Could not create storefront"}
     end
+  end
+
+  def upload_avatar(attrs, %{context: %{current_user: _, storefront: storefront}}) do
+    with {:ok, avatar} <- handle_avatar(attrs[:avatar]),
+         attrs = %{avatar_image: avatar},
+         {:ok, storefront} <- Dojinlist.Storefront.update_storefront(storefront, attrs) do
+      {:ok, storefront}
+    else
+      {:error, _} = error -> error
+    end
+  end
+
+  def handle_avatar(avatar) do
+    Dojinlist.Uploaders.rewrite_upload(avatar)
+    |> Dojinlist.AvatarAttachment.store()
   end
 end

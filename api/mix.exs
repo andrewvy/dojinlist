@@ -57,7 +57,7 @@ defmodule Dojinlist.MixProject do
       {:hashids, "~> 2.0"},
       {:httpoison, ">= 0.0.0"},
       {:jason, "~> 1.0"},
-      {:joken, "~> 2.0-rc2"},
+      {:joken, "~> 2.0.1"},
       {:paginator, "~> 0.5"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},

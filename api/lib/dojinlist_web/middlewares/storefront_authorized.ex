@@ -2,7 +2,7 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
   @behaviour Absinthe.Middleware
 
   alias Dojinlist.Repo
-  alias Dojinlist.Schemas.{Album, Track}
+  alias Dojinlist.Schemas.{Album, Track, Storefront}
 
   import Ecto.Query
 
@@ -48,6 +48,35 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
 
     if storefront do
       resolution
+    else
+      resolution
+      |> Absinthe.Resolution.put_result(
+        {:error,
+         %{
+           code: :does_not_have_permission,
+           error: "You don't have permission for this type.",
+           message: "You don't have permission for this type."
+         }}
+      )
+    end
+  end
+
+  def call(resolution = %{context: %{current_user: current_user} = context},
+        storefront_id: :storefront
+      ) do
+    storefront_id = Map.get(resolution.arguments, :storefront_id)
+    current_user_id = current_user.id
+
+    storefront =
+      Storefront
+      |> where([s], s.id == ^storefront_id)
+      |> where([s], s.creator_id == ^current_user_id)
+      |> select([s], s)
+      |> Repo.one()
+
+    if storefront do
+      resolution
+      |> Absinthe.Plug.put_options(context: Map.put(context, :storefront, storefront))
     else
       resolution
       |> Absinthe.Resolution.put_result(

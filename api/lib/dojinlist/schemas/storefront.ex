@@ -8,6 +8,8 @@ defmodule Dojinlist.Schemas.Storefront do
     field(:display_name, :string)
     field(:location, :string)
     field(:slug, :string)
+    field(:avatar_image, :string)
+    field(:banner_image, :string)
 
     belongs_to(:creator, Dojinlist.Schemas.User)
     has_many(:albums, Dojinlist.Schemas.Album)
