@@ -35,7 +35,7 @@ class HomePage extends PureComponent {
                       <Query query={FetchAlbumsByStorefrontId} variables={{storefrontId: data.storefront.id, first: 10}}>
                         {({data, loading, error}) => (
                           <div className='albums'>
-                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)}/>
+                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)} storefront_slug={storefront_slug}/>
                           </div>
                         )}
                       </Query>

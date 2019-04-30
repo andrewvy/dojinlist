@@ -6,6 +6,7 @@ import { AuthConsumer } from '../../contexts/auth.js'
 import { MeConsumer } from '../../contexts/me.js'
 
 import UserDropdown from './user_dropdown'
+import Button from '../button'
 
 import './navigation.css'
 
@@ -40,7 +41,19 @@ const Navigation = ({ router }) => {
                   <NavLink router={router} href='/' text='Discover' />
 
                   {!isAuthed && (
-                    <NavLink router={router} href='/login' text='Login' />
+                    <li>
+                      <Link href='/register'>
+                        <Button type='primary' text='Sign Up' />
+                      </Link>
+                    </li>
+                  )}
+
+                  {!isAuthed && (
+                    <li>
+                      <Link href='/login'>
+                        <Button type='secondary' text='Log In' />
+                      </Link>
+                    </li>
                   )}
 
                   {isAuthed && me && (

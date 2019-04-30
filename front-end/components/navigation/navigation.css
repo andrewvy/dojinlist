@@ -33,20 +33,29 @@
 }
 
 .djn-navigation .user-controls li {
-  padding: 20px 0;
-  margin: 0 12px;
+  padding: 10px 0;
   height: 100%;
   text-decoration: none;
   list-style: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 12px;
+}
+
+.djn-navigation .user-controls li:last-child {
+  margin: 0;
 }
 
 .djn-navigation .user-controls li.active:after {
   display: block;
   width: 50%;
-  margin: 10px auto 0 auto;
   content: '';
   border-bottom: 2px config('colors.red') solid;
+  position: relative;
+  top: 8px;
 }
 
 .djn-navigation .user-controls a {

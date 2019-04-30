@@ -38,6 +38,18 @@
   background-color: config('colors.blue-dark');
 }
 
+.djn-button-secondary {
+  background-color: none;
+  border: 2px solid config('colors.grey-light');
+  color: config('colors.blue-darker');
+  fill: config('colors.grey-light');
+}
+
+.djn-button-secondary:hover {
+  border: 2px solid config('colors.grey');
+  fill: config('colors.grey');
+}
+
 .djn-button-translucent {
   background-color: none;
   border: 2px solid config('colors.blue');

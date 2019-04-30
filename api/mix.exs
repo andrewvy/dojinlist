@@ -68,7 +68,8 @@ defmodule Dojinlist.MixProject do
       {:stripity_stripe, "~> 2.2"},
       {:sweet_xml, "~> 0.6"},
       {:swoosh, "~> 0.20"},
-      {:con_cache, "~> 0.13.0"}
+      {:con_cache, "~> 0.13.0"},
+      {:ex_cldr, "~> 2.7"}
     ]
   end
 
