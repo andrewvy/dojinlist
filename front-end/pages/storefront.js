@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
+import ErrorPage from 'next/error'
 
 import withNavigation from '../components/navigation'
 
@@ -10,7 +11,7 @@ import AlbumThumbnailGrid from '../components/album_thumbnail_grid'
 
 import Page from '../layouts/main.js'
 
-const transformAlbums = (edge) => (edge.node)
+const transformAlbums = edge => edge.node
 
 class HomePage extends PureComponent {
   static async getInitialProps({ query }) {
@@ -23,31 +24,38 @@ class HomePage extends PureComponent {
     return (
       <Page>
         <div className='container'>
-          <Query query={FetchStorefrontQuery} variables={{slug: storefront_slug}}>
-            {({data, loading, error}) => (
+          <Query
+            query={FetchStorefrontQuery}
+            variables={{ slug: storefront_slug }}
+          >
+            {({ data, loading, error }) => (
               <div>
                 {loading && <div>Loading</div>}
-                {
-                  !loading && data &&
-                    <div>
-                      <p>Display Name: {data.storefront.display_name}</p>
-                      <p>Description: {data.storefront.description}</p>
-                      <Query query={FetchAlbumsByStorefrontId} variables={{storefrontId: data.storefront.id, first: 10}}>
-                        {({data, loading, error}) => (
-                          <div className='albums'>
-                            <AlbumThumbnailGrid albums={data.albums.edges.map(transformAlbums)} storefront_slug={storefront_slug}/>
-                          </div>
-                        )}
-                      </Query>
-                    </div>
-                }
 
-                {
-                  error &&
-                    <div>
-                    Error
-                    </div>
-                }
+                {!loading && data && (
+                  <div>
+                    <p>Display Name: {data.storefront.display_name}</p>
+                    <p>Description: {data.storefront.description}</p>
+                    <Query
+                      query={FetchAlbumsByStorefrontId}
+                      variables={{
+                        storefrontId: data.storefront.id,
+                        first: 10
+                      }}
+                    >
+                      {({ data, loading, error }) => (
+                        <div className='albums'>
+                          <AlbumThumbnailGrid
+                            albums={data.albums.edges.map(transformAlbums)}
+                            storefront_slug={storefront_slug}
+                          />
+                        </div>
+                      )}
+                    </Query>
+                  </div>
+                )}
+
+                {error && <ErrorPage statusCode={404} />}
               </div>
             )}
           </Query>
