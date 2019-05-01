@@ -5,7 +5,7 @@ query FetchStorefront($slug: String!) {
   storefront(slug: $slug) {
     id
     description
-    display_name
+    displayName
     slug
     location
     bannerImage

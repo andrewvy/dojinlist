@@ -11,6 +11,7 @@
   right: 200%;
   width: 180px;
   text-align: left;
+  z-index: 3;
 }
 
 .djn-userDropdown .menu-item {

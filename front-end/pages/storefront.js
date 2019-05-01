@@ -11,6 +11,8 @@ import AlbumThumbnailGrid from '../components/album_thumbnail_grid'
 
 import Page from '../layouts/main.js'
 
+import './storefront.css'
+
 const transformAlbums = edge => edge.node
 
 class HomePage extends PureComponent {
@@ -30,29 +32,41 @@ class HomePage extends PureComponent {
           >
             {({ data, loading, error }) => (
               <div>
-                {loading && <div>Loading</div>}
-
                 {!loading && data && (
-                  <div>
-                    <p>Display Name: {data.storefront.display_name}</p>
-                    <p>Description: {data.storefront.description}</p>
-                    <Query
-                      query={FetchAlbumsByStorefrontId}
-                      variables={{
-                        storefrontId: data.storefront.id,
-                        first: 10
-                      }}
-                    >
-                      {({ data, loading, error }) => (
-                        <div className='albums'>
-                          <AlbumThumbnailGrid
-                            albums={data.albums.edges.map(transformAlbums)}
-                            storefront_slug={storefront_slug}
-                          />
+                  <>
+                    <div className='djn-storefrontHeader'>
+                      <div className='djn-storefrontBanner'>
+                        <img src={data.storefront.bannerImage} />
+                      </div>
+                      <div className='djn-storefrontAvatar'>
+                        <div className='avatar-container'>
+                          <img src={data.storefront.avatarImage} />
                         </div>
-                      )}
-                    </Query>
-                  </div>
+                        <div className='display-name'>
+                          {data.storefront.displayName}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className='djn-storefrontPage'>
+                      <Query
+                        query={FetchAlbumsByStorefrontId}
+                        variables={{
+                          storefrontId: data.storefront.id,
+                          first: 10
+                        }}
+                      >
+                        {({ data, loading, error }) => (
+                          <div className='albums'>
+                            <AlbumThumbnailGrid
+                              albums={data.albums.edges.map(transformAlbums)}
+                              storefront_slug={storefront_slug}
+                            />
+                          </div>
+                        )}
+                      </Query>
+                    </div>
+                  </>
                 )}
 
                 {error && <ErrorPage statusCode={404} />}
