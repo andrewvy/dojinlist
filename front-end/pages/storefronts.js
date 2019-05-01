@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Mutation } from 'react-apollo'
 
-import { MeConsumer } from '../contexts/me.js'
+import { MeConsumer } from '../contexts/me'
+import UploadAvatarMutation from '../mutations/storefronts/upload_avatar'
+import UploadBannerMutation from '../mutations/storefronts/upload_banner'
 
 import { Link } from '../routes.js'
 
@@ -11,6 +14,7 @@ import Page from '../layouts/main.js'
 import withNavigation from '../components/navigation'
 import Spinner from '../components/spinner'
 import Button from '../components/button'
+import Uploader from '../components/uploader'
 
 import Avatar from '../components/avatar'
 
@@ -101,6 +105,7 @@ const StorefrontsPage = ({ me }) => {
   const [currentStorefront, setCurrentStorefront] = useState(
     me.storefronts[0]
   )
+
   const [isOpen, setMenuVisibility] = useState(false)
 
   return (
@@ -146,6 +151,24 @@ const StorefrontsPage = ({ me }) => {
             <span className='ml-4'>Settings</span>
           </li>
         </ul>
+      </div>
+      <div>
+        <Mutation mutation={UploadAvatarMutation} errorPolicy='all'>
+          {(performUploadAvatar, { data } ) => (
+            <Uploader
+              imageUrl={(data && data.uploadStorefrontAvatar && data.uploadStorefrontAvatar.avatarImage) || currentStorefront.avatarImage}
+              performUpload={(file) => performUploadAvatar({variables: {avatar: file, storefrontId: currentStorefront.id}})}
+            />
+          )}
+        </Mutation>
+        <Mutation mutation={UploadBannerMutation} errorPolicy='all'>
+          {(performUploadBanner, { data } ) => (
+            <Uploader
+              imageUrl={(data && data.uploadStorefrontBanner && data.uploadStorefrontBanner.bannerImage) || currentStorefront.bannerImage}
+              performUpload={(file) => performUploadBanner({variables: {banner: file, storefrontId: currentStorefront.id}})}
+            />
+          )}
+        </Mutation>
       </div>
     </div>
   )

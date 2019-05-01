@@ -8,6 +8,8 @@ query FetchStorefront($slug: String!) {
     display_name
     slug
     location
+    bannerImage
+    avatarImage
   }
 }
 `

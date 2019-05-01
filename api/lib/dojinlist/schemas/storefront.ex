@@ -24,6 +24,8 @@ defmodule Dojinlist.Schemas.Storefront do
       :description,
       :display_name,
       :location,
+      :avatar_image,
+      :banner_image,
       :slug
     ])
     |> validate_slug()

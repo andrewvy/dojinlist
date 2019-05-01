@@ -10,7 +10,7 @@ defmodule DojinlistWeb.Mutations.Storefront do
       resolve(&create_storefront/2)
     end
 
-    field :upload_avatar, type: :storefront do
+    field :upload_storefront_avatar, type: :storefront do
       arg(:avatar, non_null(:upload))
       arg(:storefront_id, non_null(:id))
 
@@ -21,7 +21,7 @@ defmodule DojinlistWeb.Mutations.Storefront do
       resolve(&upload_avatar/2)
     end
 
-    field :upload_banner, type: :storefront do
+    field :upload_storefront_banner, type: :storefront do
       arg(:banner, non_null(:upload))
       arg(:storefront_id, non_null(:id))
 

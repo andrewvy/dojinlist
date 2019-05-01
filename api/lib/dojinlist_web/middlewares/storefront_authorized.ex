@@ -76,7 +76,7 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
 
     if storefront do
       resolution
-      |> Absinthe.Plug.put_options(context: Map.put(context, :storefront, storefront))
+      |> Map.put(:context, Map.put(context, :storefront, storefront))
     else
       resolution
       |> Absinthe.Resolution.put_result(

@@ -13,6 +13,8 @@ query Me {
       displayName
       location
       slug
+      bannerImage
+      avatarImage
     }
     stripeAccount {
       stripeUserId

@@ -1,0 +1,30 @@
+.djn-uploader {
+  width: 128px;
+  height: 128px;
+  border-radius: 5px;
+}
+
+.djn-uploader img {
+  border-radius: 5px;
+}
+
+.djn-uploader.is-hovered .uploader-hover,
+.djn-uploader .uploader-hover:hover {
+  opacity: 0.95;
+}
+
+.uploader-hover {
+  @apply bg-grey-darkest text-grey-lighter;
+
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  width: 128px;
+  height: 128px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-weight: 600;
+}
