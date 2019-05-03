@@ -1,3 +1,7 @@
+#__next {
+  min-width: 975px;
+}
+
 .djn-hero {
   background: linear-gradient(config('colors.grey-light'), config('colors.white'));
 }
