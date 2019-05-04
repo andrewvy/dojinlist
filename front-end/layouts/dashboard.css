@@ -1,8 +1,8 @@
-.djn-dashboardPage {
+.djn-dashboardLayout {
   background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
 }
 
-.djn-dashboardPage .wrapper {
+.djn-dashboardLayout .wrapper {
   display: flex;
   flex-direction: row;
 }
@@ -21,6 +21,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.djn-dashboardNavigation .nav-item {
+  font-weight: 500;
   color: config('colors.blue-dark');
 }
 
@@ -33,10 +37,17 @@
   border-left: 2px solid config('colors.red');
 }
 
-.djn-dashboardPage .content {
+.djn-dashboardLayout .content {
   margin-left: 16px;
   width: 100%;
   min-height: 800px;
   background-color: config('colors.white');
   padding: 32px;
+}
+
+.djn-dashboardLayout h2 {
+  font-weight: 600;
+  font-size: 16px;
+  color: config('colors.blue-dark');
+  margin: 8px 0;
 }
