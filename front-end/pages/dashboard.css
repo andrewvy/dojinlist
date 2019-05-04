@@ -1,0 +1,42 @@
+.djn-dashboardPage {
+  background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
+}
+
+.djn-dashboardPage .wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.djn-dashboardNavigation {
+  @apply rounded;
+
+  width: 240px;
+  height: 100%;
+  background-color: config('colors.white');
+}
+
+.djn-dashboardNavigation .nav-item {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: config('colors.blue-dark');
+}
+
+.djn-dashboardNavigation .nav-item:hover,
+.djn-dashboardNavigation .nav-item.active {
+  background-color: config('colors.red-light');
+}
+
+.djn-dashboardNavigation .nav-item.active {
+  border-left: 2px solid config('colors.red');
+}
+
+.djn-dashboardPage .content {
+  margin-left: 16px;
+  width: 100%;
+  min-height: 800px;
+  background-color: config('colors.white');
+  padding: 32px;
+}

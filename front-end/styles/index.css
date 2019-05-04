@@ -9,6 +9,14 @@
   @apply flex content-center items-center flex-col;
 }
 
+.default-width {
+  width: 960px;
+}
+
+.max-vh {
+  min-height: 100vh;
+}
+
 #__next,
 .page {
   height: auto;
