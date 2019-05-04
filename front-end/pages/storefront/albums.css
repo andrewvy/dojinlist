@@ -1,9 +1,14 @@
+.djn-storefrontAlbumsPageContainer {
+  background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
+  min-height: 100vh;
+}
+
 .djn-storefrontAlbumsPage {
-  padding: 0 8rem;
+  padding: 60px 0;
+  width: 960px;
 }
 
 .djn-storefrontAlbumsPage .album {
-  margin-top: 16px;
 
   display: flex;
   flex-direction: row;

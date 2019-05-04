@@ -14,6 +14,13 @@ query FetchAlbumBySlug($slug: String!) {
       title
       playLength
     }
+    storefront {
+      displayName
+      slug
+      location
+      bannerImage
+      avatarImage
+    }
   }
 }
 `

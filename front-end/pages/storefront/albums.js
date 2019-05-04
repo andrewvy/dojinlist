@@ -28,14 +28,14 @@ class HomePage extends PureComponent {
     const variables = {
       download: {
         trackId: track.id,
-        encoding: "MP3_128"
+        encoding: 'MP3_128'
       }
     }
 
-    downloadTrack({ variables }).then((response) => {
+    downloadTrack({ variables }).then(response => {
       setTrack({
         ...track,
-        src: response.data["generateTrackDownloadUrl"].url
+        src: response.data['generateTrackDownloadUrl'].url
       })
     })
   }
@@ -45,42 +45,66 @@ class HomePage extends PureComponent {
 
     return (
       <PlayerConsumer>
-        {({setTrack: setPlayerTrack, currentTrack}) => (
+        {({ setTrack: setPlayerTrack, currentTrack }) => (
           <Page>
-            <div className='container djn-storefrontAlbumsPage'>
-              <Query query={FetchAlbumBySlugQuery} variables={{slug: album_slug}} >
-                {({data, loading}) => (
-                  <div>
-                    {
-                      !loading && data &&
-                      <div>
-                        <div className='album'>
-                          <div className='album-coverArtUrl'>
-                            <AlbumCover album={data.album} />
-                          </div>
-                          <div className='album-right'>
-                            <div className='album-header'>
-                              <span className='album-title'>{data.album.title}</span>
-                              <Link
-                                route='album_checkout'
-                                params={{storefront_slug, album_slug}}
-                              >
-                                <Button type='primary' text='Buy Album' icon='plus' className='album-purchaseBtn'/>
-                              </Link>
+            <div className='djn-storefrontAlbumsPageContainer'>
+              <div className='container djn-storefrontAlbumsPage'>
+                <Query
+                  query={FetchAlbumBySlugQuery}
+                  variables={{ slug: album_slug }}
+                >
+                  {({ data, loading }) => (
+                    <div>
+                      {!loading && data && (
+                        <div>
+                          <div className='album'>
+                            <div className='album-coverArtUrl'>
+                              <AlbumCover album={data.album} />
                             </div>
+                            <div className='album-right'>
+                              <div className='album-header'>
+                                <span className='album-title'>
+                                  {data.album.title}
+                                </span>
+                                <Link
+                                  route='album_checkout'
+                                  params={{ storefront_slug, album_slug }}
+                                >
+                                  <Button
+                                    type='primary'
+                                    text='Buy Album'
+                                    icon='plus'
+                                    className='album-purchaseBtn'
+                                  />
+                                </Link>
+                              </div>
 
-                            <Mutation mutation={DownloadTrackMutation}>
-                              {(downloadTrack, { data: mutationData, loading, error }) => (
-                                <AlbumTracklist album={data.album} onTrackClick={(track) => { this.streamTrack(downloadTrack, track, setPlayerTrack) } } currentTrack={currentTrack}/>
-                              )}
-                            </Mutation>
+                              <Mutation mutation={DownloadTrackMutation}>
+                                {(
+                                  downloadTrack,
+                                  { data: mutationData, loading, error }
+                                ) => (
+                                  <AlbumTracklist
+                                    album={data.album}
+                                    onTrackClick={track => {
+                                      this.streamTrack(
+                                        downloadTrack,
+                                        track,
+                                        setPlayerTrack
+                                      )
+                                    }}
+                                    currentTrack={currentTrack}
+                                  />
+                                )}
+                              </Mutation>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    }
-                  </div>
-                )}
-              </Query>
+                      )}
+                    </div>
+                  )}
+                </Query>
+              </div>
             </div>
           </Page>
         )}

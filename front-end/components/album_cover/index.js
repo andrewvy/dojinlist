@@ -82,7 +82,7 @@ class AlbumCover extends Component {
         <div className='glare'>
           <div className='glare-inner' style={glareStyle} />
         </div>
-        <img src={album.coverArtUrl} className='shadow rounded' onPointerEnter={this.onPointerEnter} onPointerLeave={this.onPointerLeave} onPointerMove={this.onPointerMove}/>
+        <img src={album.coverArtUrl} className='shadow rounded' onPointerEnter={this.onPointerEnter} onPointerLeave={this.onPointerLeave} onPointerMove={this.onPointerMove} width={384} height={384}/>
       </div>
     )
   }
