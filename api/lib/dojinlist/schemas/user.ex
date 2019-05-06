@@ -21,7 +21,7 @@ defmodule Dojinlist.Schemas.User do
     has_many(:ratings, Dojinlist.Schemas.UserRating)
     has_many(:albums, through: [:ratings, :album])
 
-    has_many(:storefronts, Dojinlist.Schemas.Storefront, foreign_key: :creator_id)
+    belongs_to(:storefront, Dojinlist.Schemas.Storefront)
 
     timestamps(type: :utc_datetime)
   end
@@ -35,8 +35,10 @@ defmodule Dojinlist.Schemas.User do
       :avatar,
       :confirmation_token,
       :confirmed_at,
-      :confirmation_sent_at
+      :confirmation_sent_at,
+      :storefront_id
     ])
+    |> cast_assoc(:storefront)
     |> put_password(attrs)
     |> validate_required([:username, :email])
     |> validate_username()

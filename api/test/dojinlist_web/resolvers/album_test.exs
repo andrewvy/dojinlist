@@ -58,10 +58,9 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
   """
 
   test "Can search for albums by storefront_id" do
-    {:ok, storefront} =
-      Fixtures.storefront(%{
-        subdomain: "bitplane"
-      })
+    {:ok, creator} = Fixtures.user()
+
+    storefront = creator.storefront
 
     {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})
     {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})

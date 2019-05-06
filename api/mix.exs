@@ -41,8 +41,8 @@ defmodule Dojinlist.MixProject do
       {:corsica, "~> 1.0"},
       {:dataloader, "~> 1.0.0"},
       {:distillery, "~> 2.0"},
-      {:ecto, "~> 3.0", override: true},
-      {:ecto_sql, "~> 3.0"},
+      {:ecto, "~> 3.1", override: true},
+      {:ecto_sql, "~> 3.1"},
       {:edeliver, ">= 1.6.0"},
       {:ex_aws, "~> 2.1", override: true},
       {:ex_aws_s3, "~> 2.0"},
@@ -81,8 +81,7 @@ defmodule Dojinlist.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate", "ecto.seed"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end

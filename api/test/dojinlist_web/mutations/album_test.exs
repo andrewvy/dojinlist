@@ -12,10 +12,10 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     }
     """
 
-    {:ok, storefront} = Fixtures.storefront()
+    {:ok, user} = Fixtures.user()
 
     storefront_id =
-      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+      Absinthe.Relay.Node.to_global_id(:storefront, user.storefront_id, DojinlistWeb.Schema)
 
     variables = %{
       album: %{
@@ -27,7 +27,7 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
 
     response =
       build_conn()
-      |> Fixtures.create_and_login_as_admin()
+      |> Fixtures.login_as(user)
       |> execute_graphql(query, variables)
 
     assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response
@@ -46,10 +46,10 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     }
     """
 
-    {:ok, storefront} = Fixtures.storefront()
+    {:ok, user} = Fixtures.user()
 
     storefront_id =
-      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+      Absinthe.Relay.Node.to_global_id(:storefront, user.storefront_id, DojinlistWeb.Schema)
 
     variables = %{
       album: %{
@@ -67,7 +67,7 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
 
     response =
       build_conn()
-      |> Fixtures.create_and_login_as_admin()
+      |> Fixtures.login_as(user)
       |> execute_graphql(query, variables)
 
     assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response

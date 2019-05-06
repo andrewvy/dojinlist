@@ -18,7 +18,7 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     """
 
     {:ok, user} = Fixtures.user()
-    {:ok, storefront} = Fixtures.storefront(%{creator_id: user.id})
+    storefront = user.storefront
     {:ok, album} = Fixtures.album(%{storefront_id: storefront.id})
 
     album_id = Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
@@ -66,7 +66,7 @@ defmodule DojinlistWeb.Mutations.TrackTest do
     """
 
     {:ok, user} = Fixtures.user()
-    {:ok, storefront} = Fixtures.storefront(%{creator_id: user.id})
+    storefront = user.storefront
     {:ok, album} = Fixtures.album(%{storefront_id: storefront.id})
     {:ok, track} = Fixtures.track(%{album_id: album.id})
 

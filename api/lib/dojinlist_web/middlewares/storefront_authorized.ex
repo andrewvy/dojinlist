@@ -14,8 +14,9 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
       Album
       |> where([a], a.id == ^album_id)
       |> join(:inner, [a], s in assoc(a, :storefront))
-      |> where([a, s], s.creator_id == ^current_user_id)
-      |> select([a, s], s)
+      |> join(:inner, [a, s], c in assoc(s, :creator))
+      |> where([a, s, c], c.id == ^current_user_id)
+      |> select([a, s, c], s)
       |> Repo.one()
 
     if storefront do
@@ -42,8 +43,9 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
       |> where([t], t.id == ^track_id)
       |> join(:inner, [t], a in assoc(t, :album))
       |> join(:inner, [t, a], s in assoc(a, :storefront))
-      |> where([t, a, s], s.creator_id == ^current_user_id)
-      |> select([t, a, s], s)
+      |> join(:inner, [t, a, s], c in assoc(s, :creator))
+      |> where([t, a, s, c], c.id == ^current_user_id)
+      |> select([t, a, s, c], s)
       |> Repo.one()
 
     if storefront do
@@ -65,16 +67,10 @@ defmodule DojinlistWeb.Middlewares.StorefrontAuthorized do
         storefront_id: :storefront
       ) do
     storefront_id = Map.get(resolution.arguments, :storefront_id)
-    current_user_id = current_user.id
 
-    storefront =
-      Storefront
-      |> where([s], s.id == ^storefront_id)
-      |> where([s], s.creator_id == ^current_user_id)
-      |> select([s], s)
-      |> Repo.one()
+    if current_user.storefront_id == storefront_id do
+      storefront = Repo.get(Storefront, current_user.storefront_id)
 
-    if storefront do
       resolution
       |> Map.put(:context, Map.put(context, :storefront, storefront))
     else

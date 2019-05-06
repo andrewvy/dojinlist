@@ -14,7 +14,9 @@ defmodule Dojinlist.Payments.StripeTest do
   end
 
   test "Can purchase album if it is linked to a stripe account" do
-    {:ok, storefront} = Fixtures.storefront()
+    {:ok, creator} = Fixtures.user()
+
+    storefront = creator.storefront
 
     {:ok, album} =
       Fixtures.album(%{
@@ -24,7 +26,7 @@ defmodule Dojinlist.Payments.StripeTest do
 
     {:ok, _stripe_account} =
       Fixtures.stripe_account(%{
-        user_id: storefront.creator_id
+        user_id: creator.id
       })
 
     assert true == Payments.Stripe.recipient_payable?(album)

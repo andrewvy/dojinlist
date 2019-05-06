@@ -5,7 +5,12 @@ defmodule Dojinlist.Fixtures do
     default_attrs = %{
       email: Faker.Internet.email(),
       username: Faker.Internet.user_name(),
-      password: Faker.Lorem.sentence()
+      password: Faker.Lorem.sentence(),
+      storefront: %{
+        description: Faker.Lorem.sentence(),
+        display_name: Faker.Internet.user_name(),
+        location: Faker.Lorem.sentence()
+      }
     }
 
     merged_attrs =
@@ -24,8 +29,8 @@ defmodule Dojinlist.Fixtures do
       slug: Faker.Internet.slug(Faker.Lorem.words(2..5), ["-"]),
       storefront_id:
         Map.get_lazy(attrs, :storefront_id, fn ->
-          {:ok, storefront} = storefront()
-          storefront.id
+          {:ok, user} = user()
+          user.storefront_id
         end)
     }
 
@@ -63,20 +68,6 @@ defmodule Dojinlist.Fixtures do
     default_attrs
     |> Map.merge(attrs)
     |> Dojinlist.Events.create_event()
-  end
-
-  def storefront(attrs \\ %{}) do
-    default_attrs = %{
-      slug: Map.get_lazy(attrs, :slug, fn -> random_string() |> String.downcase() end),
-      creator_id:
-        Map.get_lazy(attrs, :creator_id, fn ->
-          {:ok, user} = user()
-          user.id
-        end)
-    }
-
-    default_attrs
-    |> Dojinlist.Storefront.create_storefront()
   end
 
   def stripe_account(attrs \\ %{}) do

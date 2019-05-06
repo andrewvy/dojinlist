@@ -10,9 +10,9 @@ defmodule Dojinlist.AlbumsTest do
   }
 
   setup do
-    {:ok, storefront} = Fixtures.storefront()
+    {:ok, user} = Fixtures.user()
 
-    {:ok, storefront: storefront}
+    {:ok, storefront: user.storefront}
   end
 
   test "Can create a new album", %{storefront: storefront} do

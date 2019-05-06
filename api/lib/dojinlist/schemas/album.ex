@@ -4,12 +4,12 @@ defmodule Dojinlist.Schemas.Album do
   import Ecto.Query
   import Ecto.Changeset
 
-  @album_statuses [
-    "pending",
-    "submitted",
-    "transcoded_failure",
-    "completed"
-  ]
+  # @album_statuses [
+  #   "pending",
+  #   "submitted",
+  #   "transcoded_failure",
+  #   "completed"
+  # ]
 
   schema "albums" do
     field(:uuid, Ecto.UUID, autogenerate: true)
