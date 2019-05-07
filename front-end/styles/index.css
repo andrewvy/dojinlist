@@ -120,12 +120,13 @@ input[type=email],
 input[type=password] {
   @apply bg-grey-lightest;
 
-  border: 1px solid transparent;
+  border: 1px solid config('colors.grey-lighter');
   box-shadow: none;
   height: 40px;
   box-sizing: border-box;
   border-radius: 5px;
   padding: .6rem 1.0rem;
+  color: config('colors.blue-dark');
   width: 100%;
 }
 

@@ -1,0 +1,5 @@
+.djn-label {
+  color: config('colors.blue-dark');
+  font-weight: 500;
+  margin: 8px 0;
+}
