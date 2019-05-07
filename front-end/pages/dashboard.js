@@ -16,11 +16,11 @@ const DashboardPage = () => (
         </div>
         <div className='username'>
           <Label>Username</Label>
-          <input type='text' placeholder='Username' value={me.username} />
+          <input type='text' placeholder='Username' value={me.username} disabled/>
         </div>
         <div className='email'>
           <Label>Email</Label>
-          <input type='text' placeholder='Email' value={me.email} />
+          <input type='text' placeholder='Email' value={me.email} disabled/>
         </div>
       </div>
     )}

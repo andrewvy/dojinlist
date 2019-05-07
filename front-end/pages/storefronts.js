@@ -153,22 +153,6 @@ const StorefrontsPage = ({ me }) => {
         </ul>
       </div>
       <div>
-        <Mutation mutation={UploadAvatarMutation} errorPolicy='all'>
-          {(performUploadAvatar, { data } ) => (
-            <Uploader
-              imageUrl={(data && data.uploadStorefrontAvatar && data.uploadStorefrontAvatar.avatarImage) || currentStorefront.avatarImage}
-              performUpload={(file) => performUploadAvatar({variables: {avatar: file, storefrontId: currentStorefront.id}})}
-            />
-          )}
-        </Mutation>
-        <Mutation mutation={UploadBannerMutation} errorPolicy='all'>
-          {(performUploadBanner, { data } ) => (
-            <Uploader
-              imageUrl={(data && data.uploadStorefrontBanner && data.uploadStorefrontBanner.bannerImage) || currentStorefront.bannerImage}
-              performUpload={(file) => performUploadBanner({variables: {banner: file, storefrontId: currentStorefront.id}})}
-            />
-          )}
-        </Mutation>
       </div>
     </div>
   )

@@ -130,6 +130,10 @@ input[type=password] {
   width: 100%;
 }
 
+input:disabled {
+  color: config('colors.blue-lighter');
+}
+
 input:focus {
   outline: 0;
   border: 1px solid #2D9CDB;

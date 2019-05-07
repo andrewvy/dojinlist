@@ -25,6 +25,7 @@
 
 .djn-dashboardNavigation .nav-item {
   font-weight: 500;
+  font-size: 14px;
   color: config('colors.blue-dark');
 }
 
@@ -47,7 +48,7 @@
 
 .djn-dashboardLayout h2 {
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   color: config('colors.blue-dark');
-  margin: 8px 0;
+  margin: 8px 0 16px 0;
 }

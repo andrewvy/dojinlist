@@ -32,6 +32,14 @@ const DashboardLayout = ({type, children}) => (
                       Your purchases
                     </a>
                   </Link>
+                  {
+                    me.storefront && me.storefront.id &&
+                    <Link route='dashboard_storefront'>
+                      <a className={`nav-item ${type === 'storefront' ? 'active': ''}`}>
+                        Your storefront
+                      </a>
+                    </Link>
+                  }
                 </nav>
                 <div className='content shadow rounded'>
                   {
