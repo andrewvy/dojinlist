@@ -41,7 +41,7 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { album_slug, storefront_slug } = this.props.query
+    const { album_slug, username } = this.props.query
 
     return (
       <PlayerConsumer>
@@ -68,7 +68,7 @@ class HomePage extends PureComponent {
                                 </span>
                                 <Link
                                   route='album_checkout'
-                                  params={{ storefront_slug, album_slug }}
+                                  params={{ username, album_slug }}
                                 >
                                   <Button
                                     type='primary'

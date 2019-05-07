@@ -22,9 +22,10 @@ defmodule Dojinlist.Storefront do
     |> Repo.get(storefront_id)
   end
 
-  def by_slug(slug) do
+  def by_username(username) do
     Storefront
-    |> where([s], s.slug == ^slug)
+    |> join(:inner, [s, c], c in assoc(s, :creator))
+    |> where([s, c], c.username == ^username)
     |> Repo.one()
   end
 

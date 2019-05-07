@@ -186,7 +186,7 @@ defmodule DojinlistWeb.Types do
       resolve(&Resolvers.Rating.get_ratings_by_user/2)
     end
 
-    field(:storefronts, list_of(:storefront), resolve: dataloader(Dojinlist.Source))
+    field(:storefront, :storefront, resolve: dataloader(Dojinlist.Source))
 
     field(:stripe_account, :stripe_account, resolve: dataloader(Dojinlist.Source))
   end

@@ -60,9 +60,9 @@ defmodule DojinlistWeb.Schema do
     end
 
     field :storefront, :storefront do
-      arg(:slug, non_null(:string))
+      arg(:username, non_null(:string))
 
-      resolve(&Resolvers.Storefront.by_slug/2)
+      resolve(&Resolvers.Storefront.by_username/2)
     end
 
     connection field(:artists, node_type: :artist) do

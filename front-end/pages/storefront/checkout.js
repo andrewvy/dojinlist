@@ -28,7 +28,7 @@ class CheckoutPage extends PureComponent {
     token,
     email
   }) => {
-    const { album_slug, storefront_slug } = this.props.query
+    const { album_slug, username } = this.props.query
 
     const variables = isAuthed
       ? {
@@ -53,7 +53,7 @@ class CheckoutPage extends PureComponent {
       } else {
         Router.pushRoute('album_checkout_success', {
           album_slug,
-          storefront_slug,
+          username,
           transaction_id: transactionId
         })
       }
@@ -61,7 +61,7 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const { album_slug, storefront_slug } = this.props.query
+    const { album_slug, username } = this.props.query
     const { checkoutErrors } = this.state
 
     return (

@@ -21,7 +21,7 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { storefront_slug } = this.props.query
+    const { username } = this.props.query
 
     return (
       <Page>
@@ -29,7 +29,7 @@ class HomePage extends PureComponent {
           <div className='djn-storefrontPage container'>
             <Query
               query={FetchStorefrontQuery}
-              variables={{ slug: storefront_slug }}
+              variables={{ username }}
             >
               {({ data, loading, error }) => (
                 <div>
@@ -64,7 +64,7 @@ class HomePage extends PureComponent {
                             <div className='albums'>
                               <AlbumThumbnailGrid
                                 albums={data.albums.edges.map(transformAlbums)}
-                                storefront_slug={storefront_slug}
+                                username={username}
                               />
                             </div>
                           )}

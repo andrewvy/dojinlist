@@ -7,12 +7,11 @@ query Me {
     username
     email
     avatar
-    storefronts {
+    storefront {
       id
       description
       displayName
       location
-      slug
       bannerImage
       avatarImage
     }

@@ -1,12 +1,11 @@
 import gql from 'graphql-tag'
 
 export default gql`
-query FetchStorefront($slug: String!) {
-  storefront(slug: $slug) {
+query FetchStorefront($username: String!) {
+  storefront(username: $username) {
     id
     description
     displayName
-    slug
     location
     bannerImage
     avatarImage

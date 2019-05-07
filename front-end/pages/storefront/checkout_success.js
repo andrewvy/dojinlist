@@ -52,7 +52,7 @@ class CheckoutSuccessPage extends Component {
   }
 
   render() {
-    const { album_slug, storefront_slug, transaction_id } = this.props.query
+    const { album_slug, username, transaction_id } = this.props.query
     const { selectedEncoding } = this.state
 
     return (
