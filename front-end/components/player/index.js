@@ -44,7 +44,7 @@ class Player extends Component {
     const { isPlaying, currentTime, totalTime, track, album, volume } = this.props
 
     return (
-      <div className='djn-player'>
+      <div className={`djn-player ${(isPlaying || track) ? 'is-playing' : ''}`}>
         <ProgressBar
           isEnabled
           direction='HORIZONTAL'

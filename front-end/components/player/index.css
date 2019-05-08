@@ -3,9 +3,13 @@
   background-color: config('colors.grey-darkest');
   min-width: 800px;
   position: fixed;
-  bottom: 0;
+  bottom: -92px;
   left: 0;
   right: 0;
+}
+
+.djn-player.is-playing {
+  bottom: 0px;
 }
 
 .djn-player .inner {
