@@ -1,6 +1,9 @@
+import { Link } from '../../routes.js'
+
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
 import withNavigation from '../../components/navigation'
 import Pill from '../../components/pill'
+import Button from '../../components/button'
 
 import DashboardLayout from '../../layouts/dashboard'
 
@@ -10,11 +13,20 @@ const AlbumsPage = () => (
   <DashboardLayout type='albums'>
     {({me}) => (
       <div className='djn-dashboardAlbumsPage'>
-        <Pill
-          darkColor='blue'
-          type='bare'
-          title={`${me.storefront.albums.length} album(s)`}
-        />
+        <div className='header'>
+          <Pill
+            darkColor='blue'
+            type='bare'
+            title={`${me.storefront.albums.length} album(s)`}
+          />
+
+          <div className='controls'>
+            <Link route='dashboard_new_album'>
+              <Button type='translucent' text='Add an album' icon='plus' className='new-album'/>
+            </Link>
+          </div>
+        </div>
+
         <table className='djn-table'>
           <thead>
             <tr>

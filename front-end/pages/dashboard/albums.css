@@ -1,3 +1,18 @@
+.djn-dashboardAlbumsPage .header {
+  display: flex;
+  flex-direction: row;
+}
+
+.djn-dashboardAlbumsPage .controls {
+  display: flex;
+  flex-direction: row-reverse;
+  flex: 1;
+}
+
+.djn-dashboardAlbumsPage .new-album {
+  align-self: flex-end;
+}
+
 .djn-table {
   border-spacing: none;
   width: 100%;
