@@ -22,6 +22,10 @@
   height: 12px;
 }
 
+.djn-button.disabled {
+  cursor: default;
+}
+
 .djn-button-primary {
   background-color: config('colors.red');
 }
@@ -39,15 +43,15 @@
 }
 
 .djn-button-secondary {
-  background-color: none;
-  border: 2px solid config('colors.grey-light');
-  color: config('colors.blue-darker');
-  fill: config('colors.grey-light');
+  background-color: config('colors.blue');
 }
 
-.djn-button-secondary:hover {
-  border: 2px solid config('colors.grey');
-  fill: config('colors.grey');
+.djn-button-secondary:not(.disabled):hover {
+  background-color: config('colors.red');
+}
+
+.djn-button-secondary.disabled {
+  background-color: config('colors.blue-light');
 }
 
 .djn-button-translucent {

@@ -7,26 +7,29 @@ import DashboardLayout from '../layouts/dashboard'
 
 const DashboardPage = () => (
   <DashboardLayout type='dashboard'>
-    {({me}) => (
+    {({ me }) => (
       <div className='djn-dashboardPage'>
         <h2>Overview</h2>
-        <div className='Avatar'>
+        <div className='avatar'>
           <Label>Avatar</Label>
           <AvatarUploader />
         </div>
         <div className='username'>
           <Label>Username</Label>
-          <input type='text' placeholder='Username' value={me.username} disabled/>
+          <input
+            type='text'
+            placeholder='Username'
+            value={me.username}
+            disabled
+          />
         </div>
         <div className='email'>
           <Label>Email</Label>
-          <input type='text' placeholder='Email' value={me.email} disabled/>
+          <input type='text' placeholder='Email' value={me.email} disabled />
         </div>
       </div>
     )}
   </DashboardLayout>
 )
 
-export default withOnlyAuthenticated(
-  withNavigation(DashboardPage)
-)
+export default withOnlyAuthenticated(withNavigation(DashboardPage))

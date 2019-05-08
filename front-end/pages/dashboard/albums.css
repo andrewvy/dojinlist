@@ -1,0 +1,28 @@
+.djn-table {
+  border-spacing: none;
+  width: 100%;
+  color: config('colors.blue-dark');
+  font-size: 14px;
+}
+
+.djn-table thead {
+  color: config('colors.grey');
+  font-weight: 600;
+}
+
+.djn-table td,
+.djn-table th {
+  border-bottom: 1px solid config('colors.grey-lighter');
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+}
+
+.djn-table td:first-child,
+.djn-table th:first-child {
+  padding-left: 0;
+}
+
+.djn-table td:last-child,
+.djn-table th:last-child {
+  padding-right: 0;
+}

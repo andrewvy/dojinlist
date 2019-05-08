@@ -33,12 +33,20 @@ const DashboardLayout = ({type, children}) => (
                     </a>
                   </Link>
                   {
-                    me.storefront && me.storefront.id &&
-                    <Link route='dashboard_storefront'>
-                      <a className={`nav-item ${type === 'storefront' ? 'active': ''}`}>
-                        Your storefront
-                      </a>
-                    </Link>
+                    me.storefront && me.storefront.id && (
+                      <>
+                        <Link route='dashboard_storefront'>
+                          <a className={`nav-item ${type === 'storefront' ? 'active': ''}`}>
+                            Your storefront
+                          </a>
+                        </Link>
+                        <Link route='dashboard_albums'>
+                          <a className={`nav-item ${type === 'albums' ? 'active': ''}`}>
+                            Your albums
+                          </a>
+                        </Link>
+                      </>
+                    )
                   }
                 </nav>
                 <div className='content shadow rounded'>

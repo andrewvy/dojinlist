@@ -2,6 +2,7 @@
   width: 128px;
   height: 128px;
   border-radius: 5px;
+  background-color: config('colors.grey-lightest');
 }
 
 .djn-uploader img {
@@ -13,7 +14,7 @@
   opacity: 0.95;
 }
 
-.uploader-hover {
+.djn-uploader .uploader-hover {
   @apply bg-grey-darkest text-grey-lighter;
 
   position: absolute;
@@ -27,4 +28,10 @@
   align-items: center;
   border-radius: 5px;
   font-weight: 600;
+}
+
+.djn-uploader .uploader-image img {
+  object-fit: cover;
+  height: 128px;
+  width: 128px;
 }

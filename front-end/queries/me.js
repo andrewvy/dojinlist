@@ -14,6 +14,23 @@ query Me {
       location
       bannerImage
       avatarImage
+      albums {
+        id
+        uuid
+        title
+        price {
+          amount
+          currency
+        }
+        releaseDatetime
+        coverArtUrl
+        coverArtThumbUrl
+        tracks {
+          id
+          title
+          playLength
+        }
+      }
     }
     stripeAccount {
       stripeUserId

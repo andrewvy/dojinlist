@@ -7,10 +7,12 @@ import SearchIcon from '../../svgs/icons/icon-search.svg'
 
 import './index.css'
 
-const ButtonIcon = (icon) => {
-  let IconComponent = () => { return null };
+const ButtonIcon = icon => {
+  let IconComponent = () => {
+    return null
+  }
 
-  switch(icon) {
+  switch (icon) {
     case 'download':
       IconComponent = DownloadIcon
       break
@@ -28,16 +30,24 @@ const ButtonIcon = (icon) => {
   return IconComponent
 }
 
-const Button = ({text, icon, type, onClick, className}) => {
+const Button = ({ text, icon, type, onClick, className, disabled }) => {
   const IconComponent = ButtonIcon(icon)
 
   return (
-    <button className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer ${className}`} onClick={onClick}>
+    <button
+      className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer ${className} ${
+        disabled ? 'disabled' : ''
+      }`}
+      onClick={onClick}
+    >
       {text}
-      <IconComponent fill='inherit' className='icon'/>
+      <IconComponent fill='inherit' className='icon' />
     </button>
   )
 }
 
+Button.defaultProps = {
+  disabled: false
+}
 
 export default Button

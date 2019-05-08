@@ -1,0 +1,5 @@
+.djn-description {
+  color: config('colors.grey');
+  font-size: 14px;
+  margin: 8px 0;
+}

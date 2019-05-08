@@ -53,6 +53,12 @@ defmodule DojinlistWeb.Types do
     field(:artists, list_of(:artist), resolve: dataloader(Dojinlist.Source))
     field(:tracks, list_of(:track), resolve: dataloader(Dojinlist.Source))
     field(:external_links, list_of(:external_album_link), resolve: dataloader(Dojinlist.Source))
+
+    field :price, :money do
+      resolve(fn album, _, _ ->
+        {:ok, format_money(album.price)}
+      end)
+    end
   end
 
   connection(node_type: :genre)
@@ -158,6 +164,8 @@ defmodule DojinlistWeb.Types do
         {:ok, Dojinlist.Uploaders.wrap_url_for_local(url)}
       end)
     end
+
+    field(:albums, list_of(:album), resolve: dataloader(Dojinlist.Source))
   end
 
   object :me do
@@ -318,5 +326,12 @@ defmodule DojinlistWeb.Types do
 
   object :stripe_account do
     field(:stripe_user_id, :string)
+  end
+
+  defp format_money(money) do
+    %{
+      amount: Money.to_string!(money),
+      currency: to_string(money.currency)
+    }
   end
 end
