@@ -1,7 +1,7 @@
 import './index.css'
 
-const Label = ({ children }) => (
-  <label className='djn-label'>
+const Label = ({ children, ...props }) => (
+  <label className='djn-label' {...props}>
     {children}
   </label>
 )

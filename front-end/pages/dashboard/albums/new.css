@@ -1,0 +1,11 @@
+.djn-newAlbumPage {
+  background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
+  height: 100vh;
+  padding: 64px 0;
+}
+
+.djn-newAlbumPage .container {
+  background-color: config('colors.white');
+  padding: 32px;
+  width: 960px;
+}

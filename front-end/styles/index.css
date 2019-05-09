@@ -117,7 +117,8 @@ label {
 
 input[type=text],
 input[type=email],
-input[type=password] {
+input[type=password],
+textarea {
   @apply bg-grey-lightest;
 
   border: 1px solid config('colors.grey-lighter');
