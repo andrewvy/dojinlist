@@ -4,6 +4,8 @@ import Dropzone from 'react-dropzone'
 import Spinner from '../../components/spinner'
 import { MeConsumer } from '../../contexts/me.js'
 
+import IconPlus from '../../svgs/icons/icon-plus.svg'
+
 import './index.css'
 
 class Uploader extends React.Component {
@@ -12,10 +14,10 @@ class Uploader extends React.Component {
   }
 
   state = {
-    isHovered: false,
+    isHovered: false
   }
 
-  onDrop = (acceptedFiles) => {
+  onDrop = acceptedFiles => {
     const { performUpload } = this.props
 
     if (acceptedFiles.length) {
@@ -42,33 +44,45 @@ class Uploader extends React.Component {
   }
 
   render() {
-    const { imageUrl } = this.props
+    const { imageUrl, placeholder, multiple, accept, type } = this.props
     const { isHovered } = this.state
 
     return (
-      <div className={`djn-uploader ${isHovered ? 'is-hovered' : ''}`}>
+      <div className={`djn-uploader ${isHovered ? 'is-hovered' : ''} ${type}`}>
         <Dropzone
-          style={{position: 'relative'}}
+          style={{ position: 'relative' }}
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
-          accept="image/jpeg, image/png, image/gif"
-          multiple={false}
+          accept={accept}
+          multiple={multiple}
           onDrop={this.onDrop}
+          className='uploader'
         >
-          {
-            imageUrl &&
+          {imageUrl && (
             <div className='uploader-image'>
-              <img src={imageUrl} width='128' height='128'/>
+              <img src={imageUrl} width='128' height='128' />
             </div>
-          }
+          )}
 
-          <div className='uploader-hover'>
-            Upload
-          </div>
+          {!imageUrl && (
+            <div className='placeholder'>
+              <div className='text'>{placeholder}</div>
+              <IconPlus fill='inherit' className='icon' />
+            </div>
+          )}
+
+          <div className='uploader-hover'>Upload</div>
         </Dropzone>
       </div>
     )
   }
+}
+
+Uploader.defaultProps = {
+  type: 'default',
+  placeholder: 'Upload',
+  multiple: false,
+  accept: 'image/jpeg, image/png, image/gif'
 }
 
 export default Uploader

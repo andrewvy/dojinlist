@@ -6,6 +6,8 @@ import Label from '../../../components/label'
 import Description from '../../../components/description'
 import Button from '../../../components/button'
 
+import Uploader from '../../../components/uploader'
+
 import Page from '../../../layouts/main'
 
 import './new.css'
@@ -24,6 +26,7 @@ const NewAlbumPage = () => (
           <fieldset>
             <Label htmlFor='album-name'>Artwork</Label>
             <Description>Upload your cover art.</Description>
+            <Uploader placeholder='Add artwork' />
           </fieldset>
           <fieldset>
             <Label htmlFor='album-name'>Album Name</Label>
@@ -56,12 +59,19 @@ const NewAlbumPage = () => (
             <Label>Upload your music files</Label>
             <div className='track-uploader'>
               <Description>Choose your files or drag them here.</Description>
+              <Uploader
+                multiple={true}
+                placeholder='Add files'
+                accept='audio/flac, audio/aiff, audio/wav'
+                type='rectangle'
+              />
             </div>
           </fieldset>
           <div className='tracks'>
             <Label>Your Tracks</Label>
             <Description>
-              You can re-arrange the order of the music and edit the track names.
+              You can re-arrange the order of the music and edit the track
+              names.
             </Description>
           </div>
         </form>

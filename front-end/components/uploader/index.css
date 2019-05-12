@@ -3,6 +3,13 @@
   height: 128px;
   border-radius: 5px;
   background-color: config('colors.grey-lightest');
+  border: 1px solid config('colors.grey-lighter');
+}
+
+.djn-uploader.rectangle,
+.djn-uploader.rectangle .uploader-hover {
+  width: 256px;
+  height: 128px;
 }
 
 .djn-uploader img {
@@ -34,4 +41,26 @@
   object-fit: cover;
   height: 128px;
   width: 128px;
+}
+
+.djn-uploader .uploader {
+  height: 100%;
+}
+
+.djn-uploader .placeholder {
+  color: config('colors.grey');
+  fill: config('colors.grey');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.djn-uploader .placeholder .text {
+  margin: 8px;
+}
+
+.djn-uploader .placeholder .icon {
+  margin: 8px;
 }
