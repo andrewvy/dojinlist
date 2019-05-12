@@ -44,18 +44,20 @@ defmodule DojinlistWeb.Mutations.Track do
           {:ok, %{track: track}}
         else
           {:upload, _} ->
-            %{
-              errors: [
-                DojinlistWeb.Errors.track_audio_unsupported()
-              ]
-            }
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.track_audio_unsupported()
+               ]
+             }}
 
           _error ->
-            %{
-              errors: [
-                DojinlistWeb.Errors.create_track_failed()
-              ]
-            }
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.create_track_failed()
+               ]
+             }}
         end
     end
   end
@@ -75,11 +77,12 @@ defmodule DojinlistWeb.Mutations.Track do
             {:ok, %{track: track}}
 
           _ ->
-            %{
-              errors: [
-                DojinlistWeb.Errors.update_track_failed()
-              ]
-            }
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.update_track_failed()
+               ]
+             }}
         end
     end
   end

@@ -1,4 +1,18 @@
 defmodule DojinlistWeb.Errors do
+  def create_album_failed() do
+    %{
+      error_code: "CREATE_ALBUM_FAILED",
+      error_message: "Album was not able to be created. Please try again."
+    }
+  end
+
+  def update_album_failed() do
+    %{
+      error_code: "UPDATE_ALBUM_FAILED",
+      error_message: "Album was not able to be updated. Please try again."
+    }
+  end
+
   def create_track_failed() do
     %{
       error_code: "CREATE_TRACK_FAILED",

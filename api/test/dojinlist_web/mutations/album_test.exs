@@ -7,7 +7,9 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
     query = """
     mutation CreateAlbum($album: AlbumInput) {
       createAlbum(album: $album) {
-        id
+        album {
+          id
+        }
       }
     }
     """
@@ -30,17 +32,66 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
       |> Fixtures.login_as(user)
       |> execute_graphql(query, variables)
 
-    assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response
+    assert %{"data" => %{"createAlbum" => %{"album" => %{"id" => _}}}} = response
+  end
+
+  test "Can update an album" do
+    query = """
+    mutation UpdateAlbum($album: AlbumInput, $albumId: ID!) {
+      updateAlbum(album: $album, albumId: $albumId) {
+        album {
+          id
+          title
+          slug
+        }
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+
+    {:ok, album} =
+      Fixtures.album(%{
+        storefront_id: user.storefront.id,
+        title: "Update Album Test",
+        slug: "update-album-test"
+      })
+
+    album_id = Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
+
+    variables = %{
+      album: %{
+        title: "Updated",
+        storefront_id: user.storefront.id,
+        slug: "updated"
+      },
+      albumId: album_id
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{
+             "data" => %{
+               "updateAlbum" => %{
+                 "album" => %{"id" => ^album_id, "title" => "Updated", "slug" => "updated"}
+               }
+             }
+           } = response
   end
 
   test "Can create an album with external links" do
     query = """
     mutation CreateAlbum($album: AlbumInput) {
       createAlbum(album: $album) {
-        id
-        externalLinks {
-          url
-          type
+        album {
+          id
+          externalLinks {
+            url
+            type
+          }
         }
       }
     }
@@ -70,9 +121,16 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
       |> Fixtures.login_as(user)
       |> execute_graphql(query, variables)
 
-    assert %{"data" => %{"createAlbum" => %{"id" => _}}} = response
+    assert %{"data" => %{"createAlbum" => %{"album" => %{"id" => _}}}} = response
 
     assert "https://test.com" =
-             get_in(response, ["data", "createAlbum", "externalLinks", Access.at(0), "url"])
+             get_in(response, [
+               "data",
+               "createAlbum",
+               "album",
+               "externalLinks",
+               Access.at(0),
+               "url"
+             ])
   end
 end

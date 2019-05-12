@@ -319,6 +319,11 @@ defmodule DojinlistWeb.Types do
     field(:errors, list_of(:error))
   end
 
+  object :album_response do
+    field(:album, :album)
+    field(:errors, list_of(:error))
+  end
+
   object :money do
     field(:amount, non_null(:string))
     field(:currency, non_null(:string))

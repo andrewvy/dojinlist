@@ -34,12 +34,16 @@
   opacity: 0.5;
 }
 
-.djn-button-primary:hover {
+.djn-button-primary:not(.disabled):hover {
   background-color: config('colors.blue');
 }
 
 .djn-button-primary:active {
   background-color: config('colors.blue-dark');
+}
+
+.djn-button-primary.disabled {
+  background-color: config('colors.red-light');
 }
 
 .djn-button-secondary {

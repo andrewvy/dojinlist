@@ -1,11 +1,27 @@
 .djn-newAlbumPage {
   background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
   height: 100vh;
-  padding: 64px 0;
+  padding: 32px 0;
 }
 
 .djn-newAlbumPage .container {
+  width: 960px;
+}
+
+.djn-newAlbumPage .header {
+  margin: 32px 0;
+}
+
+.djn-newAlbumPage .content {
   background-color: config('colors.white');
   padding: 32px;
-  width: 960px;
+}
+
+.djn-newAlbumPage .header .actions {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.djn-newAlbumPage .header .actions .djn-button {
+  margin-left: 16px;
 }
