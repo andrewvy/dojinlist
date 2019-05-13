@@ -1,6 +1,6 @@
 .djn-newAlbumPage {
   background: linear-gradient(to bottom, #EBEDF7, config('colors.white'));
-  height: 100vh;
+  min-height: 100vh;
   padding: 32px 0;
 }
 
@@ -24,4 +24,14 @@
 
 .djn-newAlbumPage .header .actions .djn-button {
   margin-left: 16px;
+}
+
+.djn-newAlbumPage .files {
+  padding: 8px;
+  color: config('colors.grey');
+}
+
+.djn-newAlbumPage .file {
+  padding: 4px;
+  border-bottom: 1px solid config('colors.grey-lighter');
 }

@@ -18,9 +18,9 @@ class Uploader extends React.Component {
   }
 
   onDrop = acceptedFiles => {
-    const { performUpload } = this.props
+    const { performUpload, multiple } = this.props
 
-    if (acceptedFiles.length) {
+    if (acceptedFiles.length && !multiple) {
       const file = acceptedFiles[0]
 
       this.setState({
@@ -28,6 +28,12 @@ class Uploader extends React.Component {
       })
 
       performUpload(file)
+    } else if (acceptedFiles.length && multiple) {
+      this.setState({
+        isHovered: false
+      })
+
+      performUpload(acceptedFiles)
     }
   }
 
