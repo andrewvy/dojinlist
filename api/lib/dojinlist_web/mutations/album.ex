@@ -74,13 +74,25 @@ defmodule DojinlistWeb.Mutations.Album do
   defp handle_create_album(attrs) do
     case Dojinlist.Albums.create_album(attrs) do
       {:ok, album} ->
-        attrs
-        |> Map.get(:tracks, [])
-        |> Enum.map(fn track_input ->
-          Dojinlist.Tracks.create_track(album.id, track_input)
-        end)
+        track_responses =
+          attrs
+          |> Map.get(:tracks, [])
+          |> Enum.map(fn track_input ->
+            case Dojinlist.Mutations.Track.handle_source_file(track_input[:source_file]) do
+              {:ok, source_file} ->
+                merged_track_input = Map.put(track_input, :source_file, source_file)
+                Dojinlist.Tracks.create_track(album.id, track_input)
 
-        {:ok, album}
+              _ ->
+                {:error, track_input}
+            end
+          end)
+
+        if Enum.any?(track_responses, fn {status, _} -> status === :error end) do
+          {:error, "Could not upload track file."}
+        else
+          {:ok, album}
+        end
 
       {:error, _changeset} ->
         {:error, "Could not create album"}
