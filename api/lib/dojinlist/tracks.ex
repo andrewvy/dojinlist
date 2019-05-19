@@ -4,6 +4,24 @@ defmodule Dojinlist.Tracks do
     Schemas
   }
 
+  alias Dojinlist.Audio
+
+  @spec validate_and_merge_attrs(map, Plug.Upload.t()) :: {:ok, map} | {:error, any}
+  def validate_and_merge_attrs(attrs, nil), do: {:ok, attrs}
+
+  def validate_and_merge_attrs(attrs, file) do
+    with {:ok, streams} <- Audio.probe(file),
+         true <- Audio.qualified_audio?(streams) do
+      audio_stream = Audio.get_audio_stream(streams)
+      {duration, _} = Float.parse(audio_stream.duration)
+
+      {:ok, Map.merge(attrs, %{play_length: round(duration)})}
+    else
+      _ ->
+        {:error, :audio_not_supported}
+    end
+  end
+
   def create_track(album_id, attrs) do
     merged_attrs =
       %{

@@ -1,7 +1,12 @@
 defmodule DojinlistWeb.Mutations.Album do
   use Absinthe.Schema.Notation
 
-  alias Dojinlist.Albums
+  alias Dojinlist.{
+    Albums,
+    Tracks
+  }
+
+  alias DojinlistWeb.Mutations
 
   object :album_mutations do
     field :create_album, type: :album_response do
@@ -77,16 +82,7 @@ defmodule DojinlistWeb.Mutations.Album do
         track_responses =
           attrs
           |> Map.get(:tracks, [])
-          |> Enum.map(fn track_input ->
-            case Dojinlist.Mutations.Track.handle_source_file(track_input[:source_file]) do
-              {:ok, source_file} ->
-                merged_track_input = Map.put(track_input, :source_file, source_file)
-                Dojinlist.Tracks.create_track(album.id, track_input)
-
-              _ ->
-                {:error, track_input}
-            end
-          end)
+          |> Enum.map(&handle_create_track(album, &1))
 
         if Enum.any?(track_responses, fn {status, _} -> status === :error end) do
           {:error, "Could not upload track file."}
@@ -96,6 +92,21 @@ defmodule DojinlistWeb.Mutations.Album do
 
       {:error, _changeset} ->
         {:error, "Could not create album"}
+    end
+  end
+
+  defp handle_create_track(album, track_input) do
+    with {:ok, track_attrs} <-
+           Tracks.validate_and_merge_attrs(track_input, track_input[:source_file]),
+         {:ok, source_file} <- Mutations.Track.handle_source_file(track_input[:source_file]) do
+      merged_track_input = Map.put(track_attrs, :source_file, source_file)
+      Dojinlist.Tracks.create_track(album.id, merged_track_input)
+    else
+      {:error, :audio_not_supported} ->
+        {:error, DojinlistWeb.Errors.track_audio_unsupported()}
+
+      _ ->
+        {:error, track_input}
     end
   end
 
