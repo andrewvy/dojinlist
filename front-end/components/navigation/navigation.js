@@ -37,7 +37,7 @@ const Navigation = ({ router }) => {
                     </a>
                   </Link>
                 </div>
-                <div className='user-controls'>
+                <ul className='user-controls'>
                   <NavLink router={router} href='/' text='Discover' />
 
                   {!isAuthed && (
@@ -61,7 +61,7 @@ const Navigation = ({ router }) => {
                       className='user-avatar'
                       aria-label='View profile and more'
                       aria-haspopup='menu'
-                      tabindex={0}
+                      tabIndex={0}
                       onFocus={() => toggleMenu(true)}
                       onMouseEnter={() => toggleMenu(true)}
                       onMouseLeave={() => toggleMenu(false)}
@@ -72,7 +72,7 @@ const Navigation = ({ router }) => {
                       </div>
                     </nav>
                   )}
-                </div>
+                </ul>
               </div>
             </nav>
           )}

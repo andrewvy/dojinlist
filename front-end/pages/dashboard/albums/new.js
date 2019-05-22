@@ -18,20 +18,55 @@ import Page from '../../../layouts/main'
 
 import './new.css'
 
+const TrackComponent = ({ track, onChange }) => (
+  <div className='file'>
+    <fieldset>
+      <input className='input' type='text' defaultValue={track.title} />
+    </fieldset>
+  </div>
+)
+
 class NewAlbumPage extends React.Component {
   state = {
+    generatedId: 0,
     album_name: '',
+    album_slug: '',
     album_price: '',
     album_description: '',
     album_cover_art: '',
-    audioFiles: []
+    preview_album_cover_art: null,
+    tracks: []
   }
 
   onAudioUpload = files => {
-    const { audioFiles } = this.state
+    const { generatedId, tracks } = this.state
+
+    let trackGeneratedId = generatedId
+
+    const newTracks = files
+      .map(file => {
+        let id = trackGeneratedId++
+
+        return {
+          id: id,
+          title: file.name,
+          source_file: file,
+          position: 0
+        }
+      })
+      .filter(newTrack => {
+        const duplicatedTrack = tracks.find(
+          track =>
+            track.source_file.name === newTrack.source_file.name &&
+            track.source_file.size === newTrack.source_file.size
+        )
+
+        return !Boolean(duplicatedTrack)
+      })
 
     this.setState({
-      audioFiles: [...audioFiles, ...files]
+      generatedId: trackGeneratedId,
+      tracks: [...tracks, ...newTracks]
     })
   }
 
@@ -42,7 +77,7 @@ class NewAlbumPage extends React.Component {
   }
 
   render() {
-    const { audioFiles } = this.state
+    const { tracks } = this.state
 
     return (
       <MeConsumer>
@@ -69,13 +104,10 @@ class NewAlbumPage extends React.Component {
                               const variables = {
                                 album: {
                                   title: this.state.album_name,
-                                  slug: slugify(this.state.album_name),
+                                  slug: this.state.album_slug,
                                   storefrontId: me.storefront.id,
                                   coverArt: this.state.album_cover_art,
-                                  tracks: this.state.audioFiles.map(file => ({
-                                    title: file.name,
-                                    source_file: file
-                                  }))
+                                  tracks: this.state.tracks
                                 }
                               }
 
@@ -91,9 +123,19 @@ class NewAlbumPage extends React.Component {
                             <Description>Upload your cover art.</Description>
                             <Uploader
                               placeholder='Add artwork'
-                              performUpload={file =>
+                              imageUrl={this.state.preview_album_cover_art}
+                              performUpload={file => {
+                                let reader = new FileReader()
+                                reader.onload = e => {
+                                  this.setState({
+                                    preview_album_cover_art: e.target.result
+                                  })
+                                }
+
+                                reader.readAsDataURL(file)
+
                                 this.setState({ album_cover_art: file })
-                              }
+                              }}
                             />
                           </fieldset>
                           <fieldset>
@@ -103,7 +145,28 @@ class NewAlbumPage extends React.Component {
                               type='text'
                               placeholder='e.g. Orbital Revolution'
                               id='album-name'
-                              onChange={this.onChange('album_name')}
+                              value={this.state.album_name}
+                              onChange={e => {
+                                const album_name = e.target.value
+                                const album_slug = slugify(
+                                  album_name
+                                ).toLowerCase()
+
+                                this.setState({
+                                  album_name,
+                                  album_slug
+                                })
+                              }}
+                            />
+                          </fieldset>
+                          <fieldset>
+                            <Label htmlFor='album-slug'>Album Slug</Label>
+                            <input
+                              className='input'
+                              type='text'
+                              id='album-slug'
+                              value={this.state.album_slug}
+                              disabled
                             />
                           </fieldset>
                           <fieldset>
@@ -113,6 +176,7 @@ class NewAlbumPage extends React.Component {
                               type='text'
                               placeholder='e.g. 9.99'
                               id='album-price'
+                              value={this.state.album_price}
                               onChange={this.onChange('album_price')}
                             />
                           </fieldset>
@@ -125,6 +189,7 @@ class NewAlbumPage extends React.Component {
                               id='album-description'
                               rows={5}
                               maxRows={15}
+                              value={this.state.album_description}
                               onChange={this.onChange('album_description')}
                             />
                           </fieldset>
@@ -152,17 +217,11 @@ class NewAlbumPage extends React.Component {
 
                             <div
                               className={`files rounded ${
-                                audioFiles.length
-                                  ? 'border bg-grey-lightest'
-                                  : ''
+                                tracks.length ? 'border bg-grey-lightest' : ''
                               }`}
                             >
-                              {audioFiles.map(file => (
-                                <div className='file'>
-                                  <span className='name' key={file.name}>
-                                    {file.name}
-                                  </span>
-                                </div>
+                              {tracks.map(track => (
+                                <TrackComponent track={track} key={track.id} />
                               ))}
                             </div>
                           </div>
