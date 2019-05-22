@@ -58,6 +58,6 @@ defmodule Dojinlist.Schemas.Album do
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
     |> validate_required([:title, :storefront_id, :slug])
     |> validate_format(:slug, ~r/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
-    |> unique_constraint(:slug)
+    |> unique_constraint(:slug, name: :albums_slug_storefront_id_index)
   end
 end

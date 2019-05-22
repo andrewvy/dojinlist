@@ -107,13 +107,12 @@ defmodule Dojinlist.Transcoder do
         input_filepath: track.source_file,
         album_uuid: Hashid.encode(album.id),
         track_uuid: Hashid.encode(track.id),
-        cover_image_filepath: album.cover_art,
         title: track.title,
         artist: storefront.display_name,
         date: Date.to_string(date),
         comment: "Purchased via Dojinlist",
         album: album.title,
-        track: track.index,
+        track: track.position,
         album_artist: storefront.display_name
       })
 

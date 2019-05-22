@@ -71,6 +71,12 @@
   fill: config('colors.blue-dark');
 }
 
+.djn-button-translucent.disabled {
+  color: config('colors.grey');
+  fill: config('colors.grey');
+  border: 2px solid config('colors.grey');
+}
+
 .djn-button-translucent-dark {
   background-color: none;
   border: 2px solid config('colors.white');

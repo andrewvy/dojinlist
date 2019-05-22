@@ -4,16 +4,12 @@ import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 import { setContext } from 'apollo-link-context'
 import { createLink } from 'apollo-absinthe-upload-link'
-
-import fetch from 'isomorphic-unfetch'
+import { buildAxiosFetch } from '@lifeomic/axios-fetch'
+import axios from 'axios'
 
 import { getToken } from './token'
 
 let apolloClient = null
-
-if (!process.browser) {
-  global.fetch = fetch
-}
 
 const authLink = setContext((_, { headers }) => {
   const token = getToken()
@@ -43,7 +39,11 @@ const create = (initialState) => {
         if (networkError) console.log(`[Network error]: ${networkError}`);
       }),
       createLink({
-        uri: BACKEND_URL
+        uri: BACKEND_URL,
+        fetch: buildAxiosFetch(axios, (config, input, init) => ({
+          ...config,
+          onUploadProgress: init.onUploadProgress,
+        })),
       })
     ]),
 
