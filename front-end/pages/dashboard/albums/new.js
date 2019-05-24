@@ -16,15 +16,18 @@ import Page from '../../../layouts/main'
 
 import './new.css'
 
+const newAlbum = {
+  currency: 'USD',
+  tracks: []
+}
+
 class NewAlbumPage extends React.Component {
   state = {
     isCreating: false,
     errors: null,
     successful: false,
     progressPercentage: 0.0,
-    album: {
-      tracks: []
-    }
+    album: newAlbum
   }
 
   onChange = fieldName => e => {
@@ -82,6 +85,7 @@ class NewAlbumPage extends React.Component {
                                   title: album.title,
                                   slug: album.slug,
                                   storefrontId: me.storefront.id,
+                                  price: `${album.currency} ${album.price}`,
                                   tracks: album.tracks.map((track, index) => ({
                                     title: track.title,
                                     sourceFile: track.sourceFile,
@@ -128,9 +132,7 @@ class NewAlbumPage extends React.Component {
                                   }
 
                                   if (successful) {
-                                    newState.album = {
-                                      tracks: []
-                                    }
+                                    newState.album = newAlbum
                                   }
 
                                   this.setState(newState)

@@ -23,7 +23,8 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
       album: %{
         title: "GraphQL Album Test",
         storefront_id: storefront_id,
-        slug: "graphql-album-test"
+        slug: "graphql-album-test",
+        price: "USD 9.99"
       }
     }
 

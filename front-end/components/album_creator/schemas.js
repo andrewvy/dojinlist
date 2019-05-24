@@ -16,8 +16,7 @@ const AlbumSchema = Yup.object().shape({
     .required('Slug is required'),
 
   price: Yup.string()
-    .matches(/[+-]?([0-9]*[.])?[0-9]+/, 'Should be a price')
-    .required('Price is required'),
+    .matches(/[+-]?([0-9]*[.])?[0-9]+/, 'Should be a price'),
 
   coverArt: Yup.mixed()
 })

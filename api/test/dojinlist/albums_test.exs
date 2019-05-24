@@ -20,9 +20,8 @@ defmodule Dojinlist.AlbumsTest do
              Albums.create_album(%{
                title: "02 EP",
                slug: "02-ep",
-               sample_url: "https://02-ep.local/sample.mp3",
-               purchase_url: "https://02-ep.local",
-               storefront_id: storefront.id
+               storefront_id: storefront.id,
+               price: "USD 9.99"
              })
   end
 
@@ -33,9 +32,7 @@ defmodule Dojinlist.AlbumsTest do
              Albums.create_album(%{
                title: "02 EP",
                slug: "02-ep",
-               sample_url: "https://02-ep.local/sample.mp3",
                storefront_id: storefront.id,
-               purchase_url: "https://02-ep.local",
                artist_ids: [artist.id]
              })
 
@@ -50,7 +47,6 @@ defmodule Dojinlist.AlbumsTest do
                title: "02 EP",
                slug: "02-ep",
                storefront_id: storefront.id,
-               purchase_url: "https://02-ep.local",
                genre_ids: [genre.id]
              })
 

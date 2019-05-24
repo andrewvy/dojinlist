@@ -75,6 +75,12 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
+        <Label htmlFor='album-currency'>Currency</Label>
+        <select>
+          <option>USD</option>
+        </select>
+      </fieldset>
+      <fieldset>
         <Label htmlFor='album-price'>Price ($)</Label>
         <input
           className='input'
@@ -140,9 +146,6 @@ const AlbumCreator = ({
 
 class AlbumCreatorContainer extends React.Component {
   state = {
-    album: {
-      tracks: []
-    },
     generatedId: 0
   }
 
