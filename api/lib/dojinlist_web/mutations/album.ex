@@ -48,7 +48,11 @@ defmodule DojinlistWeb.Mutations.Album do
          album: Dojinlist.Repo.preload(album, [:event, :artists, :genres])
        }}
     else
-      _ -> {:ok, %{errors: [DojinlistWeb.Errors.create_album_failed()]}}
+      {:error, :album_name_already_exists} ->
+        {:ok, %{errors: [DojinlistWeb.Errors.album_name_already_exists()]}}
+
+      _ ->
+        {:ok, %{errors: [DojinlistWeb.Errors.create_album_failed()]}}
     end
   end
 
@@ -90,8 +94,16 @@ defmodule DojinlistWeb.Mutations.Album do
           {:ok, album}
         end
 
-      {:error, _changeset} ->
-        {:error, "Could not create album"}
+      {:error, changeset} ->
+        slug_error =
+          changeset.errors
+          |> Keyword.get(:slug)
+
+        if slug_error do
+          {:error, :album_name_already_exists}
+        else
+          {:error, :create_album_failed}
+        end
     end
   end
 

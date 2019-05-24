@@ -8,6 +8,7 @@ import withNavigation from '../../../components/navigation'
 import Button from '../../../components/button'
 import Spinner from '../../../components/spinner'
 import AlbumCreator from '../../../components/album_creator'
+import Error from '../../../components/error'
 
 import CreateAlbumMutation from '../../../mutations/albums/create_album'
 
@@ -18,10 +19,11 @@ import './new.css'
 class NewAlbumPage extends React.Component {
   state = {
     isCreating: false,
+    errors: null,
     progressPercentage: 0.0,
     album: {
       tracks: []
-    },
+    }
   }
 
   onChange = fieldName => e => {
@@ -42,7 +44,7 @@ class NewAlbumPage extends React.Component {
   }
 
   render() {
-    const { tracks, isCreating, progressPercentage } = this.state
+    const { tracks, isCreating, progressPercentage, errors } = this.state
 
     return (
       <MeConsumer>
@@ -73,13 +75,11 @@ class NewAlbumPage extends React.Component {
                                   title: album.title,
                                   slug: album.slug,
                                   storefrontId: me.storefront.id,
-                                  tracks: album.tracks.map(
-                                    (track, index) => ({
-                                      title: track.title,
-                                      sourceFile: track.sourceFile,
-                                      position: index + 1
-                                    })
-                                  )
+                                  tracks: album.tracks.map((track, index) => ({
+                                    title: track.title,
+                                    sourceFile: track.sourceFile,
+                                    position: index + 1
+                                  }))
                                 }
                               }
 
@@ -105,11 +105,19 @@ class NewAlbumPage extends React.Component {
                                     }
                                   }
                                 }
-                              }).finally(() => {
-                                this.setState({
-                                  isCreating: false
-                                })
                               })
+                                .then(resp => {
+                                  const { album, errors } = resp.data.createAlbum
+
+                                  this.setState({
+                                    errors
+                                  })
+                                })
+                                .finally(() => {
+                                  this.setState({
+                                    isCreating: false
+                                  })
+                                })
                             }}
                           />
                           {isCreating && (
@@ -121,6 +129,10 @@ class NewAlbumPage extends React.Component {
                               })}
                             </div>
                           )}
+                          {errors &&
+                            errors.map(error => (
+                              <Error>{error.errorMessage}</Error>
+                            ))}
                         </div>
                       </div>
                       <div className='content shadow rounded'>

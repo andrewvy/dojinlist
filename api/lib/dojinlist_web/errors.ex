@@ -1,4 +1,11 @@
 defmodule DojinlistWeb.Errors do
+  def album_name_already_exists() do
+    %{
+      error_code: "ALBUM_NAME_ALREADY_EXISTS",
+      error_message: "Album name already exists. Please try again with a new name."
+    }
+  end
+
   def create_album_failed() do
     %{
       error_code: "CREATE_ALBUM_FAILED",
