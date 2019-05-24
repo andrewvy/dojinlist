@@ -1,0 +1,40 @@
+.djn-files {
+  color: config('colors.grey');
+  border-radius: 4px;
+  list-style: none;
+  text-align: center;
+  padding: 0;
+  border: 1px solid config('colors.grey-lighter');
+}
+
+.djn-files.empty {
+  padding: 16px;
+}
+
+.djn-files .djn-file + .djn-file {
+  border-top: 1px solid config('colors.grey-lighter');
+}
+
+.djn-files .djn-file {
+  padding: 4px;
+  display: flex;
+  margin: 0;
+}
+
+.djn-files .djn-file fieldset {
+  margin: 0;
+}
+
+.djn-files .djn-file .drag-handle {
+  width: 24px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.djn-files .djn-file .track-position {
+  width: 24px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

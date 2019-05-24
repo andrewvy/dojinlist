@@ -38,7 +38,7 @@ const Button = ({ text, icon, type, onClick, className, disabled }) => {
       className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer ${className} ${
         disabled ? 'disabled' : ''
       }`}
-      onClick={() => !disabled ? onClick() : null}
+      onClick={(e) => !disabled ? onClick(e) : null}
     >
       {text}
       <IconComponent fill='inherit' className='icon' />

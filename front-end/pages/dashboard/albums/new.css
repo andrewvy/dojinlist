@@ -25,13 +25,3 @@
 .djn-newAlbumPage .header .actions .djn-button {
   margin-left: 16px;
 }
-
-.djn-newAlbumPage .files {
-  padding: 8px;
-  color: config('colors.grey');
-}
-
-.djn-newAlbumPage .file {
-  padding: 4px;
-  border-bottom: 1px solid config('colors.grey-lighter');
-}
