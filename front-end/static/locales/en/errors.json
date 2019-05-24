@@ -1,0 +1,13 @@
+{
+  "ALBUM_NAME_ALREADY_EXISTS": "Album name already exists. Please try again with a new name.",
+  "CREATE_ALBUM_FAILED": "Album was not able to be created. Please try again.",
+  "UPDATE_ALBUM_FAILED": "Album was not able to be updated. Please try again.",
+  "DELETE_ALBUM_FAILED": "Album was not able to be deleted. Please try again.",
+  "CREATE_TRACK_FAILED": "Track was not able to be created. Please try again.",
+  "UPDATE_TRACK_FAILED": "Track was not able to be updated. Please try again.",
+  "TRACK_AUDIO_UNSUPPORTED": "Track audio must be a wav/aiff/flac file with at least 44.1KHz sample rate",
+  "ALBUM_NOT_FOUND": "Album was not found.",
+  "CHECKOUT_FAILED": "Could not checkout at this time. Please try again later.",
+  "CHECKOUT_ALREADY_PURCHASED": "Album was already purchased.",
+  "CHECKOUT_NOT_CONFIGURED": "Album is not configured to be purchased."
+}

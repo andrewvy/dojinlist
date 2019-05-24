@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Textarea from 'react-autosize-textarea'
+
 import arrayMove from '../../lib/array_move'
+import { withNamespaces } from '../../lib/i18n'
 
 import slugify from 'slugify'
 import Label from '../label'
@@ -18,17 +20,18 @@ const AlbumCreator = ({
   onTrackChange,
   onTrackSort,
   onTrackDelete,
-  onAudioUpload
+  onAudioUpload,
+  t
 }) => {
   const [previewCoverArt, setPreviewCoverArt] = useState(album.coverArtUrl)
 
   return (
     <form>
       <fieldset>
-        <Label htmlFor='album-name'>Artwork</Label>
-        <Description>Upload your cover art.</Description>
+        <Label htmlFor='album-cover'>{t('album-cover')}</Label>
+        <Description>{t('album-cover-description')}</Description>
         <Uploader
-          placeholder='Add artwork'
+          placeholder={t('album-cover-placeholder')}
           imageUrl={previewCoverArt}
           performUpload={file => {
             let reader = new FileReader()
@@ -46,12 +49,12 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
-        <Label htmlFor='album-name'>Album Name</Label>
+        <Label htmlFor='album-title'>{t('album-title')}</Label>
         <input
           className='input'
           type='text'
-          placeholder='e.g. Orbital Revolution'
-          id='album-name'
+          placeholder={t('album-title-placeholder')}
+          id='album-title'
           value={album.title}
           onChange={e => {
             const title = e.target.value
@@ -65,7 +68,7 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
-        <Label htmlFor='album-slug'>Album Slug</Label>
+        <Label htmlFor='album-slug'>{t('album-slug')}</Label>
         <input
           className='input'
           type='text'
@@ -75,17 +78,17 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
-        <Label htmlFor='album-currency'>Currency</Label>
+        <Label htmlFor='album-currency'>{t('album-currency')}</Label>
         <select>
           <option>USD</option>
         </select>
       </fieldset>
       <fieldset>
-        <Label htmlFor='album-price'>Price ($)</Label>
+        <Label htmlFor='album-price'>{t('album-price')}</Label>
         <input
           className='input'
           type='text'
-          placeholder='e.g. 9.99'
+          placeholder={t('album-price-placeholder')}
           id='album-price'
           value={album.price}
           onChange={e => {
@@ -98,9 +101,9 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
-        <Label htmlFor='album-description'>Description</Label>
+        <Label htmlFor='album-description'>{t('album-description')}</Label>
         <Textarea
-          placeholder='Write about your album'
+          placeholder={t('album-description-placeholder')}
           id='album-description'
           rows={5}
           maxRows={15}
@@ -115,12 +118,12 @@ const AlbumCreator = ({
         />
       </fieldset>
       <fieldset>
-        <Label>Upload your music files</Label>
+        <Label>{t('album-track-uploader')}</Label>
         <div className='track-uploader'>
-          <Description>Choose your files or drag them here.</Description>
+          <Description>{t('album-track-uploader-description')}</Description>
           <Uploader
             multiple={true}
-            placeholder='Add files'
+            placeholder={t('album-track-uploader-placeholder')}
             accept='audio/flac, audio/aiff, audio/wav'
             type='rectangle'
             performUpload={onAudioUpload}
@@ -128,9 +131,9 @@ const AlbumCreator = ({
         </div>
       </fieldset>
       <div className='tracks'>
-        <Label>Your Tracks</Label>
+        <Label>{t('album-tracks')}</Label>
         <Description>
-          You can re-arrange the order of the music and edit the track names.
+          {t('album-tracks-description')}
         </Description>
 
         <TrackListComponent
@@ -221,7 +224,7 @@ class AlbumCreatorContainer extends React.Component {
   }
 
   render() {
-    const { album, onAlbumChange } = this.props
+    const { album, onAlbumChange, t } = this.props
 
     return (
       <AlbumCreator
@@ -231,6 +234,7 @@ class AlbumCreatorContainer extends React.Component {
         onTrackSort={this.onTrackSort}
         onAudioUpload={this.onAudioUpload}
         onTrackDelete={this.onTrackDelete}
+        t={t}
       />
     )
   }
@@ -244,4 +248,4 @@ AlbumCreatorContainer.defaultProps = {
   }
 }
 
-export default AlbumCreatorContainer
+export default withNamespaces('dashboard')(AlbumCreatorContainer)

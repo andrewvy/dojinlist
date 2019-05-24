@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { withNamespaces } from '../../lib/i18n'
+
 import {
   sortableContainer,
   sortableElement,
@@ -45,7 +47,7 @@ const SortableContainer = sortableContainer(({ className, children }) => (
   <ul className={className}>{children}</ul>
 ))
 
-const TrackListComponent = ({ tracks, onSort, onChange, onDelete }) => {
+const TrackListComponent = ({ tracks, onSort, onChange, onDelete, t }) => {
   const empty = !Boolean(tracks.length)
 
   return (
@@ -56,7 +58,7 @@ const TrackListComponent = ({ tracks, onSort, onChange, onDelete }) => {
       })}
       useDragHandle
     >
-      {empty && <div>Your tracks will appear here.</div>}
+      {empty && <div>{t('album-tracks-placeholder')}</div>}
       {tracks.map((track, index) => (
         <SortableItem
           key={track.id}
@@ -76,4 +78,4 @@ TrackListComponent.defaultProps = {
   onDelete: () => {}
 }
 
-export default TrackListComponent
+export default withNamespaces('dashboard')(TrackListComponent)

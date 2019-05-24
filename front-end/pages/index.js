@@ -45,7 +45,7 @@ class IndexPage extends PureComponent {
         <div className="container content">
           <div className='djn-hero main text-center py-40 text-blue-dark'>
             <div className='font-bold text-4xl'>{t('hero')}</div>
-            <div className='font-light my-8'>Find your favourite artists and music genres.</div>
+            <div className='font-light my-8'>{t('sub-hero')}</div>
           </div>
 
           <div className='container bg-white limit-screen w-2/3 my-8'>

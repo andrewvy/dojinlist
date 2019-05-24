@@ -1,6 +1,8 @@
 import { Link } from '../../routes.js'
 
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
+import { withNamespaces } from '../../lib/i18n'
+
 import Pill from '../../components/pill'
 import Button from '../../components/button'
 
@@ -8,7 +10,7 @@ import DashboardLayout from '../../layouts/dashboard'
 
 import './albums.css'
 
-const AlbumsPage = () => (
+const AlbumsPage = ({ t }) => (
   <DashboardLayout type='albums'>
     {({me}) => (
       <div className='djn-dashboardAlbumsPage'>
@@ -21,7 +23,7 @@ const AlbumsPage = () => (
 
           <div className='controls'>
             <Link route='dashboard_new_album'>
-              <Button type='translucent' text='Add an album' icon='plus' className='new-album'/>
+              <Button type='translucent' text={t('add-album-btn')} icon='plus' className='new-album'/>
             </Link>
           </div>
         </div>
@@ -30,17 +32,17 @@ const AlbumsPage = () => (
           <thead>
             <tr>
               <td />
-              <td>Name</td>
-              <td>Tracks</td>
-              <td>Date Uploaded</td>
-              <td>Price</td>
-              <td>Status</td>
+              <td>{t('album-title')}</td>
+              <td>{t('album-tracks')}</td>
+              <td>{t('album-date-uploaded')}</td>
+              <td>{t('album-price')}</td>
+              <td>{t('album-status')}</td>
               <td />
             </tr>
           </thead>
           <tbody>
             {me.storefront.albums.map((album) => (
-              <tr>
+              <tr key={album.id}>
                 <td>
                 <img src={album.coverArtThumbUrl} width={40} height={40} className='cover-art rounded' />
                 </td>
@@ -66,6 +68,12 @@ const AlbumsPage = () => (
   </DashboardLayout>
 )
 
-export default withOnlyAuthenticated(
-  AlbumsPage
-)
+const Wrapper = withOnlyAuthenticated(AlbumsPage)
+
+Wrapper.getInitialProps = async () => {
+  return {
+    namespacesRequired: ['dashboard'],
+  }
+}
+
+export default withNamespaces('dashboard')(Wrapper)

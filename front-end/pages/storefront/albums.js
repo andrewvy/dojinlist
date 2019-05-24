@@ -4,6 +4,8 @@ import { Query, Mutation } from 'react-apollo'
 
 import AlbumTracklist from '../../components/album_tracklist'
 
+import { withNamespaces } from '../../lib/i18n'
+
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
 import PurchaseAlbumMutation from '../../mutations/checkout/checkout_album.js'
 import DownloadTrackMutation from '../../mutations/download/download_track.js'

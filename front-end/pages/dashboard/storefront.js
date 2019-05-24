@@ -4,6 +4,8 @@ import UploadAvatarMutation from '../../mutations/storefronts/upload_avatar'
 import UploadBannerMutation from '../../mutations/storefronts/upload_banner'
 
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
+import { withNamespaces } from '../../lib/i18n'
+
 import Uploader from '../../components/uploader'
 import Label from '../../components/label'
 import Button from '../../components/button'
@@ -11,7 +13,7 @@ import Description from '../../components/description'
 
 import DashboardLayout from '../../layouts/dashboard'
 
-const StorefrontPage = () => (
+const StorefrontPage = ({ t }) => (
   <DashboardLayout type='storefront'>
     {({ me }) => (
       <div className='djn-dashboardStorefrontPage'>
@@ -60,8 +62,7 @@ const StorefrontPage = () => (
         <fieldset>
           <Label>Stripe</Label>
           <Description>
-            A connected Stripe account is needed in order to be paid from album
-            purchases.
+            {t('stripe-description')}
           </Description>
 
           {me.stripeAccount && me.stripeAccount.stripeUserId ? (
@@ -75,4 +76,12 @@ const StorefrontPage = () => (
   </DashboardLayout>
 )
 
-export default withOnlyAuthenticated(StorefrontPage)
+const Wrapper = withOnlyAuthenticated(StorefrontPage)
+
+Wrapper.getInitialProps = async () => {
+  return {
+    namespacesRequired: ['dashboard'],
+  }
+}
+
+export default withNamespaces('dashboard')(Wrapper)

@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo'
 import { MeConsumer } from '../../../contexts/me'
 
 import withOnlyAuthenticated from '../../../lib/onlyAuthenticated'
+import { withNamespaces } from '../../../lib/i18n'
 
 import Button from '../../../components/button'
 import Spinner from '../../../components/spinner'
@@ -48,6 +49,10 @@ class NewAlbumPage extends React.Component {
 
   render() {
     const {
+      t
+    } = this.props
+
+    const {
       tracks,
       isCreating,
       progressPercentage,
@@ -74,7 +79,7 @@ class NewAlbumPage extends React.Component {
                         <div className='actions'>
                           <Button
                             type='translucent'
-                            text='Save draft'
+                            text={t('save-draft-btn')}
                             disabled={isCreating}
                             onClick={() => {
                               const { album } = this.state
@@ -154,7 +159,7 @@ class NewAlbumPage extends React.Component {
                           )}
                           {successful && (
                             <div className='container success xl:w-1/3 md:1/2 xs:w-5/6 flex content-center items-center flex-col bg-green-light rounded text-white font-bold'>
-                              <p>Created album</p>
+                              <p>{t('album-creation-success')}</p>
                             </div>
                           )}
                           {errors &&
@@ -181,4 +186,12 @@ class NewAlbumPage extends React.Component {
   }
 }
 
-export default withOnlyAuthenticated(NewAlbumPage)
+const Wrapper = withOnlyAuthenticated(NewAlbumPage)
+
+Wrapper.getInitialProps = async () => {
+  return {
+    namespacesRequired: ['dashboard'],
+  }
+}
+
+export default withNamespaces('dashboard')(Wrapper)
