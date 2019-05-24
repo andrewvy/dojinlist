@@ -45,25 +45,30 @@ const SortableContainer = sortableContainer(({ className, children }) => (
   <ul className={className}>{children}</ul>
 ))
 
-const TrackListComponent = ({ tracks, onSort, onChange, onDelete }) => (
-  <SortableContainer
-    onSortEnd={onSort}
-    className={classNames('djn-files', {
-      empty: !Boolean(tracks.length)
-    })}
-    useDragHandle
-  >
-    {tracks.map((track, index) => (
-      <SortableItem
-        key={track.id}
-        index={index}
-        value={track}
-        onChange={onChange}
-        onDelete={onDelete}
-      />
-    ))}
-  </SortableContainer>
-)
+const TrackListComponent = ({ tracks, onSort, onChange, onDelete }) => {
+  const empty = !Boolean(tracks.length)
+
+  return (
+    <SortableContainer
+      onSortEnd={onSort}
+      className={classNames('djn-files', {
+        empty
+      })}
+      useDragHandle
+    >
+      {empty && <div>Your tracks will appear here.</div>}
+      {tracks.map((track, index) => (
+        <SortableItem
+          key={track.id}
+          index={index}
+          value={track}
+          onChange={onChange}
+          onDelete={onDelete}
+        />
+      ))}
+    </SortableContainer>
+  )
+}
 
 TrackListComponent.defaultProps = {
   onChange: () => {},

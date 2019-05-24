@@ -134,4 +134,42 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
                "url"
              ])
   end
+
+  test "Can delete an album" do
+    query = """
+    mutation DeleteAlbum($albumId: ID!) {
+      deleteAlbum(albumId: $albumId) {
+        albumId
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+
+    {:ok, album} =
+      Fixtures.album(%{
+        storefront_id: user.storefront.id,
+        title: "Update Album Test",
+        slug: "update-album-test"
+      })
+
+    album_id = Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
+
+    variables = %{
+      albumId: album_id
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert %{
+             "data" => %{
+               "deleteAlbum" => %{
+                 "albumId" => ^album_id
+               }
+             }
+           } = response
+  end
 end

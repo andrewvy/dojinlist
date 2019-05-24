@@ -20,6 +20,13 @@ defmodule DojinlistWeb.Errors do
     }
   end
 
+  def delete_album_failed() do
+    %{
+      error_code: "DELETE_ALBUM_FAILED",
+      error_message: "Album was not able to be deleted. Please try again."
+    }
+  end
+
   def create_track_failed() do
     %{
       error_code: "CREATE_TRACK_FAILED",

@@ -147,6 +147,11 @@ defmodule Dojinlist.Albums do
     end
   end
 
+  def delete_album(album) do
+    album
+    |> Repo.delete()
+  end
+
   def get_album(id) do
     Schemas.Album
     |> Repo.get(id)

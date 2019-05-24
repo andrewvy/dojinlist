@@ -1,5 +1,13 @@
 .djn-albumThumbnail .thumbnail {
   border-radius: 12px;
+  min-width: 180px;
+  min-height: 180px;
+}
+
+.djn-albumThumbnail .thumbnail.empty {
+  background-color: config('colors.grey-lightest');
+  border-radius: 0px;
+  border: none;
 }
 
 .djn-albumThumbnail .album-meta {

@@ -125,4 +125,16 @@ defmodule Dojinlist.AlbumsTest do
     assert 1 == Enum.count(album.external_links)
     assert "https://external-album.link/2" == external_link.url
   end
+
+  test "Can delete an album", %{storefront: storefront} do
+    assert {:ok, album} =
+             Albums.create_album(%{
+               title: "02 EP",
+               slug: "02-ep",
+               storefront_id: storefront.id,
+               price: "USD 9.99"
+             })
+
+    assert {:ok, album} = Albums.delete_album(album)
+  end
 end

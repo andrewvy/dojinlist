@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import './index.css'
 
@@ -6,7 +7,7 @@ const AlbumThumbnail = ({ album }) => {
   return (
     <div className='djn-albumThumbnail'>
       <img
-        className='thumbnail'
+        className={classNames('thumbnail', { empty: !Boolean(album.coverArtUrl) })}
         src={album.coverArtUrl}
         width={180}
         height={180}
