@@ -17,6 +17,7 @@ const AlbumCreator = ({
   onAlbumChange,
   onTrackChange,
   onTrackSort,
+  onTrackDelete,
   onAudioUpload
 }) => {
   const [previewCoverArt, setPreviewCoverArt] = useState(album.coverArtUrl)
@@ -130,6 +131,7 @@ const AlbumCreator = ({
           tracks={album.tracks}
           onChange={onTrackChange}
           onSort={onTrackSort}
+          onDelete={onTrackDelete}
         />
       </div>
     </form>
@@ -206,6 +208,15 @@ class AlbumCreatorContainer extends React.Component {
     })
   }
 
+  onTrackDelete = (indexToRemove) => {
+    const { album, onAlbumChange } = this.props
+    const newTracks = album.tracks.filter((track, index) => index !== indexToRemove)
+
+    onAlbumChange({
+      tracks: newTracks
+    })
+  }
+
   render() {
     const { album, onAlbumChange } = this.props
 
@@ -216,6 +227,7 @@ class AlbumCreatorContainer extends React.Component {
         onTrackChange={this.onTrackChange}
         onTrackSort={this.onTrackSort}
         onAudioUpload={this.onAudioUpload}
+        onTrackDelete={this.onTrackDelete}
       />
     )
   }

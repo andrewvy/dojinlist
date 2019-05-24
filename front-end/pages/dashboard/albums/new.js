@@ -20,6 +20,7 @@ class NewAlbumPage extends React.Component {
   state = {
     isCreating: false,
     errors: null,
+    successful: false,
     progressPercentage: 0.0,
     album: {
       tracks: []
@@ -44,7 +45,13 @@ class NewAlbumPage extends React.Component {
   }
 
   render() {
-    const { tracks, isCreating, progressPercentage, errors } = this.state
+    const {
+      tracks,
+      isCreating,
+      progressPercentage,
+      errors,
+      successful
+    } = this.state
 
     return (
       <MeConsumer>
@@ -107,11 +114,26 @@ class NewAlbumPage extends React.Component {
                                 }
                               })
                                 .then(resp => {
-                                  const { album, errors } = resp.data.createAlbum
-
-                                  this.setState({
+                                  const {
+                                    album,
                                     errors
-                                  })
+                                  } = resp.data.createAlbum
+
+                                  const successful =
+                                    errors === null || errors.length === 0
+
+                                  let newState = {
+                                    errors,
+                                    successful
+                                  }
+
+                                  if (successful) {
+                                    newState.album = {
+                                      tracks: []
+                                    }
+                                  }
+
+                                  this.setState(newState)
                                 })
                                 .finally(() => {
                                   this.setState({
@@ -127,6 +149,11 @@ class NewAlbumPage extends React.Component {
                                 style: 'percent',
                                 minimumFractionDigits: 2
                               })}
+                            </div>
+                          )}
+                          {successful && (
+                            <div className='container success xl:w-1/3 md:1/2 xs:w-5/6 flex content-center items-center flex-col bg-green-light rounded text-white font-bold'>
+                              <p>Created album</p>
                             </div>
                           )}
                           {errors &&

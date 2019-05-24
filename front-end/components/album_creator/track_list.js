@@ -9,10 +9,15 @@ import {
 import classNames from 'classnames'
 
 import IconDrag from '../../svgs/icons/icon-drag.svg'
+import IconDelete from '../../svgs/icons/icon-delete.svg'
 
-const DragHandle = sortableHandle(() => <div className='drag-handle'><IconDrag fill='#FF6D6C'/></div>)
+const DragHandle = sortableHandle(() => (
+  <div className='drag-handle'>
+    <IconDrag fill='#FF6D6C' />
+  </div>
+))
 
-const SortableItem = sortableElement(({ value, index, onChange }) => (
+const SortableItem = sortableElement(({ value, index, onChange, onDelete }) => (
   <li className='djn-file'>
     <DragHandle />
     <div className='track-position'>{index + 1}.</div>
@@ -21,7 +26,7 @@ const SortableItem = sortableElement(({ value, index, onChange }) => (
         className='input'
         type='text'
         defaultValue={value.title}
-        onChange={(e) => {
+        onChange={e => {
           const newTitle = e.target.value
 
           onChange(index, {
@@ -30,6 +35,9 @@ const SortableItem = sortableElement(({ value, index, onChange }) => (
         }}
       />
     </fieldset>
+    <div className='delete' onClick={() => onDelete(index)}>
+      <IconDelete fill='#FF6D6C' />
+    </div>
   </li>
 ))
 
@@ -37,7 +45,7 @@ const SortableContainer = sortableContainer(({ className, children }) => (
   <ul className={className}>{children}</ul>
 ))
 
-const TrackListComponent = ({ tracks, onSort, onChange }) => (
+const TrackListComponent = ({ tracks, onSort, onChange, onDelete }) => (
   <SortableContainer
     onSortEnd={onSort}
     className={classNames('djn-files', {
@@ -51,6 +59,7 @@ const TrackListComponent = ({ tracks, onSort, onChange }) => (
         index={index}
         value={track}
         onChange={onChange}
+        onDelete={onDelete}
       />
     ))}
   </SortableContainer>
@@ -58,7 +67,8 @@ const TrackListComponent = ({ tracks, onSort, onChange }) => (
 
 TrackListComponent.defaultProps = {
   onChange: () => {},
-  onSort: () => {}
+  onSort: () => {},
+  onDelete: () => {}
 }
 
 export default TrackListComponent

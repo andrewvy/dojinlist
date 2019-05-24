@@ -24,6 +24,7 @@
 
 .djn-file fieldset {
   margin: 0;
+  flex: 1;
 }
 
 .djn-file .drag-handle {
@@ -32,7 +33,7 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  cursor: drag;
+  cursor: move;
 }
 
 .djn-file .track-position {
@@ -41,4 +42,13 @@
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.djn-file .delete {
+  width: 14px;
+  margin: 0 8px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 }
