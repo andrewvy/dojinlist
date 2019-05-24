@@ -15,25 +15,29 @@
   border-top: 1px solid config('colors.grey-lighter');
 }
 
-.djn-files .djn-file {
+.djn-file {
   padding: 4px;
   display: flex;
+  color: config('colors.grey');
   margin: 0;
 }
 
-.djn-files .djn-file fieldset {
+.djn-file fieldset {
   margin: 0;
 }
 
-.djn-files .djn-file .drag-handle {
+.djn-file .drag-handle {
   width: 24px;
+  margin: 0 8px;
   align-items: center;
   display: flex;
   justify-content: center;
+  cursor: drag;
 }
 
-.djn-files .djn-file .track-position {
+.djn-file .track-position {
   width: 24px;
+  margin-right: 8px;
   align-items: center;
   display: flex;
   justify-content: center;

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   sortableContainer,
   sortableElement,
@@ -6,7 +8,9 @@ import {
 
 import classNames from 'classnames'
 
-const DragHandle = sortableHandle(() => <div className='drag-handle'>::</div>)
+import IconDrag from '../../svgs/icons/icon-drag.svg'
+
+const DragHandle = sortableHandle(() => <div className='drag-handle'><IconDrag fill='#FF6D6C'/></div>)
 
 const SortableItem = sortableElement(({ value, index, onChange }) => (
   <li className='djn-file'>
