@@ -3,9 +3,8 @@ import { AuthConsumer } from '../contexts/auth'
 import onlyUnauthenticated from '../lib/onlyUnauthenticated'
 import Register from '../components/register'
 import Page from '../layouts/main.js'
-import withNavigation from '../components/navigation'
 
-const RegisterPage = (props) => {
+const RegisterPage = props => {
   return (
     <Page>
       <Register />
@@ -13,10 +12,4 @@ const RegisterPage = (props) => {
   )
 }
 
-export default onlyUnauthenticated(
-  withRouter(
-    withNavigation(
-      RegisterPage
-    )
-  )
-)
+export default onlyUnauthenticated(withRouter(RegisterPage))

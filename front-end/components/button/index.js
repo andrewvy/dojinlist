@@ -47,7 +47,8 @@ const Button = ({ text, icon, type, onClick, className, disabled }) => {
 }
 
 Button.defaultProps = {
-  disabled: false
+  disabled: false,
+  onClick: () => {}
 }
 
 export default Button

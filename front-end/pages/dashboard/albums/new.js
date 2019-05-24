@@ -4,7 +4,6 @@ import { MeConsumer } from '../../../contexts/me'
 
 import withOnlyAuthenticated from '../../../lib/onlyAuthenticated'
 
-import withNavigation from '../../../components/navigation'
 import Button from '../../../components/button'
 import Spinner from '../../../components/spinner'
 import AlbumCreator from '../../../components/album_creator'
@@ -182,4 +181,4 @@ class NewAlbumPage extends React.Component {
   }
 }
 
-export default withOnlyAuthenticated(withNavigation(NewAlbumPage))
+export default withOnlyAuthenticated(NewAlbumPage)

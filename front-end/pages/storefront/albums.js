@@ -2,7 +2,6 @@ import { Link } from '../../routes.js'
 import React, { PureComponent } from 'react'
 import { Query, Mutation } from 'react-apollo'
 
-import withNavigation from '../../components/navigation'
 import AlbumTracklist from '../../components/album_tracklist'
 
 import FetchAlbumBySlugQuery from '../../queries/albums/by_slug.js'
@@ -113,4 +112,4 @@ class HomePage extends PureComponent {
   }
 }
 
-export default withNavigation(HomePage)
+export default HomePage

@@ -8,7 +8,6 @@ import PurchaseAlbumMutation from '../../mutations/checkout/checkout_album.js'
 
 import { AuthConsumer } from '../../contexts/auth'
 
-import withNavigation from '../../components/navigation'
 import CheckoutModal from '../../components/checkout_modal'
 import Button from '../../components/button'
 import Spinner from '../../components/spinner'
@@ -114,4 +113,4 @@ class CheckoutPage extends PureComponent {
   }
 }
 
-export default withNavigation(CheckoutPage)
+export default CheckoutPage

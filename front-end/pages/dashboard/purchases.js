@@ -1,5 +1,4 @@
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
-import withNavigation from '../../components/navigation'
 
 import DashboardLayout from '../../layouts/dashboard'
 
@@ -14,5 +13,5 @@ const PurchasesPage = () => (
 )
 
 export default withOnlyAuthenticated(
-  withNavigation(PurchasesPage)
+  PurchasesPage
 )

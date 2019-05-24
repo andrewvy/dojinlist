@@ -5,7 +5,6 @@ import ErrorPage from 'next/error'
 import FetchStorefrontQuery from '../queries/storefront/storefront.js'
 import FetchAlbumsByStorefrontId from '../queries/albums/by_storefront_id.js'
 
-import withNavigation from '../components/navigation'
 import AlbumThumbnailGrid from '../components/album_thumbnail_grid'
 import Pill from '../components/pill'
 
@@ -27,10 +26,7 @@ class HomePage extends PureComponent {
       <Page>
         <div className='djn-storefrontPageContainer'>
           <div className='djn-storefrontPage container'>
-            <Query
-              query={FetchStorefrontQuery}
-              variables={{ username }}
-            >
+            <Query query={FetchStorefrontQuery} variables={{ username }}>
               {({ data, loading, error }) => (
                 <div>
                   {!loading && data && (
@@ -84,4 +80,4 @@ class HomePage extends PureComponent {
   }
 }
 
-export default withNavigation(HomePage)
+export default HomePage

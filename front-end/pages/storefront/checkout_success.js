@@ -6,7 +6,6 @@ import DownloadAlbumMutation from '../../mutations/download/download_album'
 
 import { AuthConsumer } from '../../contexts/auth'
 
-import withNavigation from '../../components/navigation'
 import CheckoutSuccess from '../../components/checkout_success'
 import Button from '../../components/button'
 
@@ -103,4 +102,4 @@ class CheckoutSuccessPage extends Component {
   }
 }
 
-export default withNavigation(CheckoutSuccessPage)
+export default CheckoutSuccessPage

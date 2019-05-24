@@ -1,6 +1,7 @@
 import Footer from '../components/footer'
+import withNavigation from '../components/navigation'
 
-export default ({ children, className }) => (
+const MainLayout = ({ children, className }) => (
   <>
     <div className={`page mx-auto ${className}`}>
       { children }
@@ -8,3 +9,5 @@ export default ({ children, className }) => (
     <Footer />
   </>
 )
+
+export default withNavigation(MainLayout)

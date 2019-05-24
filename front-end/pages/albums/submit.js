@@ -1,6 +1,5 @@
 import React from 'react'
 import AlbumCreator from '../../components/album_creator'
-import withNavigation from '../../components/navigation'
 
 import Page from '../../layouts/main.js'
 
@@ -14,4 +13,4 @@ class SubmitPage extends React.Component {
   }
 }
 
-export default withNavigation(SubmitPage)
+export default SubmitPage

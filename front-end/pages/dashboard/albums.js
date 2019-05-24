@@ -1,7 +1,6 @@
 import { Link } from '../../routes.js'
 
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
-import withNavigation from '../../components/navigation'
 import Pill from '../../components/pill'
 import Button from '../../components/button'
 
@@ -68,5 +67,5 @@ const AlbumsPage = () => (
 )
 
 export default withOnlyAuthenticated(
-  withNavigation(AlbumsPage)
+  AlbumsPage
 )

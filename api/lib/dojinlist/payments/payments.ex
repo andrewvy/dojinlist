@@ -125,7 +125,7 @@ defmodule Dojinlist.Payments do
     purchased_album !== nil
   end
 
-  # @todo(vy): Pass in address all the way into here for order total calcuation.
+  # @TODO(vy): Pass in address all the way into here for order total calcuation.
   defp adapter_purchase(album, token) do
     adapter = get_payment_adapter()
 

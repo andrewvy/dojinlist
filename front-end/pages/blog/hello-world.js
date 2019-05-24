@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Page from '../../layouts/main.js'
-import withNavigation from '../../components/navigation'
 
 import post from '../../posts/hello-world.js'
 import BlogPostHeader from '../../components/blog_post_header'
@@ -51,4 +50,4 @@ const HelloWorldPage = (props) => {
   )
 }
 
-export default withNavigation(HelloWorldPage)
+export default HelloWorldPage

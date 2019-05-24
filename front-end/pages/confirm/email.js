@@ -8,8 +8,6 @@ import Spinner from '../../components/spinner'
 
 import ConfirmEmailMutation from '../../mutations/accounts/confirm_email.js'
 
-import withNavigation from '../../components/navigation'
-
 class ConfirmEmail extends React.Component {
   state = {
     loading: true,
@@ -80,4 +78,4 @@ const Wrapper = (props) => (
   </Mutation>
 )
 
-export default withRouter(withNavigation(Wrapper))
+export default withRouter(Wrapper)

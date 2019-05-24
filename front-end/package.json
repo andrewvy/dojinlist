@@ -25,6 +25,7 @@
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "http-proxy-middleware": "^0.19.1",
+    "next-i18next": "^0.40.1",
     "next-routes": "^1.4.2",
     "qs": "^6.6.0",
     "react": "^16.8.0",

@@ -2,10 +2,11 @@ import React, {PureComponent} from 'react';
 import Link from 'next/link';
 import {Query} from 'react-apollo';
 
+import { i18n, withNamespaces } from '../lib/i18n'
+
 import {AuthConsumer} from '../contexts/auth.js';
 
 import Spinner from '../components/spinner';
-import withNavigation from '../components/navigation';
 import Pill from '../components/pill'
 import BlogTeaser from '../components/blog_teaser'
 
@@ -30,12 +31,20 @@ const Styles = () => (
 );
 
 class IndexPage extends PureComponent {
+  static async getInitialProps() {
+    return {
+      namespacesRequired: ['common'],
+    }
+  }
+
   render() {
+    const { t } = this.props
+
     return (
       <Page className='bg-white'>
         <div className="container content">
           <div className='djn-hero main text-center py-40 text-blue-dark'>
-            <div className='font-bold text-4xl'>A marketplace to discover and buy dōjin music.</div>
+            <div className='font-bold text-4xl'>{t('hero')}</div>
             <div className='font-light my-8'>Find your favourite artists and music genres.</div>
           </div>
 
@@ -61,4 +70,4 @@ class IndexPage extends PureComponent {
   }
 }
 
-export default withNavigation(IndexPage);
+export default withNamespaces('common')(IndexPage)

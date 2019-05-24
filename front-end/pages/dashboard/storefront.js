@@ -4,7 +4,6 @@ import UploadAvatarMutation from '../../mutations/storefronts/upload_avatar'
 import UploadBannerMutation from '../../mutations/storefronts/upload_banner'
 
 import withOnlyAuthenticated from '../../lib/onlyAuthenticated'
-import withNavigation from '../../components/navigation'
 import Uploader from '../../components/uploader'
 import Label from '../../components/label'
 import Button from '../../components/button'
@@ -76,4 +75,4 @@ const StorefrontPage = () => (
   </DashboardLayout>
 )
 
-export default withOnlyAuthenticated(withNavigation(StorefrontPage))
+export default withOnlyAuthenticated(StorefrontPage)

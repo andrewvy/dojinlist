@@ -1,5 +1,4 @@
 import withOnlyAuthenticated from '../lib/onlyAuthenticated'
-import withNavigation from '../components/navigation'
 import AvatarUploader from '../components/avatar_uploader'
 import Label from '../components/label'
 
@@ -32,4 +31,4 @@ const DashboardPage = () => (
   </DashboardLayout>
 )
 
-export default withOnlyAuthenticated(withNavigation(DashboardPage))
+export default withOnlyAuthenticated(DashboardPage)
