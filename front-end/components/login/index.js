@@ -3,8 +3,9 @@ import Link from 'next/link'
 import * as Yup from 'yup'
 import { withRouter } from 'next/router'
 import { Mutation } from 'react-apollo'
-
 import { Formik, Field, ErrorMessage } from 'formik'
+
+import { withNamespaces } from '../../lib/i18n'
 
 import Error from '../error'
 import Button from '../button'
@@ -34,7 +35,7 @@ const LoginReducer = (state, action) => {
   }
 }
 
-const Login = ({ performLogin, login, router }) => {
+const Login = ({ performLogin, login, router, t }) => {
   const [state, dispatch] = useReducer(LoginReducer, {
     afterSubmit: false,
     isLoading: false,
@@ -98,12 +99,12 @@ const Login = ({ performLogin, login, router }) => {
                     : ''
                 }`}
               >
-                <label htmlFor='email'>Email Address</label>
+                <label htmlFor='email'>{t('email-address')}</label>
                 <ErrorMessage name='email' component={Error} />
                 <Field
                   type='email'
                   name='email'
-                  placeholder='Your Email Address'
+                  placeholder={t('email-address-placeholder')}
                 />
               </fieldset>
 
@@ -114,12 +115,12 @@ const Login = ({ performLogin, login, router }) => {
                     : ''
                 }`}
               >
-                <label htmlFor='password'>Password</label>
+                <label htmlFor='password'>{t('password')}</label>
                 <ErrorMessage name='password' component={Error} />
                 <Field
                   type='password'
                   name='password'
-                  placeholder='Your Password'
+                  placeholder={t('password-placeholder')}
                 />
               </fieldset>
 
@@ -128,7 +129,7 @@ const Login = ({ performLogin, login, router }) => {
                   type='primary'
                   isLoading={isLoading}
                   className='w-full'
-                  text='Sign In'
+                  text={t('sign-in')}
                 />
               </div>
             </form>
@@ -136,16 +137,22 @@ const Login = ({ performLogin, login, router }) => {
         />
       </div>
       <div className='register container text-center my-4'>
-        <Link href='/register'>Not a member yet? Sign up here</Link>
+        <Link href='/register'>{t('not-a-member-btn')}</Link>
       </div>
     </>
   )
 }
 
-const Wrapper = props => (
+const Wrapper = withRouter(props => (
   <Mutation mutation={LoginMutation}>
     {performLogin => <Login performLogin={performLogin} {...props} />}
   </Mutation>
-)
+))
 
-export default withRouter(Wrapper)
+Wrapper.getInitialProps = async () => {
+  return {
+    namespaces: ['common']
+  }
+}
+
+export default withNamespaces('common')(Wrapper)

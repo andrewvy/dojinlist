@@ -1,4 +1,11 @@
 {
   "hero": "A marketplace to discover dōjin music.",
-  "sub-hero": "Find your favourite artists and music genres"
+  "sub-hero": "Find your favourite artists and music genres",
+  "email-address": "Email Address",
+  "email-address-placeholder": "Your Email Address",
+  "password": "Password",
+  "password-placeholder": "Your Password",
+  "sign-in": "Sign In",
+  "sign-up": "Sign Up",
+  "not-a-member-btn": "Not a member yet? Click here."
 }
