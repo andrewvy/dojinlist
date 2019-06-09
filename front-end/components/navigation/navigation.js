@@ -52,7 +52,7 @@ const Navigation = ({ router }) => {
                   {!isAuthed && (
                     <li>
                       <Link href='/login'>
-                        <Button type='secondary' text='Log In' />
+                        <Button type='translucent' text='Sign In' />
                       </Link>
                     </li>
                   )}

@@ -10,9 +10,11 @@ import Error from '../error'
 import Button from '../button'
 import LoginMutation from '../../mutations/login'
 
+import Logo from '../../svgs/brand/white_bg_fill_wordmark.svg'
+
 const LoginSchema = Yup.object().shape({
   email: Yup.string().required('An email is required'),
-  password: Yup.string().required('A password is required'),
+  password: Yup.string().required('A password is required')
 })
 
 const LoginReducer = (state, action) => {
@@ -41,89 +43,108 @@ const Login = ({ performLogin, login, router }) => {
 
   const { isLoading, error } = state
 
-  const submit = useCallback(({email, password}) => {
-    dispatch({ type: 'submit' })
+  const submit = useCallback(
+    ({ email, password }) => {
+      dispatch({ type: 'submit' })
 
-    if (email.length && password.length) {
-      performLogin({
-        variables: {
-          email,
-          password,
-        }
-      }).then((response) => {
-        if (response.data && response.data.login) {
-          login(response.data.login.token)
-          router.push('/')
-        }
-      }).catch((response) => {
-        dispatch({
-          type: 'error',
-          payload: 'Wrong email or password'
+      if (email.length && password.length) {
+        performLogin({
+          variables: {
+            email,
+            password
+          }
         })
-      }).finally(() => {
+          .then(response => {
+            if (response.data && response.data.login) {
+              login(response.data.login.token)
+              router.push('/')
+            }
+          })
+          .catch(response => {
+            dispatch({
+              type: 'error',
+              payload: 'Wrong email or password'
+            })
+          })
+          .finally(() => {
+            dispatch({ type: 'success' })
+          })
+      } else {
         dispatch({ type: 'success' })
-      })
-    } else {
-      dispatch({ type: 'success' })
-    }
-
-  }, [performLogin, login, router])
+      }
+    },
+    [performLogin, login, router]
+  )
 
   return (
     <>
-      <div className='mt-32 form-container container xl:w-1/3 md:1/2 xs:w-5/6'>
-        {
-          error &&
-          <Error>{error}</Error>
-        }
+      <div className='mt-32 container' style={{ width: 500 }}>
+        {error && <Error>{error}</Error>}
 
-        <div className='text-center font-extrabold'>
-          <p>Sign in to Dojinlist</p>
+        <div className='w-1/3 m-auto my-8'>
+          <Logo />
         </div>
 
         <Formik
-          initialValues={{email: '', password: ''}}
+          initialValues={{ email: '', password: '' }}
           validationSchema={LoginSchema}
           onSubmit={submit}
-          render={({handleSubmit, touched, errors}) => (
+          render={({ handleSubmit, touched, errors }) => (
             <form onSubmit={handleSubmit} className='form'>
-              <fieldset className={`${Boolean(errors && errors.email && touched.email) ? 'has-error' : ''}`}>
-                <label htmlFor='email'>Email</label>
+              <fieldset
+                className={`${
+                  Boolean(errors && errors.email && touched.email)
+                    ? 'has-error'
+                    : ''
+                }`}
+              >
+                <label htmlFor='email'>Email Address</label>
                 <ErrorMessage name='email' component={Error} />
-                <Field type='email' name='email' placeholder='Email' />
+                <Field
+                  type='email'
+                  name='email'
+                  placeholder='Your Email Address'
+                />
               </fieldset>
 
-              <fieldset className={`${Boolean(errors && errors.password && touched.password) ? 'has-error' : ''}`}>
+              <fieldset
+                className={`${
+                  Boolean(errors && errors.password && touched.password)
+                    ? 'has-error'
+                    : ''
+                }`}
+              >
                 <label htmlFor='password'>Password</label>
                 <ErrorMessage name='password' component={Error} />
-                <Field type='password' name='password' placeholder='Password' />
+                <Field
+                  type='password'
+                  name='password'
+                  placeholder='Your Password'
+                />
               </fieldset>
 
               <div className='center'>
-                <Button type='primary' isLoading={isLoading} text='Login' />
+                <Button
+                  type='primary'
+                  isLoading={isLoading}
+                  className='w-full'
+                  text='Sign In'
+                />
               </div>
             </form>
           )}
         />
-
       </div>
-      <div className='register container xl:w-1/3 md:1/2 xs:w-5/6 text-right my-4'>
-        <Link href='/register'>
-          Register an account
-        </Link>
+      <div className='register container text-center my-4'>
+        <Link href='/register'>Not a member yet? Sign up here</Link>
       </div>
     </>
   )
 }
 
-const Wrapper = (props) => (
+const Wrapper = props => (
   <Mutation mutation={LoginMutation}>
-    {(performLogin) => (
-      <Login
-        performLogin={performLogin}
-        {...props}
-      />
-    )}
+    {performLogin => <Login performLogin={performLogin} {...props} />}
   </Mutation>
 )
 
