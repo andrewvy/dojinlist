@@ -51,7 +51,7 @@ defmodule Dojinlist.Schemas.User do
     password = Map.get(attrs, :password) || Map.get(attrs, "password")
 
     if password do
-      if String.length(password) > 5 do
+      if String.length(password) >= 5 do
         hashed_password =
           password
           |> Argon2.hash_pwd_salt()

@@ -40,7 +40,7 @@ defmodule DojinlistWeb.ErrorHelpers do
     |> Enum.map(fn {key, values} ->
       formatted_message =
         values
-        |> Enum.map(fn value -> "#{key} #{value}" end)
+        |> Enum.map(&to_string/1)
         |> Enum.join("\n")
 
       formatted_message

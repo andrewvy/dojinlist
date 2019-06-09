@@ -1,6 +1,7 @@
 defmodule DojinlistWeb.Mutations.Authentication do
   alias Dojinlist.{Accounts, Authentication}
 
+  # @TODO(vy): i18n, errors-as-data.
   def register(%{email: _, password: _, username: _} = attrs, %{context: %{current_user: nil}}) do
     case Accounts.register(attrs) do
       {:error, changeset} ->
