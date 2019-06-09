@@ -6,9 +6,6 @@
   padding-inline-start: 0;
   position: relative;
   background-color: config('colors.white');
-  margin-top: 8px;
-  top: 100%;
-  right: 200%;
   width: 180px;
   text-align: left;
   z-index: 3;

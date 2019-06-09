@@ -7,6 +7,7 @@ import { MeConsumer } from '../../contexts/me.js'
 
 import UserDropdown from './user_dropdown'
 import Button from '../button'
+import Avatar from '../avatar'
 
 import './navigation.css'
 
@@ -66,10 +67,8 @@ const Navigation = ({ router }) => {
                       onMouseEnter={() => toggleMenu(true)}
                       onMouseLeave={() => toggleMenu(false)}
                     >
-                      <div>
-                        <img className='user-avatar-image' src={me.avatar} />
-                        {shouldShowMenu && <UserDropdown />}
-                      </div>
+                      <Avatar user={me} />
+                      {shouldShowMenu && <UserDropdown />}
                     </nav>
                   )}
                 </ul>

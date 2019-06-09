@@ -6,8 +6,7 @@ const Sizes = {
   large: 64
 }
 
-const Spinner = (props) => {
-  const { color, size } = props
+const Spinner = ({ color, size }) => {
   const computedSize = Sizes[size] || Sizes.medium
   const classColor = `text-${color}`
 
@@ -39,6 +38,10 @@ const Spinner = (props) => {
       `}</style>
     </span>
   )
+}
+
+Spinner.defaultProps = {
+  size: 'medium',
 }
 
 export default Spinner

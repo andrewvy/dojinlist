@@ -1,4 +1,7 @@
 import React from 'react'
+import classnames from 'classnames'
+
+import Spinner from '../spinner'
 
 import DownloadIcon from '../../svgs/icons/icon-download.svg'
 import LinkIcon from '../../svgs/icons/icon-link.svg'
@@ -30,24 +33,38 @@ const ButtonIcon = icon => {
   return IconComponent
 }
 
-const Button = ({ text, icon, type, onClick, className, disabled }) => {
+const Button = ({ text, icon, type, onClick, className, disabled,  isLoading }) => {
   const IconComponent = ButtonIcon(icon)
+
+  const classname = classnames(
+    'djn-button',
+    `djn-button-${type}`,
+    'font-sans',
+    'font-black',
+    'select-none',
+    'cursor-pointer',
+    className,
+    {
+      'disabled': disabled,
+      'is-loading': isLoading
+    }
+  )
 
   return (
     <button
-      className={`djn-button djn-button-${type} font-sans font-black select-none cursor-pointer ${className} ${
-        disabled ? 'disabled' : ''
-      }`}
+      className={classname}
       onClick={(e) => !disabled ? onClick(e) : null}
     >
-      {text}
-      <IconComponent fill='inherit' className='icon' />
+      {!isLoading && text}
+      {!isLoading && <IconComponent fill='inherit' className='icon' />}
+      {isLoading && <Spinner size='small' />}
     </button>
   )
 }
 
 Button.defaultProps = {
   disabled: false,
+  isLoading: false,
   onClick: () => {}
 }
 

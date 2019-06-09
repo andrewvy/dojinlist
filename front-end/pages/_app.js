@@ -12,7 +12,6 @@ import { MeProvider } from '../contexts/me.js'
 import { PlayerProvider } from '../contexts/player.js'
 
 import '../styles/index.css'
-import '../styles/form.css'
 
 const fathomScript = `
 (function(f, a, t, h, o, m){
