@@ -11,7 +11,7 @@ class MeProvider extends React.Component {
     const { isAuthed } = this.props
 
     return (
-      <Query query={MeQuery} ssr={false} errorPolicy='ignore'>
+      <Query query={MeQuery} skip={!isAuthed} errorPolicy='ignore'>
         {({ loading, data, error }) => (
           <MeContext.Provider
             value={{
