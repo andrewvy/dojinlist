@@ -8,9 +8,11 @@ const MeContext = React.createContext()
 
 class MeProvider extends React.Component {
   render() {
+    const { isAuthed } = this.props
+
     return (
       <Query query={MeQuery} ssr={false} errorPolicy='ignore'>
-        {({ loading, data }) => (
+        {({ loading, data, error }) => (
           <MeContext.Provider
             value={{
               isLoading: loading,
@@ -25,14 +27,9 @@ class MeProvider extends React.Component {
   }
 }
 
-const Wrapper = (props) => (
+const Wrapper = props => (
   <AuthConsumer>
-    {({isAuthed}) => (
-      <MeProvider
-        {...props}
-        isAuthed={isAuthed}
-      />
-    )}
+    {({ isAuthed }) => <MeProvider {...props} isAuthed={isAuthed} />}
   </AuthConsumer>
 )
 
