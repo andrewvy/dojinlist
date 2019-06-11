@@ -11,6 +11,12 @@ defmodule Dojinlist.Storefront do
     |> Repo.insert()
   end
 
+  def create_storefront!(attrs) do
+    %Storefront{}
+    |> Storefront.changeset(attrs)
+    |> Repo.insert!()
+  end
+
   def update_storefront(storefront, attrs) do
     storefront
     |> Storefront.changeset(attrs)

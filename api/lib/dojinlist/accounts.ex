@@ -1,6 +1,10 @@
 defmodule Dojinlist.Accounts do
   alias Dojinlist.Schemas.User
-  alias Dojinlist.Repo
+
+  alias Dojinlist.{
+    Repo,
+    Storefront
+  }
 
   import Ecto.Query
 
@@ -28,6 +32,23 @@ defmodule Dojinlist.Accounts do
       error ->
         error
     end
+  end
+
+  def register_artist(attrs \\ %{}) do
+    Repo.transaction(fn ->
+      changeset =
+        %User{}
+        |> User.changeset(attrs)
+
+      storefront =
+        Storefront.create_storefront!(%{
+          display_name: Ecto.Changeset.get_change(changeset, :username)
+        })
+
+      changeset
+      |> Ecto.Changeset.put_change(:storefront_id, storefront.id)
+      |> Repo.insert!()
+    end)
   end
 
   def update_user(%User{} = user, attrs) do
