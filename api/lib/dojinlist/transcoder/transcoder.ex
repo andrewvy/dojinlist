@@ -18,22 +18,28 @@ defmodule Dojinlist.Transcoder do
   `completed` - Track has been successfully transcoded.
   """
 
-  alias Dojinlist.Schemas.Track
-
   alias Dojinlist.{
     Albums,
     Hashid,
     Storefront,
     Tracks,
-    Repo
+    Repo,
+    Schemas
   }
 
   import Ecto.Query
 
-  def submit_track_for_transcoding(%Track{} = track) do
+  def submit_track_for_transcoding(%Schemas.Track{} = track) do
     album = Albums.get_album(track.album_id)
     storefront = Storefront.by_id(album.storefront_id)
+    submit_track_for_transcoding(storefront, album, track)
+  end
 
+  def submit_track_for_transcoding(
+        %Schemas.Storefront{} = storefront,
+        %Schemas.Album{} = album,
+        %Schemas.Track{} = track
+      ) do
     job = create_transcoder_payload(storefront, album, track)
 
     job
@@ -59,7 +65,15 @@ defmodule Dojinlist.Transcoder do
     end
   end
 
-  def mark_track_as_failed(%Track{} = track, payload) do
+  def submit_album_for_transcoding(%Schemas.Album{} = album) do
+    storefront = Storefront.by_id(album.storefront_id)
+
+    for track <- album.tracks do
+      submit_track_for_transcoding(storefront, album, track)
+    end
+  end
+
+  def mark_track_as_failed(%Schemas.Track{} = track, payload) do
     album = Albums.get_album(track.album_id)
 
     if track.transcoder_hash == payload["hash"] do
@@ -80,7 +94,7 @@ defmodule Dojinlist.Transcoder do
 
   If all tracks in an album are completed, the album is also marked as `completed`.
   """
-  def mark_track_as_completed(%Track{} = track, payload) do
+  def mark_track_as_completed(%Schemas.Track{} = track, payload) do
     if track.transcoder_hash == payload["hash"] do
       Tracks.update_track(track, %{
         status: "completed"
@@ -142,7 +156,7 @@ defmodule Dojinlist.Transcoder do
   end
 
   defp all_tracks_are_completed?(album_id) do
-    Track
+    Schemas.Track
     |> where([t], t.album_id == ^album_id)
     |> select([t], t.status)
     |> Repo.all()
