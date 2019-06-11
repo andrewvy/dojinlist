@@ -10,7 +10,7 @@ const DashboardLayout = ({type, children}) => (
   <Page className='djn-dashboardLayout max-vh'>
     <MeConsumer>
       {({isLoading, me}) => {
-        if (isLoading) {
+        if (isLoading || !me) {
           return (
             <div className='container vertical-center'>
               <Spinner color='blue-darker' size='large' />
