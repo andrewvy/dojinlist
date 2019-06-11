@@ -39,6 +39,15 @@ defmodule Dojinlist.Fixtures do
     |> Dojinlist.Albums.create_album()
   end
 
+  def completed_album(attrs \\ %{}) do
+    %{
+      is_draft: false,
+      status: "completed"
+    }
+    |> Map.merge(attrs)
+    |> album()
+  end
+
   def track(attrs \\ %{}) do
     default_attrs = %{
       title: Faker.Lorem.sentence(),

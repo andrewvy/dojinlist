@@ -11,10 +11,16 @@ defmodule Dojinlist.Albums do
 
   import Ecto.Query
 
+  def default_scope(query) do
+    query
+    |> where([o], o.is_draft == false and o.status == "completed")
+  end
+
   def build_query(query, attrs) do
     Enum.reduce(attrs, query, fn attr, query ->
       build_query_from_attr(query, attr)
     end)
+    |> default_scope()
     |> distinct([o], o.id)
   end
 

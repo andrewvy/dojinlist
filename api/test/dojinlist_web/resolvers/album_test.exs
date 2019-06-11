@@ -22,8 +22,8 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
 
   test "Can search for an album by event_id" do
     {:ok, event} = Fixtures.event()
-    {:ok, _} = Fixtures.album()
-    {:ok, _} = Fixtures.album(%{event_id: event.id})
+    {:ok, _} = Fixtures.completed_album()
+    {:ok, _} = Fixtures.completed_album(%{event_id: event.id})
 
     event_id = Absinthe.Relay.Node.to_global_id(:event, event.id, DojinlistWeb.Schema)
 
@@ -62,9 +62,34 @@ defmodule DojinlistWeb.Resolvers.AlbumTest do
 
     storefront = creator.storefront
 
-    {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})
-    {:ok, _} = Fixtures.album(%{storefront_id: storefront.id})
-    {:ok, _} = Fixtures.album()
+    {:ok, _} = Fixtures.completed_album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.completed_album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.completed_album()
+
+    storefront_id =
+      Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
+
+    variables = %{
+      storefrontId: storefront_id
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.create_and_login_as_admin()
+      |> execute_graphql(@query, variables)
+
+    assert %{"data" => %{"albums" => %{"edges" => albums}}} = response
+    assert 2 = Enum.count(albums)
+  end
+
+  test "Only completed published albums are searchable" do
+    {:ok, creator} = Fixtures.user()
+
+    storefront = creator.storefront
+
+    {:ok, _} = Fixtures.completed_album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.completed_album(%{storefront_id: storefront.id})
+    {:ok, _} = Fixtures.completed_album(%{storefront_id: storefront.id, is_draft: true})
 
     storefront_id =
       Absinthe.Relay.Node.to_global_id(:storefront, storefront.id, DojinlistWeb.Schema)
