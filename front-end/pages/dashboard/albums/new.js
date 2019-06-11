@@ -1,6 +1,7 @@
+import Router from 'next/router'
 import { Mutation } from 'react-apollo'
 
-import { Link } from '../../../routes'
+import { Link, Redirect } from '../../../routes'
 import { MeConsumer } from '../../../contexts/me'
 
 import withOnlyAuthenticated from '../../../lib/onlyAuthenticated'
@@ -26,7 +27,6 @@ class NewAlbumPage extends React.Component {
   state = {
     isCreating: false,
     errors: null,
-    successful: false,
     progressPercentage: 0.0,
     album: newAlbum
   }
@@ -49,17 +49,9 @@ class NewAlbumPage extends React.Component {
   }
 
   render() {
-    const {
-      t
-    } = this.props
+    const { t } = this.props
 
-    const {
-      tracks,
-      isCreating,
-      progressPercentage,
-      errors,
-      successful
-    } = this.state
+    const { tracks, isCreating, progressPercentage, errors } = this.state
 
     return (
       <MeConsumer>
@@ -79,7 +71,7 @@ class NewAlbumPage extends React.Component {
                       <div className='header'>
                         <div className='actions'>
                           <Link route='dashboard_albums'>
-                            <Button type='none' text={t('common:back')}/>
+                            <Button type='none' text={t('common:back')} />
                           </Link>
                           <Button
                             type='translucent'
@@ -135,12 +127,12 @@ class NewAlbumPage extends React.Component {
                                     errors === null || errors.length === 0
 
                                   let newState = {
-                                    errors,
-                                    successful
+                                    errors
                                   }
 
                                   if (successful) {
                                     newState.album = newAlbum
+                                    Router.push('/dashboard/albums')
                                   }
 
                                   this.setState(newState)
@@ -159,11 +151,6 @@ class NewAlbumPage extends React.Component {
                                 style: 'percent',
                                 minimumFractionDigits: 2
                               })}
-                            </div>
-                          )}
-                          {successful && (
-                            <div className='container success xl:w-1/3 md:1/2 xs:w-5/6 flex content-center items-center flex-col bg-green-light rounded text-white font-bold'>
-                              <p>{t('album-creation-success')}</p>
                             </div>
                           )}
                           {errors &&
@@ -194,7 +181,7 @@ const Wrapper = withOnlyAuthenticated(NewAlbumPage)
 
 Wrapper.getInitialProps = async () => {
   return {
-    namespacesRequired: ['dashboard', 'common'],
+    namespacesRequired: ['dashboard', 'common']
   }
 }
 
