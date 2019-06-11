@@ -1,5 +1,6 @@
 import { Mutation } from 'react-apollo'
 
+import { Link } from '../../../routes'
 import { MeConsumer } from '../../../contexts/me'
 
 import withOnlyAuthenticated from '../../../lib/onlyAuthenticated'
@@ -77,6 +78,9 @@ class NewAlbumPage extends React.Component {
                     <div className='container'>
                       <div className='header'>
                         <div className='actions'>
+                          <Link route='dashboard_albums'>
+                            <Button type='none' text={t('common:back')}/>
+                          </Link>
                           <Button
                             type='translucent'
                             text={t('save-draft-btn')}
@@ -190,7 +194,7 @@ const Wrapper = withOnlyAuthenticated(NewAlbumPage)
 
 Wrapper.getInitialProps = async () => {
   return {
-    namespacesRequired: ['dashboard'],
+    namespacesRequired: ['dashboard', 'common'],
   }
 }
 
