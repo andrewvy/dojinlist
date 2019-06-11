@@ -24,6 +24,7 @@ defmodule DojinlistWeb.Types do
     field(:slug, :string)
     field(:release_datetime, :datetime)
     field(:event, :event, resolve: dataloader(Dojinlist.Source))
+    field(:is_draft, :boolean)
 
     field :purchasable, :boolean do
       resolve(fn album, _, _ ->

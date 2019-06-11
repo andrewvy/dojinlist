@@ -21,6 +21,7 @@ defmodule Dojinlist.Schemas.Album do
     field(:price, Money.Ecto.Composite.Type, default: Money.new(:usd, 0))
     field(:slug, :string)
     field(:status, :string, default: "pending")
+    field(:is_draft, :boolean, default: true)
 
     many_to_many(:artists, Dojinlist.Schemas.Artist, join_through: "albums_artists")
     many_to_many(:genres, Dojinlist.Schemas.Genre, join_through: "albums_genres")
@@ -44,16 +45,17 @@ defmodule Dojinlist.Schemas.Album do
   def changeset(album, attrs) do
     album
     |> cast(attrs, [
-      :description,
       :cover_art,
       :creator_user_id,
+      :description,
       :event_id,
+      :is_draft,
       :price,
       :release_datetime,
-      :storefront_id,
-      :title,
       :slug,
-      :status
+      :status,
+      :storefront_id,
+      :title
     ])
     |> cast_assoc(:external_links, with: &Dojinlist.Schemas.ExternalAlbumLink.changeset/2)
     |> validate_required([:title, :storefront_id, :slug])
