@@ -53,6 +53,13 @@
 
 .djn-storefrontHeader .djn-storefrontAvatar .avatar-container {
   position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 4px;
+}
+
+.djn-storefrontHeader .djn-storefrontAvatar.is-empty .avatar-container {
+  background-color: config('colors.grey-lighter');
 }
 
 .djn-storefrontHeader .djn-storefrontAvatar .display-name {
@@ -75,4 +82,9 @@
 
 .djn-storefrontPage .albums {
   padding-top: 40px;
+}
+
+.djn-storefrontPage .albums .empty {
+  text-align: center;
+  color: config('colors.grey');
 }

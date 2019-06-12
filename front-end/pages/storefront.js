@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Query } from 'react-apollo'
 import ErrorPage from 'next/error'
+import classnames from 'classnames'
 
 import FetchStorefrontQuery from '../queries/storefront/storefront.js'
 import FetchAlbumsByStorefrontId from '../queries/albums/by_storefront_id.js'
@@ -32,10 +33,18 @@ class HomePage extends PureComponent {
                   {!loading && data && (
                     <>
                       <div className='djn-storefrontHeader'>
-                        <div className='djn-storefrontBanner'>
+                        <div
+                          className={classnames('djn-storefrontBanner', {
+                            'is-empty': !Boolean(data.storefront.bannerImage)
+                          })}
+                        >
                           <img src={data.storefront.bannerImage} />
                         </div>
-                        <div className='djn-storefrontAvatar'>
+                        <div
+                          className={classnames('djn-storefrontAvatar', {
+                            'is-empty': !Boolean(data.storefront.avatarImage)
+                          })}
+                        >
                           <div className='avatar-container'>
                             <img src={data.storefront.avatarImage} />
                           </div>
@@ -58,10 +67,18 @@ class HomePage extends PureComponent {
                         >
                           {({ data, loading, error }) => (
                             <div className='albums'>
-                              <AlbumThumbnailGrid
-                                albums={data.albums.edges.map(transformAlbums)}
-                                username={username}
-                              />
+                              {data.albums.edges.length > 0 ? (
+                                <AlbumThumbnailGrid
+                                  albums={data.albums.edges.map(
+                                    transformAlbums
+                                  )}
+                                  username={username}
+                                />
+                              ) : (
+                                <div className='empty'>
+                                  No albums are here yet, check back later!
+                                </div>
+                              )}
                             </div>
                           )}
                         </Query>
