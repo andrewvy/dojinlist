@@ -27,6 +27,13 @@ defmodule DojinlistWeb.Errors do
     }
   end
 
+  def publish_album_failed() do
+    %{
+      error_code: "PUBLISH_ALBUM_FAILED",
+      error_message: "Album was not able to be published. Please try again."
+    }
+  end
+
   def create_track_failed() do
     %{
       error_code: "CREATE_TRACK_FAILED",

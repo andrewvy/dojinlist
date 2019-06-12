@@ -46,12 +46,6 @@ defmodule Dojinlist.Transcoder do
     |> submit_transcoder_job()
     |> case do
       {:ok, _} ->
-        if album.status !== "submitted" do
-          Albums.update_album(album, %{
-            status: "submitted"
-          })
-        end
-
         Tracks.update_track(track, %{
           status: "submitted",
           transcoder_hash: job[:hash]
@@ -67,6 +61,12 @@ defmodule Dojinlist.Transcoder do
 
   def submit_album_for_transcoding(%Schemas.Album{} = album) do
     storefront = Storefront.by_id(album.storefront_id)
+
+    if album.status !== "submitted" do
+      Albums.update_album(album, %{
+        status: "submitted"
+      })
+    end
 
     for track <- album.tracks do
       submit_track_for_transcoding(storefront, album, track)

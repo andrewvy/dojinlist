@@ -11,7 +11,6 @@ defmodule Dojinlist.AlbumsTest do
 
   setup do
     {:ok, user} = Fixtures.user()
-
     {:ok, storefront: user.storefront}
   end
 
@@ -136,5 +135,29 @@ defmodule Dojinlist.AlbumsTest do
              })
 
     assert {:ok, album} = Albums.delete_album(album)
+  end
+
+  describe "Publishing an album" do
+    setup do
+      {:ok, user} = Fixtures.user()
+      {:ok, album} = Fixtures.album(%{storefront_id: user.storefront_id})
+      {:ok, album: album}
+    end
+
+    test "marks as non-draft", %{album: album} do
+      assert album.is_draft
+
+      {:ok, album} = Albums.publish_album(album)
+
+      refute album.is_draft
+    end
+
+    test "marks as submitted for transcoding", %{album: album} do
+      assert "pending" = album.status
+
+      {:ok, album} = Albums.publish_album(album)
+
+      assert "submitted" = album.status
+    end
   end
 end

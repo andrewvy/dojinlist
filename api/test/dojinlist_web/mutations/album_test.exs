@@ -1,7 +1,10 @@
 defmodule DojinlistWeb.Mutations.AlbumTest do
   use DojinlistWeb.ConnCase
 
-  alias Dojinlist.Fixtures
+  alias Dojinlist.{
+    Albums,
+    Fixtures
+  }
 
   test "Can create an album" do
     query = """
@@ -171,5 +174,51 @@ defmodule DojinlistWeb.Mutations.AlbumTest do
                }
              }
            } = response
+  end
+
+  test "Can publish an album" do
+    query = """
+    mutation PublishAlbum($albumId: ID!) {
+      publishAlbum(albumId: $albumId) {
+        albumId
+      }
+    }
+    """
+
+    {:ok, user} = Fixtures.user()
+
+    {:ok, album} =
+      Fixtures.album(%{
+        storefront_id: user.storefront.id,
+        title: "Update Album Test",
+        slug: "update-album-test"
+      })
+
+    album_id = Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
+
+    variables = %{
+      albumId: album_id
+    }
+
+    response =
+      build_conn()
+      |> Fixtures.login_as(user)
+      |> execute_graphql(query, variables)
+
+    assert album.is_draft
+    assert "pending" = album.status
+
+    assert %{
+             "data" => %{
+               "publishAlbum" => %{
+                 "albumId" => ^album_id
+               }
+             }
+           } = response
+
+    album = Albums.get_album(album.id)
+
+    refute album.is_draft
+    assert "submitted" = album.status
   end
 end

@@ -47,6 +47,16 @@ defmodule DojinlistWeb.Mutations.Album do
 
       resolve(&delete_album/2)
     end
+
+    field :publish_album, type: :album_id_response do
+      arg(:album_id, non_null(:id))
+
+      middleware(DojinlistWeb.Middlewares.Authorization)
+      middleware(Absinthe.Relay.Node.ParseIDs, album_id: :album)
+      middleware(DojinlistWeb.Middlewares.StorefrontAuthorized, album_id: :album)
+
+      resolve(&publish_album/2)
+    end
   end
 
   def create_album(%{album: album_attrs}, %{context: %{current_user: user}}) do
@@ -114,6 +124,36 @@ defmodule DojinlistWeb.Mutations.Album do
              %{
                errors: [
                  DojinlistWeb.Errors.delete_album_failed()
+               ]
+             }}
+        end
+    end
+  end
+
+  def publish_album(%{album_id: album_id}, _) do
+    case Albums.get_album(album_id) do
+      nil ->
+        {:ok,
+         %{
+           errors: [
+             DojinlistWeb.Errors.album_not_found()
+           ]
+         }}
+
+      album ->
+        Albums.publish_album(album)
+        |> case do
+          {:ok, album} ->
+            {:ok,
+             %{
+               album_id: Absinthe.Relay.Node.to_global_id(:album, album.id, DojinlistWeb.Schema)
+             }}
+
+          {:error, _} ->
+            {:ok,
+             %{
+               errors: [
+                 DojinlistWeb.Errors.publish_album_failed()
                ]
              }}
         end

@@ -6,7 +6,8 @@ defmodule Dojinlist.Albums do
     Schemas,
     Utility,
     Genres,
-    Artists
+    Artists,
+    Transcoder
   }
 
   import Ecto.Query
@@ -168,5 +169,24 @@ defmodule Dojinlist.Albums do
     Schemas.Album
     |> Repo.get_by(slug: slug)
     |> Repo.preload([:tracks])
+  end
+
+  @doc """
+  This publishes an album, submitting it into the transcoder queue
+  and then finally making it available for public purchase.
+  """
+  def publish_album(album) do
+    update_album(album, %{
+      status: "submitted",
+      is_draft: false
+    })
+    |> case do
+      {:ok, album} ->
+        Transcoder.submit_album_for_transcoding(album)
+        {:ok, album}
+
+      error ->
+        error
+    end
   end
 end
